@@ -1,0 +1,481 @@
+(function() {
+class UserChangeInAddress {
+ /** @type {HTMLFormElement | null} */
+ #form = null;
+
+ #config = {
+   formClasses: ['px-15px'],
+   inputClasses: ['form-control'],
+   buttonClasses: ['btn', 'btn--warning', 'w-100', 'mt-5', 'd-block', 'radius-0'],
+   requiredLabel: '<span class="required">必須</span>',
+   validationMessage: 'を入力してください',
+   zipValidationMessage: '郵便番号に該当する住所が見つかりません'
+ }
+
+ /**
+  * Initializes the form with provided data
+  * @public
+  * @param {Object} data - Initial form data
+  */
+ init(data) {
+   this.#createForm();
+   this.#setData(data);
+   this.#setupEventListeners();
+ }
+
+
+ /**
+  * Creates the main form structure
+  * @private
+  */
+ #createForm() {
+   const body = document.body;
+   const container = this.#createElement('div', { className: 'container' });
+   this.#form = this.#createElement('form', { className: 'mt-3'});
+
+   // const userName = this.#createElement('span', {
+   //   className: 'fs-3 d-inline-block mb-3 px-15px',
+   //   id: 'username'
+   // });
+
+   const formElements = [
+     //userName,
+     this.#createDateField(),
+     this.#createElement('span', {
+       className: 'd-block mt-5 mb-4 px-15px',
+       textContent: '転居先住所'
+     }),
+     this.#createZipCodeContainer(),
+     this.#createFormGroup({
+       label: '都道府県',
+       name: 'pref21',
+       size: '40',
+       required: true,
+     }),
+     this.#createFormGroup({
+       label: '住所',
+       name: 'addr21',
+       size: '40',
+       required: true
+     }),
+
+     this.#createFormGroup({
+       label: '建物名 / 号室',
+       name: 'building',
+     }),
+
+     this.#createElement('button', {
+       className: this.#config.buttonClasses.join(' '),
+       textContent: '入力内容を確認する',
+       type: 'button',
+       events: { click: this.#validateForm.bind(this) }
+     })
+   ];
+
+   this.#form.append(...formElements);
+   container.append(this.#form);
+   body.prepend(container);
+ }
+
+ /**
+  * Creates a DOM element with specified attributes
+  * @private
+  * @param {string} tag - HTML tag name
+  * @param {Object} options - Element attributes and properties
+  * @returns {HTMLElement}
+  */
+ #createElement(tag, { className, textContent, innerHTML, events = {}, ...attributes } = {}) {
+   const element = document.createElement(tag);
+     if (className) element.className = className;
+     if (textContent) element.textContent = textContent;
+     if (innerHTML) element.innerHTML = innerHTML;
+     Object.entries(attributes).forEach(([key, value]) => {
+         element.setAttribute(key, value);
+     });
+
+     Object.entries(events).forEach(([event, handler]) => {
+         element.addEventListener(event, handler);
+     });
+
+     return element;
+ }
+
+ /**
+  * Creates date input field
+  * @private
+  * @returns {HTMLElement}
+  */
+ #createDateField () {
+   const formGroup = this.#createElement('div', { className: `form-group ${this.#config.formClasses.join(' ')}` });
+   const inputGroup = this.#createElement('div', { className: 'input-group' });
+
+   const label = this.#createElement('label', {
+     className: 'form-label',
+     for: 'date',
+     innerHTML: `転居日 ${this.#config.requiredLabel}`
+   });
+
+   const input = this.#createElement('input', {
+     className: this.#config.inputClasses.join(' '),
+     type: 'text',
+     id: 'date',
+     placeholder: '右のカレンダーから選択',
+     required: true,
+     disabled: 'disabled'
+   });
+
+   const button = this.#createElement('button', {
+     className: 'btn btn--primary ml-3',
+     type: 'button',
+     textContent: '選択',
+     events: { click: this.#handleCalendar.bind(this) }
+   });
+
+   const validation = this.#createElement('span', {
+     className: 'text-valid',
+     textContent: '転居日を入力してください'
+   });
+
+   inputGroup.append(input, button);
+   formGroup.append(label, inputGroup, validation);
+   return formGroup;
+ }
+
+ /**
+  * Creates zip code input container
+  * @private
+  * @returns {HTMLElement}
+  */
+ #createZipCodeContainer() {
+   const container = this.#createElement('div', { className: 'zip-code-container' });
+   const zipInputs = [
+     { name: 'zip21', size: '4', maxLength: '3', className: 'd-inline-block w-135px', label: '郵便番号' },
+     { name: 'zip22', size: '5', maxLength: '4', className: 'd-inline-block w-170px', label: null }
+   ].map(config => this.#createFormGroup({
+     label: config.label,
+     name: config.name,
+     size: config.size,
+     maxLength: config.maxLength,
+     required: true,
+     customClass: config.className,
+     isZip: true,
+     eventHandler: config.name === 'zip22' ? this.#handleZipCode.bind(this) : null
+   }));
+
+   const strikethrough = this.#createElement('span', {
+     className: 'd-inline-block mx-3',
+     textContent: '-'
+   });
+
+   const validation = this.#createElement('div', {
+     className: 'text-valid'
+   });
+
+   container.append(zipInputs[0], strikethrough, zipInputs[1], validation)
+
+   return container
+ }
+
+ /**
+  * Creates a form group with input
+  * @private
+  * @param {Object} options - Form group configuration
+  * @returns {HTMLElement}
+  */
+ #createFormGroup ({ label, name, type = 'text', size, maxLength, required = false, customClass = '', isZip = false, eventHandler }) {
+   const formGroup = this.#createElement('div', {
+     className:  `form-group ${this.#config.formClasses.join(' ')} ${customClass}`.trim()
+   });
+
+   if (label) {
+     const labelElement = this.#createElement('label', {
+       className: 'form-label',
+       innerHTML: required ? `${label} ${this.#config.requiredLabel}` : label
+     });
+     formGroup.appendChild(labelElement);
+   }
+
+   const inputOptions = {
+     className: this.#config.inputClasses.join(' '),
+     type,
+     name,
+     size,
+     maxLength,
+     inputMode: isZip ? 'numeric' : undefined,
+     events: {
+       input: isZip ? this.#handleZipInput.bind(this, name, maxLength) : null,
+       blur: this.#validateInput.bind(this),
+       keyup: eventHandler,
+       keydown: isZip && name === 'zip22' ? this.#handleZipBackspace.bind(this) : null
+     }
+   };
+
+   if (required) {
+     inputOptions.required = true;
+   }
+
+   const input = this.#createElement('input', inputOptions);
+
+   formGroup.appendChild(input);
+
+   if (!isZip && required) {
+     formGroup.appendChild(this.#createElement('div', {
+       className: 'text-valid',
+       textContent: label + this.#config.validationMessage
+     }));
+   }
+   return formGroup;
+ }
+
+ /**
+  * Updates zip code validation
+  * @private
+  */
+ #updateZipValidation() {
+   const zipContainer = document.querySelector('.zip-code-container');
+   if (!zipContainer) return;
+
+   const zip21 = zipContainer.querySelector('[name="zip21"]');
+   const zip22 = zipContainer.querySelector('[name="zip22"]');
+   const validationMessage = zipContainer.querySelector('.text-valid');
+
+   if (zip21 && zip22 && validationMessage) {
+     const zipCode = zip21.value.trim() + zip22.value.trim();
+     const isValid = /^\d{7}$/.test(zipCode);
+     zipContainer.classList.toggle('is-invalid', !isValid);
+     validationMessage.textContent = this.#config.zipValidationMessage;
+   }
+ }
+
+ /**
+  * Handles zip code input events
+  * @private
+  */
+ #handleZipInput (name, maxLength, event) {
+   const input = event.target;
+   input.value = input.value.replace(/[^0-9]/g, '').slice(0, maxLength);
+   this.#updateZipValidation();
+   if (name === 'zip21' && input.value.length >= maxLength) {
+       document.querySelector('[name="zip22"]')?.focus();
+   }
+ }
+
+ /**
+  * Handles zip code backspace navigation
+  * @private
+  */
+ #handleZipBackspace(event) {
+   if ((event.key === 'Backspace' || event.key === 'Delete') && !event.target.value) {
+     document.querySelector('[name="zip21"]')?.focus();
+   }
+ }
+
+ /**
+  * Handles zip code lookup
+  * @private
+  */
+ #handleZipCode () {
+   if (typeof AjaxZip3 !== 'undefined') {
+     AjaxZip3.zip2addr('zip21', 'zip22', 'pref21', 'addr21');
+     AjaxZip3.onSuccess = () => {
+       ['pref21', 'addr21'].forEach(name => {
+         const input = document.querySelector(`[name="${name}"]`);
+         if (input) input.closest('.form-group')?.classList.remove('is-invalid');
+       });
+     }
+
+     AjaxZip3.onFailure = () => {
+       const zipContainer = document.querySelector('.zip-code-container');
+       const validationMessage = zipContainer?.querySelector('.text-valid');
+       if (validationMessage) {
+         validationMessage.textContent = this.#config.zipValidationMessage;
+       }
+       zipContainer?.classList.add('is-invalid');
+     };
+   }
+   return false;
+ }
+
+ /**
+  * Sets up event listeners for form inputs
+  * @private
+  */
+ #setupEventListeners() {
+   const inputs = this.#form?.querySelectorAll('input[type="text"], input[type="number"]');
+   inputs?.forEach(input => {
+     input.addEventListener('focus', () => {
+       const fieldMap = {
+         'zip21': 'zipcode',
+         'zip22': 'zipcode',
+         'pref21': 'prefecture',
+         'addr21': 'address',
+         'building': 'building'
+       };
+
+       const field = fieldMap[input.name];
+       if (field) {
+         const y = Math.round(input.getBoundingClientRect().top);
+         this.postMessage('focusItem', { value: field, y });
+       }
+     })
+   })
+ }
+
+ /**
+  * Validates individual input
+  * @private
+  */
+ #validateInput(event) {
+   const input = event.target;
+   const formGroup = input.closest('.form-group');
+   formGroup.classList.toggle('is-invalid', input.hasAttribute('required') && !input.value.trim());
+   return !input.hasAttribute('required') || input.value.trim() !== '';
+ }
+
+ /**
+  * Validates entire form
+  * @private
+  * @returns {boolean}
+  */
+ #validateForm () {
+   let isValid = true;
+   const inputs = this.#form?.querySelectorAll('input:not([name="zip21"]):not([name="zip22"])');
+
+   inputs?.forEach(input => {
+     const valid = this.#validateInput({ target: input });
+     if (input.hasAttribute('required') && !valid) {
+       isValid = false;
+     }
+   });
+
+   const zipContainer = document.querySelector('.zip-code-container');
+   if (zipContainer) {
+     const zip21 = zipContainer.querySelector('[name="zip21"]');
+     const zip22 = zipContainer.querySelector('[name="zip22"]');
+     if (zip21 && zip22) {
+       const zipCode = zip21.value.trim() + zip22.value.trim();
+       if (!/^\d{7}$/.test(zipCode)) {
+         isValid = false;
+       }
+     } else {
+       isValid = false;
+     }
+     this.#updateZipValidation();
+   }
+   console.log(isValid);
+   if (isValid) {
+     console.log('Form submitted successfully');
+     this.#getData();
+   }
+   return isValid;
+ }
+
+ /**
+  * Sets form data
+  * @private
+  * @param {Object} data - Form data
+  */
+ #setData(data) {
+   const fields = {
+     '#username': { key: 'name', type: 'innerHTML' },
+     '#date': { key: 'date_move', type: 'value' },
+     '[name="zip21"]': { key: 'zipcode', type: 'value', transform: v => v?.substring(0, 3) },
+     '[name="zip22"]': { key: 'zipcode', type: 'value', transform: v => v?.substring(3) },
+     '[name="pref21"]': { key: 'prefectures', type: 'value' },
+     '[name="addr21"]': { key: 'address', type: 'value' },
+     '[name="building"]': { key: 'building_room', type: 'value' }
+   }
+
+   Object.entries(fields).forEach(([selector, { key, type, transform }]) => {
+     const element = this.#form?.querySelector(selector);
+     if (element && key in data) {
+       element[type] = transform ? transform(data[key]) : data[key] || '';
+     }
+   });
+ }
+
+ /**
+  * Gets form data
+  * @private
+  * @returns {Object}
+  */
+ #getData () {
+   const fields = {
+     date_move: '#date',
+     zipcode: ['[name="zip21"]', '[name="zip22"]'],
+     prefectures: '[name="pref21"]',
+     address: '[name="addr21"]',
+     building_room: '[name="building"]'
+   };
+
+   const data = {};
+   Object.entries(fields).forEach(([key, selector]) => {
+     if (Array.isArray(selector)) {
+       const values = selector.map(s => this.#form?.querySelector(s)?.value || '');
+       data[key] = values.join('');
+     } else {
+       data[key] = this.#form?.querySelector(selector)?.value || '';
+     }
+   });
+   console.log(data);
+   this.postMessage('submitData', data)
+   return data;
+ }
+
+ /**
+  * Sets date field value
+  * @public
+  * @param {Object} param - Date parameter
+  */
+ setDataDateField (param) {
+   const dateField = this.#form?.querySelector("#date");
+   if (dateField) {
+     dateField.value = param?.date_move || '';
+     this.#validateInput(dateField);
+   }
+
+ }
+
+ /**
+  * Handles calendar button click
+  * @private
+  */
+ #handleCalendar() {
+   this.postMessage('openCalendar', { "value": true });
+ }
+
+ postMessage (fncName, msg) {
+   try {
+     // msg = JSON.stringify(msg);
+     // window[fncName].postMessage(msg);
+     if (window[fncName]?.postMessage) {
+       window[fncName].postMessage(JSON.stringify(msg));
+     }
+   } catch (error) {
+     console.error('An error occurred while calling the postMessage function:', error);
+   }
+ }
+}
+
+// Usage:
+const userChangeInAddress = new UserChangeInAddress();
+
+window.initCallApp = function (data) {
+ let e = null;
+ let isSuccess = false;
+ try {
+   userChangeInAddress.init(data)
+   isSuccess = true;
+ } catch(error) {
+   e = error.message;
+ }
+ userChangeInAddress.postMessage('loadFinished', {error: e, "success": isSuccess})
+ return isSuccess;
+}
+userChangeInAddress.postMessage('javascriptLoaded', {"success": true});
+
+window.selectDate = function(param) {
+ userChangeInAddress.setDataDateField(param);
+}
+   initCallApp({"name": "userA", "id":"42432", "date_move": ""})
+})();

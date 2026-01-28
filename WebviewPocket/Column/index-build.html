@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="encoding" content="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" />
+    <!-- <link rel="stylesheet" href="styles/index.css"> -->
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+:root {
+  --spacer: 20px;
+  --body-font-size: 16px;
+  --body-font-size-lg: 22px;
+  --body-font-size-md: 18px;
+  --body-line-height: 1.5715;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: var(--body-font-size);
+  line-height: var(--body-line-height);
+  width: 100%;
+  min-height: 100vh;
+  color: #4C4C4C;
+  position: relative;
+  background-color: #fff;
+}
+
+.hide { display: none!important; visibility: hidden;width: 0; height: 0;}
+
+.not-allow {
+  pointer-events: none;
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-black {
+  color: #000
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.mt-5 {
+  margin-top: 5px!important;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.mb-0 {
+  margin-bottom: 0px!important;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+.mt-20px {
+  margin-top: 20px;
+}
+
+.mr-7px  {
+  margin-right: 7px;
+}
+
+.p-15 {
+  padding: 15px;
+}
+.fs-14 {
+  font-size: 14px!important;
+}
+.fs-16 {
+  font-size: 16px;
+}
+.fs-20 {
+  font-size: 20px;
+}
+
+.f-bold {
+  font-weight: bold;
+}
+
+.fs-lg {
+  font-size: var(--body-font-size-lg) !important;
+}
+
+.fs-md {
+  font-size: var(--body-font-size-md) !important;
+}
+
+.justify-content-between {
+  justify-content: space-between !important;
+}
+.d-flex {
+  display: flex !important;
+}
+
+.d-none {
+  display: none!important;
+}
+
+.my-3 {
+  margin-top: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+}
+
+pre {
+  overflow: auto;
+}
+
+.faker-phone {
+	position: relative;
+	background: #2d3436;
+	width: calc(98px * 4);
+	height: calc(211px * 4);
+	padding: 60px 15px 70px;
+	border-radius: 35px;
+	box-sizing: border-box;
+	
+	&::before {
+		content: '';
+		position: absolute;
+		top: 27px;
+		left: 50%;
+		margin-left: -25px;
+		width: 50px;
+		height: 6px;
+		border-radius: 3px;
+		background: #000;
+		opacity: .7;
+	}
+	
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: 15px;
+		left: 50%;
+		margin-left: -22px;
+		height: 40px;
+		width: 40px;
+		background: rgba(0, 0, 0, .5);
+		border: 2px solid rgba(0, 0, 0, .8);
+		border-radius: 100%;
+	}
+	
+	&--screen {
+		width: 100%;
+		height: 100%;
+		background: #fff;
+		overflow: auto;
+		position: relative;
+	}
+}
+
+.faker-phone--screen {
+  overflow: auto;
+  height: 100%;
+  max-height: 100%;
+  background-color: #fff;
+  position: relative;
+}
+
+.faker-phone--screen::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.faker-phone--screen::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.faker-phone--screen::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.faker-phone--screen::-webkit-scrollbar-thumb:hover {
+  background: #555;
+} 
+
+.page-content {
+  width: 100%;
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+
+.container {
+  width: 100%;
+  padding-right: var(--spacer, .75rem);
+  padding-left: var(--spacer, .75rem);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.header-top {
+  height: 48px;
+  position: relative;
+}
+
+.content-inner {
+  padding: var(--spacer) 1.25rem;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  word-break: break-all;
+}
+
+.badge {
+  --badge-padding-x: 0.4375rem;
+  --badge-padding-y: 0.3125rem;
+  --badge-font-weight: 600;
+  --badge-color: #000;
+  --badge-background: pink;
+  --badge-border-radius: var(--border-radius-sm);
+  display: inline-block;
+  padding: var(--badge-padding-y) var(--badge-padding-x);
+  font-weight: var(--badge-font-weight);
+  line-height: 1;
+  color: var(--badge-color);
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: var(--badge-border-radius);
+  background-color: var(--badge-background);
+}
+
+.badge-style {
+  max-width: 70%; /* Giới hạn chiều rộng của badge */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.date {
+  white-space: nowrap;
+}
+
+.content-img img {
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table, tr, td { 
+  border: 1px solid gray;
+}
+
+table img {
+  max-width: 100% !important;
+  height: auto;
+}
+
+.toc_container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.toc_container ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.toc_container li ul {
+  padding-left: 30px;
+}
+
+.toc_container li a:not(.btn-arrow) {
+  padding: 10px 0;
+}
+
+.toc-link,
+.btn-arrow {
+  color: gray;
+}
+
+.btn-arrow {
+  text-decoration: none;
+  width: 22px;
+  height: 22px;
+  line-height: 24px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.btn-arrow--gray {
+  background-color: grey;
+  color: #fff;
+}
+
+.toc-submenu {
+  display: none; 
+  overflow: hidden;
+  transition: height 0.3s ease-out;
+}
+
+.toc-submenu li { 
+  margin: 5px 0; 
+}
+
+.toc-submenu.open {
+  display: block;
+}
+
+.btn-arrow {
+  transition: transform 0.3s ease-in-out;
+}
+
+.btn-arrow.open {
+  transform: rotate(-180deg);
+}
+
+.title-doc {
+  --title-doc-font-size: 20px;
+  font-size: var(--title-doc-font-size);
+  margin-bottom: 15px;
+}
+
+.title-doc--main {
+  --tilte-doc-line-color: pink;
+  padding-left: 8px;
+  border-left: 3px solid var(--tilte-doc-line-color);
+  font-size: var(--title-doc-font-size);
+}
+
+.title-doc--h3 { 
+  font-size: 17px;
+}
+
+.content {
+  margin-bottom: 15px;
+}
+
+.content img {
+  max-width: 100%;
+}
+
+.btn-back-top {
+  z-index: 100;
+  position: fixed;
+  right: 0;
+  bottom: 65px;
+  width: 40px;
+  height: 35px;
+  line-height: 37px;
+  text-align: center;
+  overflow: hidden;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px 0 0 10px;
+  background-color: #999;
+  opacity: 0.8;
+  transition: transform 0.3s ease-in-out;
+  border: none;
+}
+
+.btn-back-top-custom {
+  z-index: 1;
+  position: absolute;
+  right: 16px;
+  bottom: 85px;
+  width: 40px;
+  height: 35px;
+  line-height: 37px;
+  text-align: center;
+  overflow: hidden;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px 0 0 10px;
+  background-color: #999;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  border: none;
+}
+
+.btn-back-top.show {
+  transform: translateX(0);
+  opacity: 0.8;
+}
+
+.btn-back-top-custom.show { 
+  transform: translateX(0);
+  opacity: 0.8;
+}
+    </style>
+  </head>
+  <body>
+
+    <script type="text/javascript">
+
+class ColumnDetail {
+  constructor() {
+    this.data = {};
+    this.isAppCall = true;
+  }
+
+  setDataColumn (data) {
+    this.data = data.data;
+    this.isAppCall = data.isAppCall;
+    columnDetail.render();
+  }
+
+  createToc() {
+    return this.data.toc.map(item => {
+      const childrenHtml = item.childs ? Object.values(item.childs).map(child => `
+        <li>
+          <a href="javascript:void(0)" class="btn-arrow">
+            <i class="ph-bold ph-caret-down"></i>
+          </a>
+          <a href="#heading-${child.cp_id}" class="toc-link" data-id="${child.cp_id}">
+              ${child.cp_title}
+          </a>
+        </li>
+      `).join('') : '';
+      return `
+        <li class="mb-15">
+          <a href="javascript:void(0)" class="btn-arrow btn-arrow--gray">
+            <i class="ph-bold ph-caret-down"></i>
+          </a>
+          <a href="#heading-${item.cp_id}" class="toc-link" data-id="${item.cp_id}">${item.cp_title}</a>
+          ${childrenHtml ? `<ul class="toc-submenu open">${childrenHtml}</ul>` : ''}
+        </li>
+      `;
+    }).join('');
+  }
+
+  createContentToc () {
+    const isContentEmpty = (html) => {
+      // Remove all HTML tags and trim the content
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+    
+      // Get all text content from the temporary element
+      const textContent = tempDiv.textContent || tempDiv.innerText || '';
+    
+      // Remove all whitespace and check if it's empty
+      return textContent.trim() === '';
+    };
+    return this.data.toc.map(content => {
+      const childrenContent = content.childs ? Object.values(content.childs).map(child => `
+          <div class="title-doc title-doc--h3" id="heading-${child.cp_id}">
+            ${child.cp_title}
+          </div>
+          ${isContentEmpty(child.cp_content) ? '' : `<div class="content">${child.cp_content}</div>`}
+        `).join('') : '';
+      return `
+        ${ content.cp_title
+        ?  `<div class="parent-content">
+            <div class="title-doc title-doc--main" id="heading-${content.cp_id}">${content.cp_title}</div>
+              ${isContentEmpty(content.cp_content) 
+                ? '' 
+                : `<div class="content">${content.cp_content}</div>` }
+              ${childrenContent 
+                ? `<div class="child-content">${childrenContent}</div>` 
+                : ''}
+          </div>`
+          : ''
+         }
+      `;
+    }).join('')
+  }
+
+  async render() { 
+    try {
+      document.body.innerHTML = '';
+      const { scate, date, title, image, content, toc } = this.data;
+      const container = document.createElement("div");
+      container.className = "page-content";
+      //console.log(Object.values(toc.child));
+      // let isShowTableOfContent = toc && toc.length >= 1 && toc.map(p => {
+      //   return p.childs && Object.values(p.childs).length > 0
+      // });
+      let isShowTableOfContent = toc && (toc.length > 1 || 
+        toc.some(p => p.childs && Object.values(p.childs).length > 0));
+    
+      container.innerHTML = `
+        <div class="header-container">
+            <a href="javascript:void(0)" class="btn-top" id="btn-top"></a>
+        </div>
+        <section class="content-inner">
+          <div class="d-flex justify-content-between">
+            <span class="badge badge-style" id="btn-cate" data-id="${scate.id}" data-title="${scate.title}" style="--badge-background: ${scate.bg_color || 'pink'}; --badge-color:${scate.txt_color || '#000'}">${scate.title || ''}</span>
+            <span class="date">${date}</span>
+          </div>
+          <div class="fs-lg my-3">${title}</div>
+          <div class="text-center content-img">
+            <img src="${image}" alt="" />
+          </div>
+          <div class="content-text mb-15">${content}</div>
+
+          <div class="toc_container ${isShowTableOfContent ? '' : 'd-none' }">
+            <span class="fs-md">目次</span>
+            <ul class="toc_list">${isShowTableOfContent ? this.createToc() : ''}</ul>
+          </div>
+          <div class="toc-content">${this.createContentToc()}</div>
+        </section>
+
+        ${this.isAppCall ? `<a href="javascript:void(0)" class="btn-back-top" id="scrollToTopBtn">
+           <i class="ph-bold ph-caret-double-up"></i>
+        </a>` : ''}
+      `;
+ 
+      if (!this.isAppCall) {
+        const UIFakeMobile = document.createElement("div");
+        UIFakeMobile.className = "faker-phone";
+
+        const pageLoader = document.createElement("div");
+        pageLoader.className = "page-loader";
+  
+        UIFakeMobile.innerHTML = `
+          <a href="javascript:void(0)" class="btn-back-top-custom" id="scrollToTopBtn">
+            <i class="ph-bold ph-caret-double-up"></i>
+          </a>
+          <div class="faker-phone--screen">
+            ${container.outerHTML}
+          </div>`;
+        document.body.className= 'd-flex justify-content-center align-items-center';
+        document.body.prepend(UIFakeMobile);
+        document.body.prepend(pageLoader);
+      } else {
+        document.body.prepend(container);
+      }
+   
+      // Add event listeners after the DOM is added to the body
+      this.addEventListeners();
+
+      //Block default behavior of all tags a
+      document.querySelectorAll('.content-inner a').forEach(anchor => {
+        anchor.addEventListener('click', (event) => {
+          event.preventDefault();
+          console.log(event);
+          const dataLink = event.target.getAttribute('href');
+          if (!this.validURL(dataLink)) return;
+          this.postMessage('toLinkBrowser', { "value": dataLink })
+        });
+      });
+
+      this.postMessage('loadFinished', { success: true });
+      console.log('loadFinished');
+    } catch (error) {
+      const msg = error.message;
+      this.postMessage('loadFinished', { success: false });
+      this.postMessage('loadFail', {error:  msg, "success":  false });
+      console.log('loadFail');
+    }
+  }
+
+  addEventListeners() {
+    /**
+     * Event click send id cate
+     */
+    const btnCate = document.getElementById("btn-cate");
+    btnCate.addEventListener('click', (e) => { 
+      e.preventDefault();
+      const cateId = e.target.getAttribute("data-id");
+      const cateTitle = e.target.getAttribute("data-title");
+      console.log(cateTitle)
+      this.postMessage('searchCate', { id: cateId, title: cateTitle });
+    });
+    
+    /**
+    * Event click scroll to .... 
+    */
+    const tocLinks = document.querySelectorAll('.toc-link');
+    tocLinks.forEach(tocLink => {
+      tocLink.addEventListener('click', (e) => {
+        e.preventDefault();
+  
+        const targetId = e.target.getAttribute('href').substring(1);  // Get the target id
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+          const scrollOptions = {
+            top: targetElement.offsetTop - 20, // Adjust scroll position
+            behavior: 'smooth' // Smooth scroll
+          };
+         
+          if(!this.isAppCall) {
+            const container = document.querySelector('.faker-phone--screen');
+            container.scrollTo(scrollOptions);
+          } else {
+            // Scroll to the target element
+            window.scrollTo(scrollOptions)
+          }
+        }
+      });
+    });
+
+
+    /**
+    * Event click collapse table of content
+    */
+    const btnArrows = document.querySelectorAll('.btn-arrow');
+    // Add click event listener to each btn-arrow
+    btnArrows.forEach(btnArrow => {
+      btnArrow.addEventListener('click', function() {
+        const submenu = this.parentElement.querySelector('.toc-submenu');
+    
+        // Check if submenu exists
+        if (!submenu) return;
+        submenu.classList.toggle('open');
+        this.classList.toggle('open');
+    
+        if (submenu.classList.contains('open')) {
+          // Calculate the height of the submenu
+          submenu.style.display = 'block';
+          const height = submenu.scrollHeight + 'px';
+          submenu.style.height = '0';
+    
+          setTimeout(() => {
+            submenu.style.height = height;
+          }, 10);
+    
+        } else {
+          // Close the submenu
+          submenu.style.height = submenu.scrollHeight + 'px';
+    
+          // Set timeout to delay height change for transition
+          setTimeout(() => {
+            submenu.style.height = '0';
+            // Hide submenu after transition ends
+            setTimeout(() => {
+              submenu.style.display = 'none';
+            }, 350);
+          }, 10);
+        }
+      });
+    });
+
+
+    // const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+    // const scrollThreshold = 300;
+
+    // const handleScroll = (scrollContainer) => { 
+    //   if (scrollContainer.scrollTop > scrollThreshold) {
+    //     scrollToTopBtn.classList.add('show');
+    //   } else {
+    //     scrollToTopBtn.classList.remove('show');
+    //   }
+    // };
+
+    const handleScrollTop = (scrollContainer) => {
+      if(!scrollContainer) {
+        return
+      }
+      scrollContainer.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Smooth scroll
+      });
+    };
+
+    // if(!this.isAppCall) { 
+    //   const container = document.querySelector('.faker-phone--screen');
+    //   container.addEventListener('scroll', () => handleScroll(container));
+    // } else {
+    //   window.addEventListener('scroll', () => handleScroll(document.documentElement));
+    // }
+
+    if(!this.isAppCall) {
+      const container = document.querySelector('.faker-phone--screen');
+      scrollToTopBtn.addEventListener('click', () => handleScrollTop(container)); 
+    } else {
+      scrollToTopBtn.addEventListener('click', () => handleScrollTop(document.documentElement));
+    }
+  }
+
+  validURL(str){
+    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?' + // port
+      '(\\/[-a-z\\d%_.~+]*)*' + // path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
+  }
+
+  postMessage(fncName, msg) {
+    msg = JSON.stringify(msg);
+    console.log(msg);
+    if ('webkit' in window) {
+      window.webkit.messageHandlers[fncName].postMessage(msg);
+    } else if ('android' in window) {
+      (window.android || window.Android)[fncName](msg);
+    }
+  }
+}
+
+
+const columnDetail = new ColumnDetail();
+
+window.initColumn = function(data) {
+  columnDetail.setDataColumn(data)
+}
+
+columnDetail.postMessage('javascriptLoaded', {"success": true});
+console.log('javascriptLoaded')
+    </script>
+  </body>
+</html>

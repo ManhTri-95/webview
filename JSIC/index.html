@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full-width to Half-width Katakana Converter</title>
+  <script src="https://unpkg.com/wanakana@4.0.2/umd/wanakana.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    .input-group {
+      margin: 10px;
+      width: 300px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, output {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    output {
+      background-color: #f9f9f9;
+      display: block;
+      min-height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Japanese Text Converter</h1>
+  <div class="input-group">
+    <label for="inputText">① Nhập văn bản (Kanji, Hiragana, Katakana):</label>
+    <input type="text" id="inputText" placeholder="Nhập văn bản tiếng Nhật">
+  </div>
+  <div class="input-group">
+    <label for="outputText">② Kết quả (Half-width Katakana):</label>
+    <output id="outputText"></output>
+  </div>
+
+  <script>
+    const inputText = document.getElementById('inputText');
+    const outputText = document.getElementById('outputText');
+
+    // Mapping table for full-width to half-width Katakana
+    const fullToHalfKatakanaMap = {
+      'ア': 'ｱ', 'イ': 'ｲ', 'ウ': 'ｳ', 'エ': 'ｴ', 'オ': 'ｵ',
+      'カ': 'ｶ', 'キ': 'ｷ', 'ク': 'ｸ', 'ケ': 'ｹ', 'コ': 'ｺ',
+      'サ': 'ｻ', 'シ': 'ｼ', 'ス': 'ｽ', 'セ': 'ｾ', 'ソ': 'ｿ',
+      'タ': 'ﾀ', 'チ': 'ﾁ', 'ツ': 'ﾂ', 'テ': 'ﾃ', 'ト': 'ﾄ',
+      'ナ': 'ﾅ', 'ニ': 'ﾆ', 'ヌ': 'ﾇ', 'ネ': 'ﾈ', 'ノ': 'ﾉ',
+      'ハ': 'ﾊ', 'ヒ': 'ﾋ', 'フ': 'ﾌ', 'ヘ': 'ﾍ', 'ホ': 'ﾎ',
+      'マ': 'ﾏ', 'ミ': 'ﾐ', 'ム': 'ﾑ', 'メ': 'ﾒ', 'モ': 'ﾓ',
+      'ヤ': 'ﾔ', 'ユ': 'ﾕ', 'ヨ': 'ﾖ',
+      'ラ': 'ﾗ', 'リ': 'ﾘ', 'ル': 'ﾙ', 'レ': 'ﾚ', 'ロ': 'ﾛ',
+      'ワ': 'ﾜ', 'ヲ': 'ｦ', 'ン': 'ﾝ',
+      'ガ': 'ｶﾞ', 'ギ': 'ｷﾞ', 'グ': 'ｸﾞ', 'ゲ': 'ｹﾞ', 'ゴ': 'ｺﾞ',
+      'ザ': 'ｻﾞ', 'ジ': 'ｼﾞ', 'ズ': 'ｽﾞ', 'ゼ': 'ｾﾞ', 'ゾ': 'ｿﾞ',
+      'ダ': 'ﾀﾞ', 'ヂ': 'ﾁﾞ', 'ヅ': 'ﾂﾞ', 'デ': 'ﾃﾞ', 'ド': 'ﾄﾞ',
+      'バ': 'ﾊﾞ', 'ビ': 'ﾋﾞ', 'ブ': 'ﾌﾞ', 'ベ': 'ﾍﾞ', 'ボ': 'ﾎﾞ',
+      'パ': 'ﾊﾟ', 'ピ': 'ﾋﾟ', 'プ': 'ﾌﾟ', 'ペ': 'ﾍﾟ', 'ポ': 'ﾎﾟ',
+      'ャ': 'ｬ', 'ュ': 'ｭ', 'ョ': 'ｮ',
+      'ァ': 'ｧ', 'ィ': 'ｨ', 'ゥ': 'ｩ', 'ェ': 'ｪ', 'ォ': 'ｫ',
+      'ヴ': 'ｳﾞ', 'ー': 'ｰ'
+    };
+
+    // Function to convert full-width Katakana to half-width Katakana
+    function toHalfWidthKatakana(text) {
+      return text.replace(/[ァ-ヶー]/g, char => fullToHalfKatakanaMap[char] || char);
+    }
+
+    inputText.addEventListener('input', () => {
+      const text = inputText.value;
+      // Convert input to full-width Katakana first
+      const fullWidthKatakana = wanakana.toKatakana(text, { passRomaji: true });
+      // Convert to half-width Katakana
+      const halfWidthKatakana = toHalfWidthKatakana(fullWidthKatakana);
+      outputText.textContent = halfWidthKatakana;
+    });
+  </script>
+</body>
+</html>

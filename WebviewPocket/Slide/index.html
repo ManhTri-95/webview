@@ -1,0 +1,102 @@
+
+   
+
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="encoding" content="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="js/swiper/swiper-bundle.min.css"/> 
+    <!-- <script src="js/swiper/swiper-bundle.min.js"></script> -->
+    <link rel="stylesheet" href="styles/slide.css"/> 
+	<style>
+		.hidden{visibility: hidden;display:none}
+	</style>
+  </head>
+  <body>
+    <div class="swiper-container hero-slider">
+      <div class="swiper-wrapper">
+         <!-- Slides -->
+         <div class="swiper-slide" data-page-id="career_consulting">
+              <img width="100%" src="https://www.test.learningpocket.com/slide/images/slide-03.png" alt="" />
+         </div>
+         <div class="swiper-slide" data-page-id="category_list">
+           <img width="100%"  src="https://www.test.learningpocket.com/slide/images/banner-home1.png" alt="" />
+          </div>
+          <div class="swiper-slide" data-page-id="diagnose_start"> 
+            <img width="100%"  src="https://www.test.learningpocket.com/slide/images/banner-home2.png" alt="" />
+         
+          </div>
+      </div>
+      <!-- If we need pagination -->
+     <div class="swiper-pagination"></div>
+      <!-- If we need navigation buttons -->
+      <div class="swiper-button-prev">
+        <img src="https://www.test.learningpocket.com/slide/images/arrow-left.png">
+      </div>
+      <div class="swiper-button-next">
+        <img src="https://www.test.learningpocket.com/slide/images/arrow-right.png">
+      </div>
+   </div>
+   <script src="https://browser.sentry-cdn.com/5.6.3/bundle.min.js"
+            integrity="sha384-/Cqa/8kaWn7emdqIBLk3AkFMAHBk0LObErtMhO+hr52CntkaurEnihPmqYj3uJho"
+            crossorigin="anonymous"></script>
+    <script>
+        Sentry.init({
+        	"dsn": "https://6d3387ce83a143e8985c0419b27049f0@sentry.g-root.com/2",
+        	"environment": 'groot-vtest',
+        });
+    </script>
+   <script type = "text/javascript">
+		  (function(){
+        var params = new URLSearchParams(window.location.search);
+        console.log(params)
+        params.set('app_version', '3.0.10');
+        params.set('check_test', '1');
+        params.set('diagnose', '1');
+        params.set('career_consulting', '1');
+        params.set('active', 'diagnose');
+
+        var newUrl = window.location.pathname + '?' + params.toString();
+        window.history.replaceState({}, '', newUrl);
+
+		  	var queryParams = location.search || '';
+		  	if( queryParams.indexOf('app_version') < 0 ){
+		  		document.querySelector('div.swiper-slide[data-page-id="diagnose_start"]').remove();
+		  		document.querySelector('div.swiper-slide[data-page-id="category_list"]')
+		  		.classList.remove('hidden');
+		  		return false;
+		  	}
+			
+		  	if( 
+		  		queryParams.indexOf('check_test=1') > 0 ||
+		  		queryParams.indexOf('check_test=true') > 0
+		  	){
+		  		document.querySelector('div.swiper-slide[data-page-id="category_list"]')
+		  		.classList.remove('hidden');
+		  	}else document.querySelector('div.swiper-slide[data-page-id="category_list"]').remove();
+			
+		  	if( 
+		  		queryParams.indexOf('diagnose=1') > 0 ||
+		  		queryParams.indexOf('diagnose=true') > 0
+		  	){
+		  		document.querySelector('div.swiper-slide[data-page-id="diagnose_start"]')
+		  		.classList.remove('hidden');
+		  	}else document.querySelector('div.swiper-slide[data-page-id="diagnose_start"]').remove();
+
+        if( 
+		  		queryParams.indexOf('career_consulting=1') > 0 ||
+		  		queryParams.indexOf('career_consulting=true') > 0
+		  	){
+		  		document.querySelector('div.swiper-slide[data-page-id="career_consulting"]')
+		  		.classList.remove('hidden');
+		  	}else document.querySelector('div.swiper-slide[data-page-id="career_consulting"]').remove();
+		  })();
+   </script>
+   <script src="js/swiper/swiper-bundle.min.js"></script>
+   <script src="js/index.js"></script>
+  </body>
+</html>
+   

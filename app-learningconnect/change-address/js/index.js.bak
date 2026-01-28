@@ -1,0 +1,163 @@
+(function (){ 
+  window.UserChangeInAddress = function() {
+    
+  }
+
+  UserChangeInAddress.prototype.init = function () {
+
+    this.createForm();
+  }
+
+  UserChangeInAddress.prototype.createForm = function () {
+    var body = document.getElementsByTagName('body')[0];
+
+    var container = document.createElement("div");
+    container.className ="container";
+
+    var titleWrapper = document.createElement("div");
+    titleWrapper.className ="title-wrapper";
+   
+    textTitle = document.createElement("h3");
+    textTitle.className = "text-center";
+    textTitle.innerHTML = "住所変更";
+
+    var textName = document.createElement('span');
+    textName.className = 'fs-3 d-inline-block mb-3'
+    textName.innerHTML = 'User 01';
+
+    var elForm = document.createElement('form');
+
+    /**
+     * Create form date
+     */
+    var formGroupCalendar = document.createElement("div");
+    formGroupCalendar.classList.add("form-group");
+
+    var inputGroupCalendar = document.createElement("div");
+    inputGroupCalendar.classList.add("input-group");
+
+    var labelCalendar = document.createElement("label");
+    labelCalendar.classList.add('form-label');
+    labelCalendar.setAttribute("for", "date");
+    labelCalendar.innerHTML = "転居日";
+
+    var formFieldCalendar = document.createElement("input");
+    formFieldCalendar.classList.add("form-control");
+    formFieldCalendar.setAttribute("type", "text");
+    formFieldCalendar.setAttribute("id", "date");
+    formFieldCalendar.setAttribute("placeholder", "右のカレンダーから選択");
+
+    var btnFormCalendar = document.createElement("button");
+    btnFormCalendar.classList.add("btn", "btn--primary", "ml-3")
+    btnFormCalendar.innerHTML = "選択";
+
+    formGroupCalendar.appendChild(labelCalendar);
+    inputGroupCalendar.appendChild(formFieldCalendar);
+    inputGroupCalendar.appendChild(btnFormCalendar);
+    formGroupCalendar.appendChild(inputGroupCalendar);
+
+    var spanAddress = document.createElement("span");
+    spanAddress.classList.add("d-inline-block", "mt-5", "mb-4");
+    spanAddress.innerHTML = "転居先住所";
+
+
+     /**
+     * Create form date
+     */
+    var formGroupZip = document.createElement("div");
+    formGroupZip.classList.add("form-group");
+
+    var labelZip = document.createElement("label");
+    labelZip.classList.add('form-label');
+    labelZip.innerHTML = "郵便番号";
+
+    var formFieldZip = document.createElement("input");
+    formFieldZip.classList.add("form-control");
+    formFieldZip.setAttribute("type", "text");
+    formFieldZip.setAttribute("name", "zip01");
+    formFieldZip.setAttribute("size", "10");
+   
+    formFieldZip.addEventListener("keyup", function() {
+      AjaxZip3.zip2addr(this, "", "pref01", "addr01");
+    })
+    //formFieldZip.setAttribute("onKeyUp", "AjaxZip3.zip2addr(this,'','pref01','addr01');");
+
+    formGroupZip.appendChild(labelZip);
+    formGroupZip.appendChild(formFieldZip);
+    formGroupZip.setAttribute("maxlength", "8");
+      
+    /**
+     * Create form pref
+     */
+    var formGroupPref = document.createElement("div");
+    formGroupPref.classList.add("form-group");
+
+    var labelPref = document.createElement("label");
+    labelPref.classList.add('form-label');
+    labelPref.innerHTML = "都道府県";
+
+    var formFieldPref = document.createElement("input");
+    formFieldPref.classList.add("form-control");
+    formFieldPref.setAttribute("type", "text");
+    formFieldPref.setAttribute("name", "pref01");
+    formFieldPref.setAttribute("size", "20");
+
+    formGroupPref.appendChild(labelPref);
+    formGroupPref.appendChild(formFieldPref);
+
+     /**
+     * Create form address
+     */
+    var formGroupAddress = document.createElement("div");
+    formGroupAddress.classList.add("form-group");
+
+    var labelAddress = document.createElement("label");
+    labelAddress.classList.add('form-label');
+    labelAddress.innerHTML = "住所";
+
+    var formFieldAddress = document.createElement("input");
+    formFieldAddress.classList.add("form-control");
+    formFieldAddress.setAttribute("type", "text");
+    formFieldAddress.setAttribute("name", "addr01");
+    formFieldAddress.setAttribute("size", "60");
+
+    formGroupAddress.appendChild(labelAddress);
+    formGroupAddress.appendChild(formFieldAddress);
+
+    /**
+     * Create form address building
+     */
+    var formGroupAddressBuilding = document.createElement("div");
+    formGroupAddressBuilding.classList.add("form-group");
+
+    var labelAddressBuilding = document.createElement("label");
+    labelAddressBuilding.classList.add('form-label');
+    labelAddressBuilding.innerHTML = "建物名 / 号室　（任意）";
+
+    var formFieldAddressBuilding = document.createElement("input");
+    formFieldAddressBuilding.classList.add("form-control");
+
+    formGroupAddressBuilding.appendChild(labelAddressBuilding);
+    formGroupAddressBuilding.appendChild(formFieldAddressBuilding);
+
+
+    elForm.appendChild(formGroupCalendar);
+    elForm.appendChild(spanAddress);
+    elForm.appendChild(formGroupZip);
+    elForm.appendChild(formGroupPref);
+    elForm.appendChild(formGroupAddress);
+    elForm.appendChild(formGroupAddressBuilding);
+
+    titleWrapper.appendChild(textTitle);
+
+    container.appendChild(titleWrapper);
+    container.appendChild(textName);
+    container.appendChild(elForm);
+    body.prepend(container);
+  }
+
+
+  const userChangeInAddress = new UserChangeInAddress()
+
+  userChangeInAddress.init()
+})()

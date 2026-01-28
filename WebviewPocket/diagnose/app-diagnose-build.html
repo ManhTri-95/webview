@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="encoding" content="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  width: 100%;
+  min-height: 100vh;
+  color: #4C4C4C;
+  position: relative;
+  background-color: #fff;
+}
+
+#diagnose {
+  opacity: 1;
+  transform: translateX(100vw);
+}
+
+.container {
+  width: 100%;
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+
+.hide { display: none!important; visibility: hidden;width: 0; height: 0;}
+
+.not-allow {
+  pointer-events: none;
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.mt-5 {
+  margin-top: 5px!important;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.mb-0 {
+  margin-bottom: 0px!important;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+.p-15 {
+  padding: 15px;
+}
+.fs-14 {
+  font-size: 14px!important;
+}
+.fs-16 {
+  font-size: 16px;
+}
+.fs-20 {
+  font-size: 20px;
+}
+
+.f-bold {
+  font-weight: bold;
+}
+
+.main-container {
+  position: relative;
+}
+
+.header-top {
+  height: 48px;
+}
+
+.header-label {
+  font-size: 16px;
+  background-color: #CEEED8;
+  color: #424040;
+  text-align: center;
+  padding: 7px 15px;
+  height: 37px;
+}
+
+.header-title {
+  margin-top: 15px;
+  padding: 7px 15px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.header-title span {
+  display: block;
+  color: #252525;
+}
+
+.banner  {
+  margin-top: 15px;
+}
+
+.banner img {
+  max-width: 100%;
+}
+
+.btn {
+  display: inline-block;
+  border-radius: 5px;
+  text-align: center;
+  line-height: initial;
+  font-size: 16px;
+  border: none;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 35%);
+  padding: 6px 15px;
+}
+
+.btn--primary {
+  background-color: #49A3E5;
+  color: #EDEDED;
+}
+
+.btn--light {
+  background-color: #F7F7F7;
+  border: 1px solid #CEEED8;
+}
+
+.btn--success {
+  background-color: #CEEED8;
+}
+
+.btn--error {
+  background-color: #ea4025;
+  color: #fff;
+}
+
+.btn--warning {
+  background-color: #F09A37;
+  color: #fff;
+}
+
+.btn--blue {
+  background-color: #5DC1C9;
+  color: #fff;
+}
+
+.btn--blue1 {
+  background-color: #339AC3;
+  color: #fff;
+}
+
+.btn--pink {
+  background-color: #F787BF;
+  color: #fff;
+}
+
+.btn--large {
+  padding: 9px 15px;
+}
+
+.fixed-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: #fff;
+}
+
+.group-btn .btn {
+  margin: 0 18px;
+}
+
+.btn-top {
+  height: 48px;
+  width: 48px;
+  display: inline-block;
+}
+
+.btn-open {
+  padding: 11px 7px;
+}
+
+.qs-item__top {
+  padding: 30px 0;
+}
+
+.qs-number {
+  width: 75px;
+  height: 75px;
+  border: 3px solid #A6DAB6;
+  border-radius: 50%;
+  font-size: 48px;
+  color: #A6DAB6;
+  line-height: 54px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.qs-item__body {
+  padding: 0 15px;
+}
+.qs-question {
+  font-weight: bold;
+  font-size: 16px;
+}
+.qs-answer,
+.qs-progress {
+  padding: 15px;
+}
+
+.qs-answer__option {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.qs-answer__option.disabled {
+  opacity: .8;
+}
+
+[type="radio"]:checked, [type="radio"]:not(:checked) {
+  position: absolute;
+  left: -9999px;
+}
+
+.qs-answer-item {
+  position: relative;
+  display: block;
+  padding: 10px 20px;
+  border: 1px solid #49A3E5;
+  background-color: #FFFFFF;
+  margin-bottom: 5px;
+  border-radius: 7px;
+  color: #49A3E5;
+}
+
+[type="radio"]:checked + label {
+  background-color: #C1E2FC;
+}
+
+.qs-progress {
+  position: relative;
+}
+
+.progress-bar-text {
+  font-weight: bold;
+  position: absolute;
+  top: 0px
+}
+
+.progress-bar-text.left {
+  left: 15px;
+}
+
+.progress-bar-text.right {
+  right: 15px;
+}
+
+.progress-bar {
+  margin-top: 10px;
+  height: 10px;
+  width: 100%;
+  background-color : #E5E5E5
+}
+
+.progress-bar__inner {
+  background-color: #A6DAB6;
+  height: 100%;
+  width: 0%;
+  transition: width 500ms;
+}
+
+.result-content {
+  font-size: 14px;
+  color: #252525;
+  padding: 15px 0;
+}
+
+.result-content__img{
+  max-width: 150px;
+}
+
+.tite-cate {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.content-item {
+  padding: 5px 15px;
+}
+
+.content-item img {
+  max-width: 80%;
+}
+
+.content-label  {
+  text-align: center;
+  font-weight: bold;
+  padding: 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.content-label.blue {
+  background-color: #DCF0FF;
+  color: #0286E7;
+}
+.content-label.yellow {
+  background-color: #FFF5C4;
+  color: #FA8600;
+}
+.content-label.success {
+  background-color: #E7FBED;
+  color: #149B15;
+}
+.content-label.fs-small {
+  font-size: 14px;
+}
+.result-button button {
+  min-width: 262px;
+}
+
+.comment-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 15px;
+}
+.comment-item .comment__image {
+  width: 100px;
+}
+.comment-item .comment__text {
+  width: calc(100% - 100px);
+  background-color: #E7FBED;
+  padding: 15px 10px;
+  border-radius: 25px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 15px;
+  z-index: 1060;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+  opacity: 0;
+  transform: translateY(100vh);
+  transition: all .5s;
+}
+
+.modal-dialog {
+  max-width: 350px;
+  margin: 165px auto auto;
+  position: relative;
+  width: auto;
+  background-color: #FAFAFA;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 35%);
+  border-radius: 15px;
+}
+
+.modal-body, .modal-footer {
+  padding: 20px 15px;
+}
+
+.fadeinBottom {
+  opacity: 1;
+  transform: translateY(0);
+  -webkit-transform: translateY(0);
+  -o-transform: translateY(0);
+  -moz-transform: translateY(0);
+}
+
+.anreer-anchor, 
+.enneagram {
+  display: flex;
+  flex-direction: column;
+}
+
+.anreer-anchor {
+  flex-direction: column-reverse !important;
+}
+
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+    // function for extending a class
+
+window.viewManager = function(){}
+
+viewManager.prototype.init = function() {
+  
+}
+
+window.baseOS = function(){
+  console.log('ios')
+}
+
+baseOS.prototype.getMsgJson = function(params){
+  console.log(params)
+}
+
+/**
+ * IOS
+ */
+window.iOS = function(){
+  console.log('ios')
+}
+window.iOS.prototype = window.baseOS.prototype;
+
+window.iOS.prototype.postMessage = function(fncName, msg){
+  msg = this.getMsgJson(msg);
+  window.webkit.messageHandlers[fncName].postMessage(msg);
+}
+
+
+/**
+ * Android
+ */
+window.Android = function(){
+  console.log('android')
+}
+
+window.Android.prototype = window.baseOS.prototype;
+
+window.Android.prototype.postMessage = function(fncName, msg){
+  msg = this.getMsgJson(msg);
+  if ((window.android || window.Android)) {
+    (window.android || window.Android)[fncName](msg);
+  }
+  
+}
+
+Android.prototype = new viewManager();
+iOS.prototype = new viewManager();
+
+
+
+    </script>
+    <script type="text/javascript">
+(function (){
+  function extend (base, constructor) {
+    var prototype = new Function();
+    prototype.prototype = base.prototype;
+    constructor.prototype = new prototype();
+    constructor.prototype.constructor = constructor;
+  }
+  
+  window.baseQuestion = function(){}
+  
+  baseQuestion.prototype.dataDiagnose = {
+    currentQuestion: 0,
+    numberQuestion: 1,
+    maxDiagnose: 0,
+    listQuestion: {},
+    optionAnswer: {},
+    //isType: null,
+    postData: {
+      type: null,
+      result_type: null,
+      data: {},
+    }
+  }
+
+  baseQuestion.prototype.isParamsDiagonse = function (obj) {
+    return 'career_anchor' in obj && 
+      'enneagram' in obj && 
+      'first_question' in obj && 
+      'start_page' in obj;
+  }
+  
+  baseQuestion.prototype.init = function(params) {
+    if (this.checkObjNotEmpty(params)) {
+      this.response = params;
+      this.data = this.response.data;
+      if (this.isParamsDiagonse(this.data)) { 
+        this.dataFirstDiagnose = this.data.first_question;
+        this.dataEnneagram = this.data.enneagram;
+        this.dataCareer = this.data.career_anchor;
+        this.startPage = this.data.start_page;
+        this.baseUrl = 'https://' + location.host;
+        this.createUIPageStart();
+        this.createUIPageDiagnose();
+        
+        this.dataDiagnose.listQuestion = this.dataFirstDiagnose || null;
+        this.handleFirstDiagnose(this.dataDiagnose.listQuestion);
+        this.createQuestion(this.dataDiagnose.listQuestion);
+      } 
+    } else {
+      this.postMessage('logError', { error: 'Data passed in is correct' });
+    }
+  }
+  
+  baseQuestion.prototype.createUIPageStart = function () {
+    var textLabel = "診断コンテンツ",
+      isPage = "start_diagnose",
+      body = document.getElementsByTagName('body')[0];
+  
+    var container = document.createElement("div");
+    container.className ="container start-diagnose";
+    container.setAttribute("id", "start_diagnose");
+  
+    var main = document.createElement("section");
+    main.className = "main-container";
+  
+    var title = document.createElement("div");
+    title.className = "header-title text-truncate";
+  
+    title.innerHTML = this.data.start_page.text_top || "";
+  
+    var banner = document.createElement("div");
+    banner.className = "banner mt-15 text-center";
+  
+    var image = document.createElement("img");
+    image.setAttribute("src", this.data.start_page.img || "");
+    
+    var content = document.createElement("div");
+    content.className = "p-15";
+    content.innerHTML = this.data.start_page.text_bottom || ""; 
+  
+    var footer = document.createElement("div");
+    footer.className = "p-15 text-center";
+  
+    footer.prepend(this.ComponentButton({
+      text: "診断スタート！", 
+      isClass: "btn--primary btn-start w-100", 
+      pressHandler: this.evtNextPageDiagnose.bind(this)})
+    );
+    banner.prepend(image);
+    main.prepend(title, banner, content);
+    container.prepend(this.ComponentHeader(textLabel, isPage), main, footer)
+    body.prepend(container);
+  
+  //   function nl2br (str, is_xhtml) {
+  //     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+  //     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+  //  } 
+  }
+  
+  baseQuestion.prototype.createUIPageDiagnose = function () { 
+    var isPage = "diagnose",
+      textLabel = "",
+      body = document.getElementsByTagName('body')[0];
+  
+    const container = document.createElement("div");
+    container.className ="container hide";
+    container.setAttribute("id", "diagnose");
+  
+    // Create UI Body
+    const main = document.createElement("section");
+    main.className = "main-container"
+  
+    const wrapperQs = document.createElement("div");
+    wrapperQs.className = "wrapper-qs";
+  
+    const qsItem = document.createElement("div");
+    qsItem.className = "qs-item";
+  
+    const qsItemTop = document.createElement("div");
+    qsItemTop.className = "qs-item__top";
+    
+    const qsNumber = document.createElement("div");
+    qsNumber.className = "qs-number";
+  
+    const textNumber =  document.createElement("span");
+    textNumber.setAttribute("id", "number-question");
+  
+    const qsItemBody = document.createElement("div");
+    qsItemBody.className = "qs-item__body";
+  
+    const qsQuestion = document.createElement("div");
+    qsQuestion.className = "qs-question";
+    qsQuestion.setAttribute("id", "question");
+  
+    const qsAnswer = document.createElement("div");
+    qsAnswer.className = "qs-answer";
+  
+    qsNumber.appendChild(textNumber);
+    qsItemTop.appendChild(qsNumber);
+  
+    qsItemBody.prepend(qsQuestion, qsAnswer, this.ComponentProgress());
+  
+    qsItem.prepend(qsItemTop, qsItemBody);
+    wrapperQs.appendChild(qsItem);
+    main.appendChild(wrapperQs);
+  
+   
+    // add groot body
+    container.prepend(this.ComponentHeader(textLabel, isPage), main);
+    body.prepend(container);
+  }
+  
+  /**
+   * create component Header
+   * @returns HTML
+   */
+  baseQuestion.prototype.ComponentHeader = function(text, typePage) {
+    var header = document.createElement("herder");
+    header.className ="header-container";
+  
+    var headerTop =  document.createElement("div"),
+      btnTop = document.createElement("a"),
+      icon = document.createElement("img"),
+      headerLabel = document.createElement("div");
+      headerLabel.className = "header-label text-truncate";
+      headerLabel.textContent = text || "";
+    switch(typePage) {
+      case "start_diagnose":
+        headerTop.className = "header-top";
+        btnTop.className ="btn-top";
+        icon.setAttribute("src", this.baseUrl + '/assets/images/ic_arrow_back.png');
+        btnTop.addEventListener("click", this.evtBackHomPage.bind(this))
+        break;
+      case "diagnose":
+        headerTop.className = "header-top text-right";
+        btnTop.className ="btn-top btn-open";
+        icon.setAttribute("src",  this.baseUrl + '/assets/images/icon-close.png');
+        icon.setAttribute("width","33");
+        btnTop.addEventListener("click", this.evtOpenModal.bind(this))
+        break;
+    }
+    btnTop.appendChild(icon);
+    headerTop.appendChild(btnTop);
+    header.prepend(headerTop, headerLabel);
+  
+    return header;
+  }
+  
+  /**
+   * create component progress bar
+   * @returns HTML
+   */
+  baseQuestion.prototype.ComponentProgress = function () {
+    var progressWrapper = document.createElement("div"),
+      textProgressLeft = document.createElement("span"),
+      textProgressRight = document.createElement("span"),
+      progressBar = document.createElement("div"),
+      progressBarInner = document.createElement("div");
+  
+    progressWrapper.className = "qs-progress"
+  
+    textProgressLeft.className = "progress-bar-text left";
+    textProgressLeft.textContent = "0%";
+  
+    textProgressRight.className = "progress-bar-text right";
+    textProgressRight.textContent = "100%";
+  
+    progressBar.className = "progress-bar";
+  
+    progressBarInner.className = "progress-bar__inner";
+    progressBarInner.setAttribute("id", "progressMeter")
+    
+    progressBar.appendChild(progressBarInner);
+    progressWrapper.prepend(textProgressLeft, textProgressRight, progressBar)
+   
+    return progressWrapper;
+  }
+  
+  /**
+   * create component Button
+   * @returns HTML
+   */
+  baseQuestion.prototype.ComponentButton = function({text, isClass, pressHandler}) { 
+    var button = document.createElement("button");
+      button.className = 'btn ' + isClass;
+      button.textContent = text;
+    button.addEventListener("click", pressHandler);
+  
+    return button;
+  }
+  
+  baseQuestion.prototype.ComponentOptionAnswer = function ({id, name, value, data_point, data_group, data_type, text_label, evtCheckHandler}) {
+    data_point = (typeof data_point === 'undefined') ? "" : data_point;
+    data_group = (typeof data_group === 'undefined') ? "" : data_group;
+    data_type = (typeof data_type === 'undefined') ? "" : data_type;
+    var answerItemDiv = document.createElement("div"); 
+      answerItemDiv.className = "qs-answer__option";
+  
+    var answerCheckInput = document.createElement("input");
+    answerCheckInput.type = "radio";
+    answerCheckInput.setAttribute("value", value);
+    answerCheckInput.setAttribute("id", id);
+    answerCheckInput.setAttribute("name", name);
+    answerCheckInput.setAttribute("data-point", data_point);
+    answerCheckInput.setAttribute("data-group", data_group);
+    answerCheckInput.setAttribute("data-type", data_type);
+    answerCheckInput.addEventListener("change", evtCheckHandler);
+  
+    var answerLabel = document.createElement('label');
+    answerLabel.className = "qs-answer-item text-center";
+    answerLabel.setAttribute("for", id);
+    answerLabel.textContent = text_label;
+  
+    answerItemDiv.appendChild(answerCheckInput);
+    answerItemDiv.appendChild(answerLabel);
+  
+    return answerItemDiv
+  }
+  
+  /**
+   * create component Modal
+   * @returns HTML
+   */
+  baseQuestion.prototype.ComponentModal = function() {
+    var modal = document.createElement("div"),
+      modalDialog = document.createElement("div"),
+      modalBody = document.createElement("div"),
+      modalFooter = document.createElement("div"),
+      textTitle = document.createElement("p");
+      footerInner = document.createElement("div");
+  
+    modal.className = "modal";
+    modalDialog.className = "modal-dialog";
+    modalBody.className = "modal-body";
+    textTitle.className = "text-center modal-title fs-16";
+    textTitle.textContent = "診断を続けますか？";
+    modalFooter.className = "modal-footer text-center";
+    footerInner.className = "group-btn";
+  
+    footerInner.prepend(
+      this.ComponentButton({
+        text: "やめる", 
+        isClass: "btn--light", 
+        pressHandler: this.evtBackStartPage.bind(this)}),
+      this.ComponentButton({
+        text: "続ける", 
+        isClass: "btn--success", 
+        pressHandler: this.evtCloseModal
+      })
+    );
+    modalFooter.appendChild(footerInner);
+    modalBody.prepend(textTitle);
+    modalDialog.prepend(modalBody, modalFooter);
+    modal.appendChild(modalDialog);
+  
+    return modal;
+  }
+   
+  baseQuestion.prototype.createDiagnoseQs = function(diagnoseQuestion) {
+    if (this.checkObjNotEmpty(diagnoseQuestion)) {
+      this.createQuestion(diagnoseQuestion);
+      this.createAnswerOption(diagnoseQuestion);
+    }
+  }
+  
+  baseQuestion.prototype.createQuestion = function(diagnoseQuestion) {  
+    if (this.keyExistInObj(diagnoseQuestion, key = 'text')) {
+      var questionNumber = document.getElementById("number-question"),
+        questionsText = document.getElementById("question");
+      questionsText.textContent = diagnoseQuestion.text;
+      questionNumber.textContent = this.dataDiagnose.numberQuestion;
+    }
+  }
+  
+  baseQuestion.prototype.createAnswerOption = function(diagnoseQuestion) {
+    var self = this,
+      answerList = document.querySelector('.qs-answer');
+  
+    answerList.innerHTML = "";
+    for (var option in this.dataDiagnose.optionAnswer) {
+      function evtCheckHandler(e) {
+        var toDiagnose,
+        data_point = e.target.getAttribute("data-point");
+        if (self.dataDiagnose.numberQuestion < self.dataDiagnose.maxDiagnose) {
+          self.dataDiagnose.currentQuestion += 1;
+          self.dataDiagnose.numberQuestion += 1;
+          if (self.dataDiagnose.postData.type == "enneagram") {
+            toDiagnose = diagnoseQuestion[data_point];
+            
+            /** 
+             * add answer to object
+             * @type enneagram
+             * @examble data: {"2":"Q3","3":"Q4","4":"Q6",...}
+             */
+            self.dataDiagnose.postData.data[self.dataDiagnose.currentQuestion] = toDiagnose;
+          } else if (self.dataDiagnose.postData.type == "career_anchor") {
+            toDiagnose = 'Q'+self.dataDiagnose.numberQuestion;
+            self.argolithmCareer(data_point, e.target.getAttribute("data-group"));
+
+            /** 
+             * add answer to object
+             * @type Career anchor
+             * @examble data: {"2":"0","3":"3","4":"2",...}
+              */
+            self.dataDiagnose.postData.data[self.dataDiagnose.currentQuestion] = e.target.value;
+          }
+          self.evtNextDiagnoseQs(toDiagnose);
+        } else {
+          switch(self.dataDiagnose.postData.type) {
+            case "enneagram": 
+               /** 
+               * add last answer to object
+               * @type enneagram
+               * @examble data: {"2":"Q3","3":"Q4","4":"Q6",...}
+               */
+              self.dataDiagnose.postData.data[self.dataDiagnose.numberQuestion] = diagnoseQuestion[data_point];
+
+              self.dataDiagnose.postData.result_type = diagnoseQuestion[data_point];
+              self.disableOptionAnswer();
+              document.querySelector(".progress-bar__inner").style.width = "100%";
+              self.postMessage("postData", self.dataDiagnose.postData)
+              break;
+            case "career_anchor":
+              self.argolithmCareer(data_point, e.target.getAttribute("data-group"));
+
+              /** 
+               * add last answer to object (if total question = 25)
+               * @type Career anchor
+               * @examble data: {"2":"0","3":"3","4":"2",...}
+              */
+              self.dataDiagnose.postData.data[self.dataDiagnose.numberQuestion] = e.target.value;
+
+              self.compareCareer();
+              break;
+          }
+        }
+       
+      }
+      answerList.appendChild(
+        this.ComponentOptionAnswer({
+          id: 'diagnose-'+this.dataDiagnose.numberQuestion+'-'+option, 
+          name: 'diagnose['+ this.dataDiagnose.numberQuestion + '][]',
+          value: option, 
+          data_point: this.dataDiagnose.optionAnswer[option].point, 
+          data_group: diagnoseQuestion.group, 
+          text_label: this.dataDiagnose.optionAnswer[option].text, 
+          evtCheckHandler: evtCheckHandler })
+          );
+    }
+  }
+  
+  baseQuestion.prototype.handleFirstDiagnose = function(firstDiagnose) {
+    var self = this,
+      isType,
+      answerList = document.querySelector('.qs-answer');
+    answerList.innerHTML = "";
+    if (firstDiagnose.yes) { 
+      function evtCheckEnneagrame (e) {
+        isType = e.target.getAttribute("data-type");
+        self.dataDiagnose.currentQuestion += 1;
+        self.dataDiagnose.numberQuestion += 1;
+        var enneagrame = new Enneagrame();
+        enneagrame.initEnneagrame(self.dataEnneagram, isType);
+      }
+  
+      answerList.appendChild(
+        this.ComponentOptionAnswer({
+          id: 'diagnose-' + this.dataDiagnose.numberQuestion + '-0', 
+          name: 'diagnose[' + this.dataDiagnose.numberQuestion + '][]', 
+          value: 0, 
+          data_type: firstDiagnose.yes, 
+          text_label: "決まっている",
+          evtCheckHandler: evtCheckEnneagrame} )
+          );
+    }
+  
+    if (firstDiagnose.no) {
+      function evtCheckCareer (e) {
+        isType = e.target.getAttribute("data-type");
+        self.dataDiagnose.currentQuestion += 1;
+        self.dataDiagnose.numberQuestion += 1;
+        var career = new Career();
+        career.initCareer(self.dataCareer, isType);
+      }
+    
+      answerList.appendChild(
+        this.ComponentOptionAnswer({
+          id: 'diagnose-' + this.dataDiagnose.numberQuestion + '-1', 
+          name: 'diagnose[' + this.dataDiagnose.numberQuestion + '][]', 
+          value: 1, 
+          data_type: firstDiagnose.no, 
+          text_label: "決まっていない",
+          evtCheckHandler: evtCheckCareer} )
+          );
+      }
+  }
+  
+  baseQuestion.prototype.disableOptionAnswer = function () {
+    var answerOption = document.querySelectorAll(".qs-answer__option");
+    for (var i = 0;i < answerOption.length; i++) {
+      answerOption[i].classList.add("disabled", "not-allow");
+    }
+  }
+  
+  baseQuestion.prototype.restartDiagnose = function () {
+    this.dataDiagnose.currentQuestion = 0;
+    this.dataDiagnose.numberQuestion = 1;
+    this.dataDiagnose.maxDiagnose = 0;
+    this.dataDiagnose.listQuestion = {}  
+    this.dataDiagnose.optionAnswer = {}
+    this.dataDiagnose.postData.type = null;
+    this.dataDiagnose.postData.result_type = null;
+    this.dataDiagnose.listQuestion = this.dataFirstDiagnose || null;
+    this.handleFirstDiagnose(this.dataDiagnose.listQuestion);
+    this.createQuestion(this.dataDiagnose.listQuestion);
+    document.querySelector(".progress-bar__inner").style.width = "0%";
+  }
+  
+  baseQuestion.prototype.evtBackHomPage = function() {
+    this.postMessage('backPage', { "value":"home"} );
+  }
+  
+  baseQuestion.prototype.evtNextPageDiagnose = function () {
+    document.getElementById("start_diagnose").classList.add('hide');
+    document.querySelector('body').appendChild(this.ComponentModal());
+    document.getElementById("diagnose").classList.remove('hide');
+    this.fadeInRight(document.getElementById("diagnose"));
+  }
+  
+  baseQuestion.prototype.evtNextDiagnoseQs = function(key) {
+    if (this.keyExistInObj(this.dataDiagnose.listQuestion, key)) {
+      this.createDiagnoseQs(this.dataDiagnose.listQuestion[key]);
+      this.showProgress();
+    }
+  }
+  
+  baseQuestion.prototype.evtOpenModal = function() {
+    document.querySelector('.modal').classList.add("fadeinBottom");
+  }
+  
+  baseQuestion.prototype.evtCloseModal = function() {
+    document.querySelector('.modal').classList.remove("fadeinBottom");
+  }
+  
+  baseQuestion.prototype.evtBackStartPage= function() {
+    var self = this;
+    document.querySelector('.modal').classList.remove("fadeinBottom");
+    setTimeout(function() {
+      self.restartDiagnose();
+      document.getElementById("diagnose").classList.add('hide');
+      document.getElementById("start_diagnose").classList.remove('hide');
+      document.querySelector('.modal').remove();
+  }, 600);
+  }
+  
+  baseQuestion.prototype.showProgress = function() {
+    var increment = Math.ceil((this.dataDiagnose.currentQuestion) / (this.dataDiagnose.maxDiagnose) * 100);
+      progressMeter = document.getElementById("progressMeter");
+      progressMeter.style.width = (increment) + '%';
+  } 
+  
+  baseQuestion.prototype.findSecondQuestion = function () {
+    return this.dataDiagnose.listQuestion.Q2;
+  }
+  
+  baseQuestion.prototype.fadeInRight = function(elem) {
+    var self = this,
+      styleElem = window.getComputedStyle(elem),
+      matrix = new WebKitCSSMatrix(styleElem.transform),
+      widthDevice = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    if (matrix.m41 <= 0) {
+      elem.style.transform = "translateX(0px)"
+      return; 
+    }
+    if(widthDevice >= 768) {
+      elem.style.transform = "translateX(" +  Number(matrix.m41 - 50) + "px)";
+    } else {
+      elem.style.transform = "translateX(" +  Number(matrix.m41 - 15) + "px)";
+    }
+    setTimeout(function () {
+      self.fadeInRight(elem);
+    }, 10);
+  }
+
+  /**
+   * Check key in object exist or not exist 
+   * @param {*} obj 
+   * @param {*} key 
+   */
+  baseQuestion.prototype.keyExistInObj = function (obj, key) {
+    var isCheckKey = false;
+    if (!obj.hasOwnProperty(key)) {
+      this.postMessage('logError', { error: 'key ' + key + ' does not exist' })
+      isCheckKey = false;
+    } else {
+      isCheckKey = true;
+    }
+    return isCheckKey
+  }
+
+  /**
+   * Check type and object empty
+   * @param {*} obj 
+   * @returns boolean
+   */
+  baseQuestion.prototype.checkObjNotEmpty = function (obj) {
+    var isCheckObject = false;
+    if (Object.keys(obj).length === 0 ) {
+      isCheckObject = false;
+      this.postMessage('logError', { error: 'Object is empty' });
+    } else if (obj.constructor !== Object) {
+      isCheckObject = false;
+      this.postMessage('logError', { error: 'Parameter is not a object' });
+    } else {
+      isCheckObject = true;
+    }
+
+    return isCheckObject;
+  }
+  
+  baseQuestion.prototype.postMessage = function(fncName, msg){
+    msg = JSON.stringify(msg);
+    
+    if( 'webkit' in window ){
+      window.webkit.messageHandlers[fncName].postMessage(msg);
+    }else if( 'android' in window ) {
+      (window.android || window.Android)[fncName](msg);
+    }
+  }
+  
+  /**
+   * Enneagrame argolithm
+   */
+  window.Enneagrame = function(){
+    baseQuestion.call(this);
+  }
+  
+  extend(baseQuestion, Enneagrame);
+  
+  Enneagrame.prototype.initEnneagrame = function(params, isType) {
+    this.isType = isType;
+    this.params = params;
+    this.objEenneagram();
+  }
+  
+  Enneagrame.prototype.objEenneagram = function() {
+    this.dataDiagnose.listQuestion = this.params.items;
+    this.dataDiagnose.optionAnswer = this.params.answers;
+    this.dataDiagnose.postData.type = this.isType;
+    this.dataDiagnose.maxDiagnose = 9;
+    //this.createDiagnoseQs(Object.values(this.params.items)[0]);
+  
+    //Render first question when select type Enneagrame;
+    if (this.keyExistInObj(this.dataDiagnose.listQuestion, 
+      key = 'Q' + this.dataDiagnose.numberQuestion)
+    ) {
+      this.createDiagnoseQs(this.findSecondQuestion());
+      this.showProgress();
+    }
+  }
+  
+  
+  
+  //Enneagrame.prototype = baseQuestion.prototype;
+  
+  
+  /**
+   * Career anchor argolithm
+   */
+  window.Career = function() {
+    baseQuestion.call(this);
+  }
+  
+  extend(baseQuestion, Career);
+  
+  Career.prototype.initCareer = function(params, isType) {
+    this.isType = isType;
+    this.params = params;
+    this.optScores = {};
+    this.listType = [];
+    this.objCareer();
+  }
+  
+  Career.prototype.objCareer = function() {
+    this.dataDiagnose.listQuestion = this.params.items;
+    this.dataDiagnose.optionAnswer = this.params.answers;
+    this.dataDiagnose.postData.type = this.isType;
+    this.dataDiagnose.maxDiagnose = Object.keys(this.params.items).length;
+    //this.createDiagnoseQs(Object.values(this.params.items)[0], this.isType);
+    //Render first question when select type Career_anchor
+    if ( this.keyExistInObj(this.dataDiagnose.listQuestion, 
+      key = 'Q' + this.dataDiagnose.numberQuestion)
+    ) {
+      this.createDiagnoseQs(this.findSecondQuestion());
+      this.showProgress();
+    }  
+    this.assignObjScore();
+  }
+  
+  Career.prototype.assignObjScore = function () {
+    var self = this,
+    listCareer = Object.values(this.dataDiagnose.listQuestion),
+    listGroup = [],
+    uniqueGroup = [];
+    
+    for (var item of listCareer) {
+      if (item.group) {
+        listGroup.push(item.group)
+      }
+    }
+  
+    // Remove group duplicate
+    listGroup.forEach(function(c) {
+      if (!uniqueGroup.includes(c)) {
+        uniqueGroup.push(c);
+        self.listType =  uniqueGroup.sort();
+      }
+    });
+    // assign object with group type with value = 0
+    uniqueGroup.forEach(function(element) {
+      self.optScores[element] = 0;
+    })
+  }
+  
+  Career.prototype.argolithmCareer = function (point, group) {
+    var self = this;
+    Object.keys(this.optScores).forEach((item) => {
+      if (item == group && typeof this.optScores[item] == "number") {
+        self.optScores[item] += Number(point);  
+      }
+    })
+  }
+  
+  //compare value of object
+  Career.prototype.compareCareer = function () { 
+    var self = this;
+    var max = Math.max(...Object.values(this.optScores)),
+      getKeyMax = Object.keys(this.optScores).filter(function(key) {
+        return self.optScores[key]==max;
+      });
+   
+    if (getKeyMax.length == 1) {
+      var isNumberType = this.listType.findIndex(function(item) {
+        return item == getKeyMax[0];
+      });
+  
+      this.dataDiagnose.postData.result_type = 'TYPE'+(isNumberType+1);
+      document.querySelector(".progress-bar__inner").style.width = "100%";
+      this.disableOptionAnswer();
+      this.postMessage('postData', this.dataDiagnose.postData);
+    } else if (getKeyMax.length > 1) {
+      var keyLastCareer = 'Q'+ (this.dataDiagnose.numberQuestion + 1)
+      if (this.keyExistInObj(this.dataDiagnose.listQuestion, keyLastCareer)) {
+        this.createLastQsCareer(keyLastCareer);
+      }
+    } 
+  }
+  
+  Career.prototype.createLastQsCareer = function (key) {
+    var self = this,  
+      lastQsCareer = this.dataDiagnose.listQuestion[key];
+    
+    /**
+     *  @description Fix bug object return order random
+     *  Random sort key key object
+     */ 
+    var orderedLastQsCareer = Object.keys(lastQsCareer).sort().reduce(
+      function(obj, key) { 
+        obj[key] =lastQsCareer[key]; 
+        return obj;
+      }, 
+      {}
+    );
+
+    var filterOptionLastCareer = Object.fromEntries(
+        Object.entries(orderedLastQsCareer).filter(function([key, value]) {
+          return key !== "text";
+        })),
+      answerList = document.querySelector('.qs-answer');
+    
+    self.dataDiagnose.maxDiagnose +=1;
+    self.dataDiagnose.numberQuestion +=1;
+    if (self.checkObjNotEmpty(lastQsCareer)) {
+      this.createQuestion(lastQsCareer);
+    }
+  
+    answerList.innerHTML = "";
+    if (self.checkObjNotEmpty(filterOptionLastCareer)) {
+      for (var option in filterOptionLastCareer) { 
+        function evtCheckHandler(e) {
+          var type =  e.target.value;
+          self.dataDiagnose.postData.result_type = type;
+          self.disableOptionAnswer();
+          document.querySelector(".progress-bar__inner").style.width = "100%";
+
+          /** 
+           * add last answer to object (if total question = 26)
+           * @type Career anchor
+           * @examble data: {"2":"0","3":"3","4":"2",...}
+           */
+          self.dataDiagnose.postData.data[self.dataDiagnose.numberQuestion] = e.target.value;
+
+          self.postMessage('postData', self.dataDiagnose.postData);
+        }
+    
+        answerList.appendChild(
+          this.ComponentOptionAnswer({
+            id: option,
+            name: "", 
+            value: option, 
+            text_label: filterOptionLastCareer[option], 
+            evtCheckHandler: evtCheckHandler })
+            );
+      }
+    }
+  }
+  
+  var isBaseQs = new baseQuestion();
+  
+  window.isDiagnose = function(params) { 
+    var e = null, isSuccess = false;
+    try { 
+      switch((params.type||'').toLowerCase()) {
+        case "ios":
+          var ios = new iOS();
+           break;
+        case "android": 
+          var android = new Android();
+          break;
+        default:
+      }
+      isBaseQs.init(params);
+      isSuccess = true;
+    } catch (error) {
+      e = error.message;
+    }
+    isBaseQs.postMessage('loadFinished', {error: e, "success": isSuccess});
+    return isSuccess;
+  }
+  isBaseQs.postMessage('javascriptLoaded', {"success": true});
+  })()
+    </script>
+    <!-- <script type="text/javascript" src="js/enneagram.js"></script> -->
+  </body>
+</html>

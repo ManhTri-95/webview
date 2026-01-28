@@ -1,0 +1,355 @@
+<style>
+  body {
+  /* background: #fff; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  background: linear-gradient(
+    180deg,
+    #b9e7ff 0%,
+    #aee8ff 25%,
+    #b5f4ff 55%,
+    #d0faff 100%
+  );
+  min-height: 100vh;
+}
+
+.note-wrapper {
+  position: relative;
+  width: 900px;
+  height: 180px;
+}
+
+/* lớp nền cam đất đậm phía sau */
+.note-background {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 100%;
+  height: 100%;
+  background: #f2c77a; /* cam đất đậm */
+  border-radius: 28px;
+}
+
+/* thẻ chính nổi phía trên */
+.note-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  background: #ffe4b8; /* màu sáng hơn */
+  border-radius: 28px;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* phần bên trái có hai chấm */
+.note-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 120px;
+  margin-right: -10px;
+  z-index: 2;
+}
+
+.dot {
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+/* phần nội dung */
+.note-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 20px 40px;
+}
+
+.check-list {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.check-icon svg {
+  width: 36px;
+  height: 36px;
+  display: block;
+}
+
+
+/* ------------------------------- */
+/* container tổng */
+.compare-container {
+  position: relative;
+  display: flex;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #b3ebff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 2 box sát nhau */
+.compare-box {
+  background: #fff;
+  width: 420px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.compare-box.left {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.compare-box.right {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* header màu */
+.compare-box.left .compare-header {
+  background: #2c78d9;
+  color: #fff;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 12px;
+}
+.compare-box.left .compare-header span {
+  color: #fff200;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.compare-box.right .compare-header {
+  background: #ff7b00;
+  color: #fff;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 12px;
+}
+.compare-box.right .compare-header span {
+  color: #fff;
+  font-weight: 800;
+  font-size: 22px;
+}
+
+/* ảnh */
+.compare-image img {
+  width: 100%;
+  display: block;
+}
+
+/* phần text */
+.compare-text {
+  padding: 16px 20px 24px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #222;
+}
+
+/* mũi tên overlay giữa hai box */
+.arrow-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.arrow {
+  background: #fff;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 34px;
+  color: #f9c338;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.background-gradient {
+  background: linear-gradient(90deg, #b3e7ff 0%, #dcd6ff 100%);
+  /* hoặc nếu muốn nhẹ hơn: */
+  /* background: linear-gradient(90deg, #c8ecff 0%, #e7e0ff 100%); */
+
+  width: 100%;
+  height: 285px; /* hoặc auto tùy layout */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.steps-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 60px; /* khoảng cách giữa các vòng */
+  padding: 60px 0;
+}
+
+.step {
+  position: relative;
+  text-align: center;
+}
+
+.step-circle {
+  width: 180px;
+  height: 180px;
+  background-color: #fff;
+  border: 4px solid #ffc000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.step-circle p {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.step-pin {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffc000;
+  color: #333;
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  width: 42px;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+</style>
+
+<body>
+  <div class="note-wrapper">
+    <div class="note-background"></div>
+    <div class="note-card">
+      <div class="note-side">
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div class="note-content">
+        <div class="check-list">
+          <div class="check-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" stroke="#6DC24B" stroke-width="2.2" fill="none" />
+              <path d="M7.5 12.3l3.1 3.1 6-6.2" stroke="#6DC24B" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="check-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" stroke="#6DC24B" stroke-width="2.2" fill="none" />
+              <path d="M7.5 12.3l3.1 3.1 6-6.2" stroke="#6DC24B" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="width: 100%"></div>
+<div class="compare-container">
+  <div class="compare-box left">
+    <div class="compare-header">
+      欲しい要員が <span>全然いない…</span>
+    </div>
+    <div class="compare-image">
+      <img src="https://placehold.co/420x260?text=Sad+Engineer" alt="Before" />
+    </div>
+    <div class="compare-text">
+      条件に合うエンジニアがいなくて、<br />
+      提案が進まない。<br />
+      このままだと見つからないぞ…
+    </div>
+  </div>
+
+  <div class="arrow-wrapper">
+    <div class="arrow">➜</div>
+  </div>
+
+  <div class="compare-box right">
+    <div class="compare-header">
+      欲しい要員が <span>めちゃいる！</span>
+    </div>
+    <div class="compare-image">
+      <img src="https://placehold.co/420x260?text=Happy+Engineer" alt="After" />
+    </div>
+    <div class="compare-text">
+      「Javaでの開発歴5年だって？！」<br />
+      「この人はpythonもできるのか！」<br />
+      今すぐアプローチしよう！
+    </div>
+  </div>
+
+  
+</div>
+<div class="background-gradient">
+  <div style="text-align:center;">
+    <div style="
+      background:#fff;
+      display:inline-block;
+      padding:6px 14px;
+      border-radius:4px;
+      font-size:18px;
+      color:#ff8a3c;
+      margin-bottom:10px;
+      font-weight:600;
+    ">
+      これらの問題全て
+    </div>
+    <div style="
+      font-size:38px;
+      color:#ff8a3c;
+      font-weight:700;
+      margin-top:8px;
+    ">
+      Engibaseで叶えます
+    </div>
+  </div>
+  <img src="https://placehold.co/100x100?text=💡" alt="light" style="margin-left:20px;" />
+</div>
+
+<div class="steps-container">
+  <div class="step">
+    <div class="step-pin">01</div>
+    <div class="step-circle">
+      <p>欲しい案件・要員を<br>瞬時に「検索！」</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-pin">02</div>
+    <div class="step-circle">
+      <p>提案と紹介が<br>「スムーズ！」</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-pin">03</div>
+    <div class="step-circle">
+      <p>提案〜契約まで<br>Engibase1つで完結！</p>
+    </div>
+  </div>
+</div>
+</body>

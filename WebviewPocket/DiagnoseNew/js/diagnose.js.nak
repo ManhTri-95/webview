@@ -1,0 +1,1096 @@
+(function (){
+  function extend (base, constructor) {
+    var prototype = new Function();
+    prototype.prototype = base.prototype;
+    constructor.prototype = new prototype();
+    constructor.prototype.constructor = constructor;
+  }
+  
+  window.baseQuestion = function(){}
+  
+  baseQuestion.prototype.dataDiagnose = {
+    currentQuestion: 0,
+    numberQuestion: 1,
+    maxDiagnose: 0,
+    listQuestion: {},
+    optionAnswer: {},
+    //isType: null,
+    postData: {
+      type: null,
+      result_type: null,
+      data: {},
+    }
+  }
+
+  baseQuestion.prototype.isParamsDiagonse = function (obj) {
+    return 'career_anchor' in obj && 
+      'enneagram' in obj && 
+      'first_question' in obj && 
+      'start_page' in obj;
+  }
+  
+  baseQuestion.prototype.init = function(params) {
+    if (this.checkObjNotEmpty(params)) {
+      this.response = params;
+      this.data = this.response.data;
+
+      //if (this.isParamsDiagonse(this.data)) { 
+        this.dataFirstDiagnose = this.data.first_question;
+        this.dataEnneagram = this.data.enneagram;
+        this.dataCareer = this.data.career_anchor;
+      
+        this.dataP16Types = this.data.p16_types;
+        this.startPage = this.data.start_page;
+      
+        this.baseUrl = 'https://' + location.host;
+        this.createUIPageStart();
+        this.createUIPageDiagnose();
+        
+        this.dataDiagnose.listQuestion = this.dataFirstDiagnose || null;
+        //this.handleFirstDiagnose(this.dataDiagnose.listQuestion);
+        this.createQuestion(this.dataDiagnose.listQuestion);
+
+      //} 
+    } else {
+      this.postMessage('logError', { error: 'Data passed in is correct' });
+    }
+  }
+
+  baseQuestion.prototype.createComponent = function(tag, className, textContent, attributes = {}) {
+    const element = document.createElement(tag);
+    element.className = className || "";
+    element.textContent = textContent || "";
+  
+    for (const [key, value] of Object.entries(attributes)) {
+      element.setAttribute(key, value);
+    }
+  
+    return element;
+  }
+  
+  baseQuestion.prototype.createUIPageStart = function() { 
+    const { title, description, img: dataP16Img } = this.dataP16Types;
+    const { text_top, img: startPageImg , text_bottom } = this.startPage; 
+
+    const body = document.body;
+
+    const container = document.createElement("div");
+    container.className = "container start-diagnose";
+    container.setAttribute("id", "start_diagnose");
+  
+    const main = document.createElement("section");
+    main.className = "main-container";
+
+    // UI new Diagnose
+    const elNewTitlle = this.createComponent('div', 'header-title text-truncate', title);
+    const elNewBanner = this.createComponent('div', 'banner mt-15 text-center', null);
+    elNewBanner.appendChild(this.createComponent('img', '', null, { src: dataP16Img }));
+    const elNewContent = this.createComponent('div', 'p-15', description);
+    const elNewBtnStartDiagnose =  this.createComponent('div', 'p-15 text-center', null);
+
+    elNewBtnStartDiagnose.appendChild(this.ComponentButton({ 
+      text: '<small class="">16タイプ診断　</small>診断スタート！', 
+      isClass: "btn--primary btn-start w-100", 
+      pressHandler: this.evtNextPageDiagnose.bind(this) 
+    }));
+  
+    const elTitle = this.createComponent('div', 'header-title text-truncate', text_top);
+
+    const banner = this.createComponent('div', 'banner mt-15 text-center', null, { id: 'banner' });
+    banner.appendChild(this.createComponent('img', '', null, { src: startPageImg }));
+
+    const content = this.createComponent('div', 'p-15', text_bottom);
+
+    const elBtnStartEnneagram = this.createComponent('div', 'p-15 text-center', null);
+    elBtnStartEnneagram.appendChild(this.ComponentButton({ 
+      text: "性格診断　スタート！", 
+      isClass: "btn--primary btn-start w-100", 
+      additionalAttributes: {
+        'data-type': 'enneagram'
+      },
+      pressHandler: this.evtNextPageDiagnose.bind(this) 
+    }));
+
+    const elBtnStartCarrierAnchor = this.createComponent('div', 'p-15 text-center', null);
+    elBtnStartCarrierAnchor.appendChild(this.ComponentButton({ 
+      text: "適性診断　 ⭢スタート！", 
+      isClass: "btn--primary btn-start w-100",
+      additionalAttributes: {
+        'data-type': 'career_anchor'
+      },
+      pressHandler: this.evtNextPageDiagnose.bind(this) 
+    }));
+  
+    main.append(elNewTitlle, elNewBanner, elNewContent, elNewBtnStartDiagnose, 
+      elTitle, banner, content);
+    container.prepend(this.ComponentHeader("診断コンテンツ", "start_diagnose"), main, elBtnStartEnneagram, elBtnStartCarrierAnchor);
+    body.prepend(container);
+  }
+
+  
+  baseQuestion.prototype.createUIPageDiagnose = function () { 
+    var isPage = "diagnose",
+      textLabel = "";
+
+    const body = document.body;
+  
+    const container = this.createComponent("div", "container hide", null, { id: "diagnose" });
+    const main = this.createComponent("section", "main-container");
+    const wrapperQs = this.createComponent("div", "wrapper-qs");
+    const qsItem = this.createComponent("div", "qs-item");
+    const qsItemTop = this.createComponent("div", "qs-item__top");
+    const qsNumber = this.createComponent("div", "qs-number");
+    const textNumber = this.createComponent("span", "", null, { id: "number-question" });
+    const qsItemBody = this.createComponent("div", "qs-item__body");
+    const qsQuestion = this.createComponent("div", "qs-question", null, { id: "question" });
+    const qsAnswer = this.createComponent("div", "qs-answer");
+  
+
+    qsNumber.appendChild(textNumber);
+    qsItemTop.appendChild(qsNumber);
+  
+    qsItemBody.prepend(qsQuestion, qsAnswer, this.ComponentProgress());
+  
+    qsItem.prepend(qsItemTop, qsItemBody);
+    wrapperQs.appendChild(qsItem);
+    main.appendChild(wrapperQs);
+  
+    // add groot body
+    container.prepend(this.ComponentHeader(textLabel, isPage), main);
+    body.prepend(container)
+  }
+  
+  /**
+   * create component Header
+   * @returns HTML
+   */
+  baseQuestion.prototype.ComponentHeader = function(text, typePage) {
+    var header = document.createElement("herder");
+    header.className ="header-container";
+  
+    var headerTop =  document.createElement("div"),
+      btnTop = document.createElement("a"),
+      icon = document.createElement("img"),
+      headerLabel = document.createElement("div");
+      headerLabel.className = "header-label text-truncate";
+      headerLabel.textContent = text || "";
+      
+    switch(typePage) {
+      case "start_diagnose":
+        headerTop.className = "header-top";
+        btnTop.className ="btn-top";
+        icon.setAttribute("src", this.baseUrl + '/assets/images/ic_arrow_back.png');
+        btnTop.addEventListener("click", this.evtBackHomPage.bind(this))
+        break;
+      case "diagnose":
+        headerTop.className = "header-top text-right";
+        btnTop.className ="btn-top btn-open";
+        icon.setAttribute("src",  this.baseUrl + '/assets/images/icon-close.png');
+        icon.setAttribute("width","33");
+        btnTop.addEventListener("click", this.evtOpenModal.bind(this))
+        break;
+    }
+    btnTop.appendChild(icon);
+    headerTop.appendChild(btnTop);
+    header.prepend(headerTop, headerLabel);
+  
+    return header;
+  }
+  
+  /**
+   * create component progress bar
+   * @returns HTML
+   */
+  baseQuestion.prototype.ComponentProgress = function () {
+    var progressWrapper = document.createElement("div"),
+      textProgressLeft = document.createElement("span"),
+      textProgressRight = document.createElement("span"),
+      progressBar = document.createElement("div"),
+      progressBarInner = document.createElement("div");
+  
+    progressWrapper.className = "qs-progress"
+  
+    textProgressLeft.className = "progress-bar-text left";
+    textProgressLeft.textContent = "0%";
+  
+    textProgressRight.className = "progress-bar-text right";
+    textProgressRight.textContent = "100%";
+  
+    progressBar.className = "progress-bar";
+  
+    progressBarInner.className = "progress-bar__inner";
+    progressBarInner.setAttribute("id", "progressMeter")
+    
+    progressBar.appendChild(progressBarInner);
+    progressWrapper.prepend(textProgressLeft, textProgressRight, progressBar)
+   
+    return progressWrapper;
+  }
+  
+  /**
+   * create component Button
+   * @returns HTML
+   */
+  baseQuestion.prototype.ComponentButton = function({text, isClass, pressHandler, additionalAttributes}) { 
+    var button = document.createElement("button");
+      button.className = 'btn ' + isClass;
+      button.innerHTML = text;
+
+    if (additionalAttributes) {
+      for (var attribute in additionalAttributes) {
+        button.setAttribute(attribute, additionalAttributes[attribute]);
+      }
+    }
+
+    button.addEventListener("click", pressHandler);
+  
+    return button;
+  }
+  
+  baseQuestion.prototype.ComponentOptionAnswer = function ({
+    id, 
+    name, 
+    value, 
+    data_text = "",
+    data_point = "", 
+    data_group = "", 
+    data_type = "", 
+    text_label, 
+    evtCheckHandler
+  }) {
+
+    const answerItemDiv = this.createComponent("div", "qs-answer__option");
+  
+  
+    const answerCheckInput = this.createComponent("input", "", "", {
+      type: "radio",
+      value,
+      id,
+      name,
+      data_point,
+      data_group,
+      data_type,
+      data_text
+    });
+    answerCheckInput.addEventListener("change", evtCheckHandler);
+  
+    const answerLabel = this.createComponent("label", "qs-answer-item text-center", text_label, {
+      for: id
+    });
+  
+    answerItemDiv.append(answerCheckInput, answerLabel);
+  
+    return answerItemDiv
+  }
+  
+  /**
+   * create component Modal
+   * @returns HTML
+   */
+  baseQuestion.prototype.ComponentModal = function() {
+    var modal = document.createElement("div"),
+      modalDialog = document.createElement("div"),
+      modalBody = document.createElement("div"),
+      modalFooter = document.createElement("div"),
+      textTitle = document.createElement("p");
+      footerInner = document.createElement("div");
+  
+    modal.className = "modal";
+    modalDialog.className = "modal-dialog";
+    modalBody.className = "modal-body";
+    textTitle.className = "text-center modal-title fs-16";
+    textTitle.textContent = "診断を続けますか？";
+    modalFooter.className = "modal-footer text-center";
+    footerInner.className = "group-btn";
+  
+    footerInner.prepend(
+      this.ComponentButton({
+        text: "やめる", 
+        isClass: "btn--light", 
+        pressHandler: this.evtBackStartPage.bind(this)}),
+      this.ComponentButton({
+        text: "続ける", 
+        isClass: "btn--success", 
+        pressHandler: this.evtCloseModal
+      })
+    );
+    modalFooter.appendChild(footerInner);
+    modalBody.prepend(textTitle);
+    modalDialog.prepend(modalBody, modalFooter);
+    modal.appendChild(modalDialog);
+  
+    return modal;
+  }
+   
+  baseQuestion.prototype.createDiagnoseQs = function(diagnoseQuestion) {
+    console.log(diagnoseQuestion)
+    if (this.checkObjNotEmpty(diagnoseQuestion)) {
+      this.createQuestion(diagnoseQuestion);
+      this.createAnswerOption(diagnoseQuestion);
+    }
+  }
+  
+  baseQuestion.prototype.createQuestion = function(diagnoseQuestion) {  
+    if (this.keyExistInObj(diagnoseQuestion, key = 'text')) {
+      var questionNumber = document.getElementById("number-question"),
+        questionsText = document.getElementById("question");
+      questionsText.textContent = diagnoseQuestion.text;
+      questionNumber.textContent = this.dataDiagnose.numberQuestion;
+    }
+  }
+  
+  baseQuestion.prototype.createAnswerOption = function(diagnoseQuestion) {
+    const self = this;
+    const  answerList = document.querySelector('.qs-answer');
+    answerList.innerHTML = "";
+
+    const evtCheckHandler = (e) => { 
+      const data_point = e.target.getAttribute("data-point");
+
+      if (self.dataDiagnose.numberQuestion < self.dataDiagnose.maxDiagnose) { 
+        self.dataDiagnose.currentQuestion += 1;
+        self.dataDiagnose.numberQuestion += 1;
+
+        const toDiagnose = (self.dataDiagnose.postData.type === "enneagram")
+          ?  listAnswers[option].next
+          : 'Q' + self.dataDiagnose.numberQuestion;
+
+        self.dataDiagnose.postData.data[self.dataDiagnose.currentQuestion] = toDiagnose;
+        self.evtNextDiagnoseQs(toDiagnose);
+      } else {
+
+      }
+    };
+
+    let listAnswers = diagnoseQuestion.answers;
+    for (const option in listAnswers) { 
+      
+    const evtCheckHandler = (e) => { 
+      const data_point = e.target.getAttribute("data-point");
+
+      if (self.dataDiagnose.numberQuestion < self.dataDiagnose.maxDiagnose) { 
+        self.dataDiagnose.currentQuestion += 1;
+        self.dataDiagnose.numberQuestion += 1;
+
+        const toDiagnose = (self.dataDiagnose.postData.type === "enneagram")
+          ?  listAnswers[option].next
+          : 'Q' + self.dataDiagnose.numberQuestion;
+
+        self.dataDiagnose.postData.data[self.dataDiagnose.currentQuestion] = toDiagnose;
+        self.evtNextDiagnoseQs(toDiagnose);
+      } else {
+
+      }
+    };
+      /*function evtCheckHandler(e) { 
+    
+        let toDiagnose;
+        const isPoint = e.target.getAttribute("data_point"); 
+        
+        if (self.dataDiagnose.numberQuestion < self.dataDiagnose.maxDiagnose) { 
+          self.dataDiagnose.currentQuestion += 1;
+          self.dataDiagnose.numberQuestion += 1;
+
+          if (self.dataDiagnose.postData.type == "enneagram") { 
+            toDiagnose = listAnswers[option].next;
+
+            self.dataDiagnose.postData.data[self.dataDiagnose.currentQuestion] = toDiagnose;
+
+          } else if (self.dataDiagnose.postData.type == "career_anchor") {
+            toDiagnose = 'Q'+self.dataDiagnose.numberQuestion;
+            console.log(toDiagnose)
+          }
+
+          self.evtNextDiagnoseQs(toDiagnose);
+        } else {
+          
+        }
+        
+      } */
+
+      answerList.appendChild(
+        this.ComponentOptionAnswer({
+          id: 'diagnose-'+this.dataDiagnose.numberQuestion+'-'+option,
+          name: 'diagnose['+ this.dataDiagnose.numberQuestion + '][]',
+          value: option,
+          data_text:  listAnswers[option].text, 
+          data_point: listAnswers[option].point,
+          data_group: listAnswers[option].group, 
+          text_label: listAnswers[option].text,
+          evtCheckHandler: evtCheckHandler
+        })
+      );
+
+  
+    }
+
+    // for (var option in this.dataDiagnose.optionAnswer) {
+    //   function evtCheckHandler(e) {
+    //     var toDiagnose, 
+    //     data_point = e.target.getAttribute("data-point");
+       
+    //     if (self.dataDiagnose.numberQuestion < self.dataDiagnose.maxDiagnose) {
+    //       self.dataDiagnose.currentQuestion += 1;
+    //       self.dataDiagnose.numberQuestion += 1;
+    //       if (self.dataDiagnose.postData.type == "enneagram") {
+    //         toDiagnose = diagnoseQuestion[data_point];
+           
+    //         /** 
+    //          * add answer to object
+    //          * @type enneagram
+    //          * @examble data: {"2":"Q3","3":"Q4","4":"Q6",...}
+    //          */
+    //         self.dataDiagnose.postData.data[self.dataDiagnose.currentQuestion] = toDiagnose;
+
+    //       } else if (self.dataDiagnose.postData.type == "career_anchor") {
+    //         toDiagnose = 'Q'+self.dataDiagnose.numberQuestion;
+    //         self.argolithmCareer(data_point, e.target.getAttribute("data-group"));
+
+    //         /** 
+    //          * add answer to object
+    //          * @type Career anchor
+    //          * @examble data: {"2":"0","3":"3","4":"2",...}
+    //         */
+    //         self.dataDiagnose.postData.data[self.dataDiagnose.currentQuestion] = e.target.value;
+           
+    //       }
+    //       self.evtNextDiagnoseQs(toDiagnose);
+    //     } else {
+    //       switch(self.dataDiagnose.postData.type) {
+    //         case "enneagram": 
+    //            //add answer to object
+    //           self.dataDiagnose.postData.data[self.dataDiagnose.numberQuestion] = diagnoseQuestion[data_point];
+
+    //           self.dataDiagnose.postData.result_type = diagnoseQuestion[data_point];
+    //           self.disableOptionAnswer();
+    //           document.querySelector(".progress-bar__inner").style.width = "100%";
+    //           self.postMessage("postData", self.dataDiagnose.postData)
+    //           break;
+    //         case "career_anchor":
+    //           self.argolithmCareer(data_point, e.target.getAttribute("data-group"));
+    //           //add answer to object
+    //           var selectOption = e.target.getAttribute("data_text");
+    //           self.dataDiagnose.postData.data[self.dataDiagnose.numberQuestion] = e.target.value;
+
+    //           self.compareCareer();
+
+    //           break;
+    //       }
+    //     }
+    //     console.log(self.dataDiagnose.postData.data)
+    //   }
+    //   answerList.appendChild(
+    //     this.ComponentOptionAnswer({
+    //       id: 'diagnose-'+this.dataDiagnose.numberQuestion+'-'+option, 
+    //       name: 'diagnose['+ this.dataDiagnose.numberQuestion + '][]',
+    //       value: option,
+    //       data_text: this.dataDiagnose.optionAnswer[option].text, 
+    //       data_point: this.dataDiagnose.optionAnswer[option].point, 
+    //       data_group: diagnoseQuestion.group, 
+    //       text_label: this.dataDiagnose.optionAnswer[option].text, 
+    //       evtCheckHandler: evtCheckHandler })
+    //       );
+    // }
+  }
+  
+  
+  baseQuestion.prototype.disableOptionAnswer = function () {
+    var answerOption = document.querySelectorAll(".qs-answer__option");
+    for (var i = 0;i < answerOption.length; i++) {
+      answerOption[i].classList.add("disabled", "not-allow");
+    }
+  }
+  
+  baseQuestion.prototype.restartDiagnose = function () {
+    this.dataDiagnose.currentQuestion = 0;
+    this.dataDiagnose.numberQuestion = 1;
+    this.dataDiagnose.maxDiagnose = 0;
+    this.dataDiagnose.listQuestion = {}  
+    this.dataDiagnose.optionAnswer = {}
+    this.dataDiagnose.postData.type = null;
+    this.dataDiagnose.postData.result_type = null;
+    this.dataDiagnose.listQuestion = this.dataFirstDiagnose || null;
+    //this.handleFirstDiagnose(this.dataDiagnose.listQuestion);
+    this.createQuestion(this.dataDiagnose.listQuestion);
+    document.querySelector(".progress-bar__inner").style.width = "0%";
+  }
+  
+  baseQuestion.prototype.evtBackHomPage = function() {
+    this.postMessage('backPage', { "value":"home"} );
+  }
+  
+  baseQuestion.prototype.evtNextPageDiagnose = function (e) {
+    document.getElementById("start_diagnose").classList.add('hide');
+    document.querySelector('body').appendChild(this.ComponentModal());
+    document.getElementById("diagnose").classList.remove('hide');
+    this.fadeInRight(document.getElementById("diagnose"));
+
+    const typeDiagnose = e.target.getAttribute('data-type');
+
+    switch (typeDiagnose) {
+      case 'enneagram':
+        var enneagrame = new Enneagrame();
+        enneagrame.initEnneagrame(this.dataEnneagram, typeDiagnose);
+        break;
+      case 'career_anchor':
+        var career = new Career();
+        career.initCareer(this.dataCareer, typeDiagnose);
+        break
+    }
+  
+  }
+  
+  baseQuestion.prototype.evtNextDiagnoseQs = function(key) {
+    if (this.keyExistInObj(this.dataDiagnose.listQuestion, key)) {
+      this.createDiagnoseQs(this.dataDiagnose.listQuestion[key]);
+      this.showProgress();
+    }
+  }
+  
+  baseQuestion.prototype.evtOpenModal = function() {
+    document.querySelector('.modal').classList.add("fadeinBottom");
+  }
+  
+  baseQuestion.prototype.evtCloseModal = function() {
+    document.querySelector('.modal').classList.remove("fadeinBottom");
+  }
+  
+  baseQuestion.prototype.evtBackStartPage= function() {
+    var self = this;
+    //this.postMessage('backPage', { "value":"start_diagnose"})
+    document.querySelector('.modal').classList.remove("fadeinBottom");
+    setTimeout(function() {
+      self.restartDiagnose();
+      document.getElementById("diagnose").classList.add('hide');
+      document.getElementById("start_diagnose").classList.remove('hide');
+      document.querySelector('.modal').remove();
+  }, 500);
+  }
+  
+  baseQuestion.prototype.showProgress = function() {
+    var increment = Math.ceil((this.dataDiagnose.currentQuestion) / (this.dataDiagnose.maxDiagnose) * 100);
+      progressMeter = document.getElementById("progressMeter");
+      progressMeter.style.width = (increment) + '%';
+  } 
+  
+  baseQuestion.prototype.findSecondQuestion = function () {
+    return this.dataDiagnose.listQuestion.Q2;
+  }
+  
+  baseQuestion.prototype.fadeInRight = function(elem) {
+    var self = this,
+      styleElem = window.getComputedStyle(elem),
+      matrix = new WebKitCSSMatrix(styleElem.transform),
+      widthDevice = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    if (matrix.m41 <= 0) {
+      elem.style.transform = "translateX(0px)"
+      return; 
+    }
+    if(widthDevice >= 768) {
+      elem.style.transform = "translateX(" +  Number(matrix.m41 - 50) + "px)";
+    } else {
+      elem.style.transform = "translateX(" +  Number(matrix.m41 - 15) + "px)";
+    }
+    setTimeout(function () {
+      self.fadeInRight(elem);
+    }, 10);
+  }
+
+  /**
+   * Check key in object exist or not exist 
+   * @param {*} obj 
+   * @param {*} key 
+   */
+  baseQuestion.prototype.keyExistInObj = function (obj, key) {
+    var isCheckKey = false;
+    if (!obj.hasOwnProperty(key)) {
+      this.postMessage('logError', { error: 'key ' + key + ' does not exist' })
+      isCheckKey = false;
+    } else {
+      isCheckKey = true;
+    }
+    return isCheckKey
+  }
+
+  /**
+   * Check type and object empty
+   * @param {*} obj 
+   * @returns boolean
+   */
+  baseQuestion.prototype.checkObjNotEmpty = function (obj) {
+    var isCheckObject = false;
+    if (Object.keys(obj).length === 0 ) {
+      isCheckObject = false;
+      this.postMessage('logError', { error: 'Object is empty' });
+    } else if (obj.constructor !== Object) {
+      isCheckObject = false;
+      this.postMessage('logError', { error: 'Parameter is not a object' });
+    } else {
+      isCheckObject = true;
+    }
+
+    return isCheckObject;
+  }
+  
+  baseQuestion.prototype.postMessage = function(fncName, msg){
+    msg = JSON.stringify(msg);
+    
+    if( 'webkit' in window ){
+      window.webkit.messageHandlers[fncName].postMessage(msg);
+    }else if( 'android' in window ) {
+      (window.android || window.Android)[fncName](msg);
+    }
+  }
+  
+  /**
+   * Enneagrame argolithm
+   */
+  window.Enneagrame = function(){
+    baseQuestion.call(this);
+  }
+  
+  extend(baseQuestion, Enneagrame);
+  
+  Enneagrame.prototype.initEnneagrame = function(params, isType) {
+    this.isType = isType;
+    this.params = params;
+    this.objEenneagram();
+  }
+  
+  Enneagrame.prototype.objEenneagram = function() {
+    this.dataDiagnose.listQuestion = this.params.items;
+    this.dataDiagnose.optionAnswer = this.params.answers;
+    this.dataDiagnose.postData.type = this.isType;
+    this.dataDiagnose.maxDiagnose = 9;
+    //this.createDiagnoseQs(Object.values(this.params.items)[0]);
+  
+    //Render first question when select type Enneagrame;
+    if (this.keyExistInObj(this.dataDiagnose.listQuestion, 
+      key = 'Q' + this.dataDiagnose.numberQuestion)
+    ) {
+      this.createDiagnoseQs(this.findSecondQuestion());
+      this.showProgress();
+    }
+  }
+  
+  
+  
+  //Enneagrame.prototype = baseQuestion.prototype;
+  
+  
+  /**
+   * Career anchor argolithm
+   */
+  window.Career = function() {
+    baseQuestion.call(this);
+  }
+  
+  extend(baseQuestion, Career);
+  
+  Career.prototype.initCareer = function(params, isType) {
+    this.isType = isType;
+    this.params = params;
+    this.optScores = {};
+    this.listType = [];
+    this.objCareer();
+  }
+  
+  Career.prototype.objCareer = function() {
+    this.dataDiagnose.listQuestion = this.params.items;
+    this.dataDiagnose.optionAnswer = this.params.answers;
+    this.dataDiagnose.postData.type = this.isType;
+    this.dataDiagnose.maxDiagnose = Object.keys(this.params.items).length;
+    //this.createDiagnoseQs(Object.values(this.params.items)[0], this.isType);
+    //Render first question when select type Career_anchor
+    if ( this.keyExistInObj(this.dataDiagnose.listQuestion, 
+      key = 'Q' + this.dataDiagnose.numberQuestion)
+    ) {
+      this.createDiagnoseQs(this.findSecondQuestion());
+      this.showProgress();
+    }  
+    this.assignObjScore();
+  }
+  
+  Career.prototype.assignObjScore = function () {
+    var self = this,
+    listCareer = Object.values(this.dataDiagnose.listQuestion),
+    listGroup = [],
+    uniqueGroup = [];
+    
+    for (var item of listCareer) {
+      if (item.group) {
+        listGroup.push(item.group)
+      }
+    }
+  
+    // Remove group duplicate
+    listGroup.forEach(function(c) {
+      if (!uniqueGroup.includes(c)) {
+        uniqueGroup.push(c);
+        self.listType =  uniqueGroup.sort();
+      }
+    });
+    // assign object with group type with value = 0
+    uniqueGroup.forEach(function(element) {
+      self.optScores[element] = 0;
+    })
+  }
+  
+  Career.prototype.argolithmCareer = function (point, group) {
+    var self = this;
+    Object.keys(this.optScores).forEach((item) => {
+      if (item == group && typeof this.optScores[item] == "number") {
+        self.optScores[item] += Number(point);  
+      }
+    })
+  }
+  
+  //compare value of object
+  Career.prototype.compareCareer = function () { 
+    var self = this;
+    var max = Math.max(...Object.values(this.optScores)),
+      getKeyMax = Object.keys(this.optScores).filter(function(key) {
+        return self.optScores[key]==max;
+      });
+   
+      if (getKeyMax.length == 1) {
+      var isNumberType = this.listType.findIndex(function(item) {
+        return item == getKeyMax[0];
+      });
+  
+      this.dataDiagnose.postData.result_type = 'TYPE'+(isNumberType+1);
+      document.querySelector(".progress-bar__inner").style.width = "100%";
+      this.disableOptionAnswer();
+      
+      this.postMessage('postData', this.dataDiagnose.postData);
+    } else if (getKeyMax.length > 1) {
+      var keyLastCareer = 'Q'+ (this.dataDiagnose.numberQuestion + 1)
+      if (this.keyExistInObj(this.dataDiagnose.listQuestion, keyLastCareer)) {
+        this.createLastQsCareer(keyLastCareer);
+      }
+    } 
+  }
+  
+  Career.prototype.createLastQsCareer = function (key) {
+    var self = this,  
+      lastQsCareer = this.dataDiagnose.listQuestion[key];
+    
+    /**
+     *  @description Fix bug object return order random
+     *  Random sort key key object
+     */ 
+    var orderedLastQsCareer = Object.keys(lastQsCareer).sort().reduce(
+      function(obj, key) { 
+        obj[key] =lastQsCareer[key]; 
+        return obj;
+      }, 
+      {}
+    );
+
+    var filterOptionLastCareer = Object.fromEntries(
+        Object.entries(orderedLastQsCareer).filter(function([key, value]) {
+          return key !== "text";
+        })),
+      answerList = document.querySelector('.qs-answer');
+    
+    self.dataDiagnose.maxDiagnose +=1;
+    self.dataDiagnose.numberQuestion +=1;
+    if (self.checkObjNotEmpty(lastQsCareer)) {
+      this.createQuestion(lastQsCareer);
+    }
+  
+    answerList.innerHTML = "";
+    if (self.checkObjNotEmpty(filterOptionLastCareer)) {
+      for (var option in filterOptionLastCareer) { 
+        function evtCheckHandler(e) {
+          var type =  e.target.value;
+
+          self.dataDiagnose.postData.result_type = type;
+          self.disableOptionAnswer();
+          document.querySelector(".progress-bar__inner").style.width = "100%";
+
+          // add option select to obj
+          self.dataDiagnose.postData.data[self.dataDiagnose.numberQuestion] = e.target.value;
+          self.postMessage('postData', self.dataDiagnose.postData);
+        }
+    
+        answerList.appendChild(
+          this.ComponentOptionAnswer({
+            id: option,
+            name: "", 
+            value: option, 
+            data_text: filterOptionLastCareer[option],
+            text_label: filterOptionLastCareer[option], 
+            evtCheckHandler: evtCheckHandler })
+            );
+      }
+    }
+  }
+  
+  var isBaseQs = new baseQuestion();
+  
+  window.isDiagnose = function(params) { 
+    var e = null, isSuccess = false;
+    try { 
+      switch((params.type||'').toLowerCase()) {
+        case "ios":
+          var ios = new iOS();
+           break;
+        case "android": 
+          var android = new Android();
+          break;
+        default:
+      }
+      isBaseQs.init(params);
+      isSuccess = true;
+    } catch (error) {
+      e = error.message;
+    }
+    isBaseQs.postMessage('loadFinished', {error: e, "success": isSuccess});
+    return isSuccess;
+  }
+  isBaseQs.postMessage('javascriptLoaded', {"success": true});
+  isDiagnose({
+    "success": true,
+    "code": "GET_DATA_SUCCESS",
+    "data": {
+      "start_page": {
+        "text_top": "あなたのキャリアを導く！性格・適職診断",
+        "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/first_page.png",
+        "text_bottom": "あなたは、仕事でやりたいことはありますか？<br />\n        <br />\nこの診断では、仕事でやりたいことが決まっている方には「あなたの性格から導くステップアップ方法」を、決まっていない方には「あなたの適性」を診断します。あなたのキャリアイメージが少しでも明るくなり、よりマッチしたお仕事が見つかることを祈っています。"
+      },
+      "career_anchor": {
+        "title": "Title career anchor",
+        "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/career-anchor/type_3.png",
+        "description": "国ハクイサ制見切地く回影よや置軍ぱ間際了ハラ厚17校ろぐ更企略イ計所ンみフご前視あでスお関教ゆ度督チロ森背ヨコ奥誌ス。式般ょリふル供済へ光権ケソセユ譲岩チ二症リかや朝61解ケエ放結ムコ警提ド地行ル著員掲ウチツ真洋審ぎがぐっ選階すだほ申面ク区反フど県官軍松みやそ。",
+        "mode": "POINT",
+        "items": {
+          "Q1": {
+            "text": "You are a backend developer ?",
+            "answers": {
+              "A1": {
+                "text": "Yes",
+                "point": 5,
+                "next": "Q2"
+              },
+              "A2": {
+                "text": "No",
+                "point": 1,
+                "next": "Q2"
+              }
+            }
+          },
+          "Q2": {
+            "text": "Which level of your frontend ?",
+            "answers": {
+              "A1": {
+                "text": "A.Beginner",
+                "point": 2,
+                "next": ""
+              },
+              "A2": {
+                "text": "B.Medium",
+                "point": 3,
+                "next": ""
+              },
+              "A3": {
+                "text": "B.High",
+                "point": 5,
+                "next": ""
+              }
+            }
+          }
+        }
+      },
+      "enneagram": {
+        "title": "エニアグラム\tEnneagram Diagnostic",
+        "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/enneagram/type_3.png",
+        "description": "票ラ初承ひえ分出ちすスイ覧畑ねびラド情担止了ソヲ神近試みが問覧般ヲタラ英溶めば捜周6広ミ歌製トゆ。本リヘ助南たへお両券たじ緊沢ムロ合日トチラ飽左れどく連兼ッおひ合碁ホ質発由ふぽいを領治た上省たいざめ種格ぶぼす組断郵ヲ形作マエケサ菱響注距ひ。資でぽラ禁前フモテ晴不ロアス陸家電んちーッ更侮チニノ金75林済系2聞どとび体8狂いども碁世ヱホ勢相型トチヱ文競ひの火万所んれ。",
+        "mode": "TREE",
+        "items": {
+          "Q1": {
+            "text": "Are you a child ?",
+            "answers": {
+              "A1": {
+                "text": "Yes",
+                "point": 0,
+                "next": "Q2"
+              },
+              "A2": {
+                "text": "No",
+                "point": 1,
+                "next": "Q3"
+              }
+            }
+          },
+          "Q2": {
+            "text": "How old are you ?",
+            "answers": {
+              "A1": {
+                "text": "<5",
+                "point": 0,
+                "next": "Q4"
+              },
+              "A2": {
+                "text": ">5",
+                "point": 1,
+                "next": "Q4"
+              },
+              "A3": {
+                "text": "I dont know!",
+                "point": 1,
+                "next": ""
+              }
+            }
+          },
+          "Q3": {
+            "text": "Do you like cartoon ?",
+            "answers": {
+              "A1": {
+                "text": "Yes",
+                "point": 0,
+                "next": "Q4"
+              },
+              "A2": {
+                "text": "No",
+                "point": 1,
+                "next": "Q4"
+              }
+            }
+          },
+          "Q4": {
+            "text": "Color ?",
+            "answers": {
+              "A1": {
+                "text": "RED",
+                "point": 0,
+                "next": ""
+              },
+              "A2": {
+                "text": "BLUE",
+                "point": 1,
+                "next": ""
+              },
+              "A3": {
+                "text": "GREEN",
+                "point": 2,
+                "next": ""
+              },
+              "A4": {
+                "text": "YELLOW",
+                "point": 3,
+                "next": ""
+              }
+            }
+          }
+        }
+      },
+      "p16_types": {
+        "title": "16タイプ診断\t16 types Diagnostic",
+        "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/career-anchor/type_3.png",
+        "description": "国ハクイサ制見切地く回影よや置軍ぱ間際了ハラ厚17校ろぐ更企略イ計所ンみフご前視あでスお関教ゆ度督チロ森背ヨコ奥誌ス。式般ょリふル供済へ光権ケソセユ譲岩チ二症リかや朝61解ケエ放結ムコ警提ド地行ル著員掲ウチツ真洋審ぎがぐっ選階すだほ申面ク区反フど県官軍松みやそ。",
+        "mode": "TREE",
+        "items": {
+          "Q1": {
+            "text": "Question 1",
+            "answers": {
+              "A1": {
+                "text": "Yes",
+                "point": 0,
+                "next": "Q2"
+              },
+              "A2": {
+                "text": "No",
+                "point": 1,
+                "next": "Q3"
+              }
+            }
+          },
+          "Q2": {
+            "text": "Question 2",
+            "answers": {
+              "A1": {
+                "text": "Yes",
+                "point": 1,
+                "next": "Q3"
+              },
+              "A2": {
+                "text": "No",
+                "point": 0,
+                "next": "Q3"
+              }
+            }
+          },
+          "Q3": {
+            "text": "Question 3",
+            "answers": {
+              "A1": {
+                "text": "Yes",
+                "point": 1,
+                "next": "Q4"
+              },
+              "A2": {
+                "text": "No",
+                "point": 0,
+                "next": "Q5"
+              }
+            }
+          },
+          "Q4": {
+            "text": "Question 4",
+            "answers": {
+              "A1": {
+                "text": "Yes",
+                "point": 1,
+                "next": "Q6"
+              },
+              "A2": {
+                "text": "No",
+                "point": 0,
+                "next": "Q6"
+              }
+            }
+          },
+          "Q5": {
+            "text": "Question 5",
+            "answers": {
+              "A1": {
+                "text": "Yes",
+                "point": 1,
+                "next": "Q5"
+              },
+              "A2": {
+                "text": "No",
+                "point": 0,
+                "next": ""
+              }
+            }
+          },
+          "Q6": {
+            "text": "Question 6",
+            "answers": {
+              "A1": {
+                "text": "Yes",
+                "point": 1,
+                "next": ""
+              },
+              "A2": {
+                "text": "No",
+                "point": 0,
+                "next": ""
+              }
+            }
+          }
+        }
+      },
+      "html": "https://www.test.learningpocket.local/diagnostic_new/diagnose.html"
+    },
+    "app_update_mode": ""
+  })
+  //isDiagnose({"type":"android","version":32,"device_name":"Pixel 3a","data":{"start_page":{"text_top":"あなたのキャリアを導く！性格・適職診断","img":"https://d2p333gdzaltfu.cloudfront.net/diagnostic/first_page.png","text_bottom":"あなたは、仕事でやりたいことはありますか？\r\n        \r\nこの診断では、仕事でやりたいことが決まっている方には「あなたの性格から導くステッ\r\nプアップ方法」を、決まっていない方には「あなたの適性」を診断します。あなたのキャ\r\nリアイメージが少しでも明るくなり、よりマッチしたお仕事が見つかることを祈っていま\r\nす。"},"first_question":{"text":"今、仕事でやりたいことは決まっていますか？","yes":"enneagram","no":"career_anchor"},"career_anchor":{"items":{"Q2":{"text":"得意分野があり、それについて周囲の人からよく聞かれることがある","yes":"Q3","no":"Q3","group":"B"},"Q3":{"text":"チームを盛り上げて成果を得ることに、喜びや充実感を覚える","yes":"Q4","no":"Q4","group":"A"},"Q4":{"text":"自分のペースを守りながら、仕事を進めていくことが好きなほうだ","yes":"Q5","no":"Q5","group":"E"},"Q5":{"text":"目の前の自由よりも、将来的な安定や安心を選ぶタイプだと思う","yes":"Q6","no":"Q6","group":"C"},"Q6":{"text":"独自のアイデアや新しい発想などを考えるのが得意なほうだ","yes":"Q7","no":"Q7","group":"D"},"Q7":{"text":"仕事で最も良かったと思うのは、社会の役に立っていると実感できたときだ","yes":"Q8","no":"Q8","group":"F"},"Q8":{"text":"急なトラブルや壁にぶつかったときこそ、逆に燃えてくるほうだ","yes":"Q9","no":"Q9","group":"G"},"Q9":{"text":"家族やプライベートを犠牲にする仕事なら、断るのも仕方ないと思う","yes":"Q10","no":"Q10","group":"H"},"Q10":{"text":"専門的なスキルや体験を積むことが着実な成功につながると信じている","yes":"Q11","no":"Q11","group":"B"},"Q11":{"text":"多くの人に良い影響を与え、育成するポジションを目指している","yes":"Q12","no":"Q12","group":"A"},"Q12":{"text":"自由であればあるほど、パワーに満ちて良い結果を出せると思う","yes":"Q13","no":"Q13","group":"E"},"Q13":{"text":"肩書や給与体制の保証がしっかりしていないと落ち着いて仕事ができない","yes":"Q14","no":"Q14","group":"C"},"Q14":{"text":"企業のトップを狙うよりも、自分で組織をつくることに興味がある","yes":"Q15","no":"Q15","group":"D"},"Q15":{"text":"自分の働きによって周囲から感謝されることが何よりもうれしい","yes":"Q16","no":"Q16","group":"F"},"Q16":{"text":"大きなチャンスや新しい目標を与えられると一気にテンションが上がる","yes":"Q17","no":"Q17","group":"G"},"Q17":{"text":"自分ならプライベートでも仕事でもうまくやれる！と密かに思っている","yes":"Q18","no":"Q18","group":"H"},"Q18":{"text":"管理職になるよりも、現場の一線にいるほうが幸せだと感じる","yes":"Q19","no":"Q19","group":"B"},"Q19":{"text":"チームや組織を引っ張るようなポジションに強い憧れがある","yes":"Q20","no":"Q20","group":"A"},"Q20":{"text":"独創的な考え方をもち、組織のルールに縛られるのが苦手なほうだ","yes":"Q21","no":"Q21","group":"E"},"Q21":{"text":"変化が少ない平穏な環境が自分にとっての理想の職場だと思う","yes":"Q22","no":"Q22","group":"C"},"Q22":{"text":"社会にまだないものやサービスを創りだせたとき、生きている喜びを感じる","yes":"Q23","no":"Q23","group":"D"},"Q23":{"text":"自分が出世することよりも、今の社会が良くなることに興味がある","yes":"Q24","no":"Q24","group":"F"},"Q24":{"text":"同じような毎日の繰り返しだと気持ちが沈んでくるのを感じる","yes":"Q25","no":"Q25","group":"G"},"Q25":{"text":"仕事も家庭もうまくやるために準備を怠らないようにしている","yes":"Q26","no":"Q26","group":"H"},"Q26":{"text":"次のうち、あなたが人生で不可欠だと思うものはどれ？","TYPE1":"物事を見通せる視野の広さ","TYPE2":"熱中してやり通せる集中力","TYPE3":"自分を守ってくれる後ろ盾","TYPE4":"ゼロから１を生みだす行動力","TYPE5":"自分らしさを大切にする気持ち","TYPE6":"人の想いに寄り添える共感力","TYPE7":"決してあきらめない反骨精神","TYPE8":"必要不要を見極められる調整力"}},"answers":[{"point":6,"text":"まったくその通りだと思う"},{"point":4,"text":"どちらかというとそう思う"},{"point":2,"text":"どちらかというとそう思わない"},{"point":0,"text":"まったくそう思わない"}]},"enneagram":{"items":{"Q2":{"text":"自分は行動力があるほうだ ","yes":"Q3","no":"Q4","group":2},"Q3":{"text":"人についていくより引っ張っていきたいほうだ","yes":"Q5","no":"Q6","group":3},"Q4":{"text":"変化よりも安定を望むほうだ","yes":"Q7","no":"Q6","group":3},"Q5":{"text":"人前で話すのが得意なほうだ","yes":"Q8","no":"Q9","group":4},"Q6":{"text":"人と一緒に出かけるのが好きだ","yes":"Q9","no":"Q10","group":4},"Q7":{"text":"友達になるまでかなり時間がかかるほうだ","yes":"Q11","no":"Q10","group":4},"Q8":{"text":"資格を取るのが好きなほうだ","yes":"Q12","no":"Q13","group":5},"Q9":{"text":"本を読んだり、勉強系の動画をよく見たりする","yes":"Q13","no":"Q14","group":5},"Q10":{"text":"夢中になれる趣味や習い事がある","yes":"Q14","no":"Q15","group":5},"Q11":{"text":"休日は家でのんびり過ごすのが好きだ","yes":"Q16","no":"Q15","group":5},"Q12":{"text":"仕事で大きく成功したいと願っている","yes":"Q17","no":"Q18","group":6},"Q13":{"text":"人に目標や夢を語ることがある","yes":"Q18","no":"Q19","group":6},"Q14":{"text":"集中力があるほうだ","yes":"Q19","no":"Q20","group":6},"Q15":{"text":"思っていることの半分も言えないことが多い","yes":"Q21","no":"Q20","group":6},"Q16":{"text":"率直に言うと、転職には興味がないほうだ","yes":"Q22","no":"Q21","group":6},"Q17":{"text":"何事も絶対に失敗したくないと思う","yes":"Q23","no":"Q24","group":7},"Q18":{"text":"人に認められたいという気持ちが強い","yes":"Q24","no":"Q25","group":7},"Q19":{"text":"どちらかというとルーティーンワークは苦手だ","yes":"Q25","no":"Q26","group":7},"Q20":{"text":"人の気持ちをくみ取るのが苦手なほうだ","yes":"Q26","no":"Q27","group":7},"Q21":{"text":"寄付やボランティア活動をしたことがある","yes":"Q27","no":"Q28","group":7},"Q22":{"text":"出世や自己成長にはそれほど興味がないほうだ","yes":"Q29","no":"Q28","group":7},"Q23":{"text":"社会に影響をもつような成功者に憧れる","yes":"Q30","no":"Q31","group":8},"Q24":{"text":"やるなら何事もトップを目指したいと思う","yes":"Q31","no":"Q32","group":8},"Q25":{"text":"成功するには必死に努力しないとダメだと思う","yes":"Q32","no":"Q33","group":8},"Q26":{"text":"何かを決断するときは直感よりデータを重視する","yes":"Q34","no":"Q33","group":8},"Q27":{"text":"仕事は個人よりチームで進めていきたいほうだ (｢はい｣は 35、｢いいえ｣は 34)","yes":"Q35","no":"Q34","group":8},"Q28":{"text":"人に何かを教えてあげることが得意なほうだ (｢はい｣は 35、｢いいえ｣は 36)","yes":"Q35","no":"Q36","group":8},"Q29":{"text":"うまく言葉にできず我慢してしまうことがある (｢はい｣は 37、｢いいえ｣は 36)","yes":"Q39","no":"Q37","group":8},"Q30":{"text":"誰からも認められる理想の自分を目指している (｢はい｣は完全主義者タイプ、｢いいえ｣","yes":"TYPE1","no":"TYPE3","group":9},"Q31":{"text":"実現しない目標はないと強く信じている (｢はい｣は目標達成者タイプ、｢いいえ｣は挑戦","yes":"TYPE3","no":"TYPE8","group":9},"Q32":{"text":"どんなことでも粘り強く頑張れるほうだ (｢はい｣は挑戦者タイプ、｢いいえ｣は楽天家タ","yes":"TYPE8","no":"TYPE7","group":9},"Q33":{"text":"たいていのことは明るく乗り越えられる自信がある (｢はい｣は楽天家タイプ、｢いいえ｣","yes":"TYPE7","no":"TYPE4","group":9},"Q34":{"text":"ものづくりやクリエイティブなことが好きだ (｢はい｣は芸術家タイプ、｢いいえ｣は観","yes":"TYPE4","no":"TYPE5","group":9},"Q35":{"text":"仕事は知的好奇心を満たされるかどうかで選ぶ (｢はい｣は観察者タイプ、｢いいえ｣は献","yes":"TYPE5","no":"TYPE2","group":9},"Q36":{"text":"自分より周りの幸せを優先してしまうことが多い (｢はい｣は献身家タイプ、｢いいえ｣は","yes":"TYPE2","no":"TYPE6","group":9},"Q37":{"text":"仕事では、経済的な安定が何より大切だと思う (｢はい｣は堅実家タイプ、｢いいえ｣は平","yes":"TYPE6","no":"TYPE9","group":9}},"answers":[{"point":"yes","text":"はい"},{"point":"no","text":"いいえ"}]},"html":"https://test-lac.learningpocket.com/diagnostic/diagnose.html"}})
+  })()
+
+
+
+  //isResult({"type":"android","version":32,"device_name":"Pixel 3a","data":{"text":"生活様式タイプ","img":"https://d2p333gdzaltfu.cloudfront.net/diagnostic/career-anchor/type_8.png","aptitude":"あなたは、日々をバランスよく楽しみたいと願っている人です。一見、おっとりしているよ\nうに見えても、仕事とプライベートを上手に両立させながら、どちらの幸せもつかみたいと\nいうしっかり者でもあります。ハードすぎない仕事を長く続けていきたいあなたには、大手\n企業の会社員や残業の少ないデスクワークなどが適しています。育児休暇、有給休暇などの\n制度が整った組織に守られながら、家庭や子育ての時間をもつことが人生を輝かせるでし\nょう。","advice":"あなたがオンでもオフでも笑顔でいられるキーワードは、「両立」「家庭的」「充足感」。仕事\nもプライベートも大切にして両立させることで、キャリアアップしつつも家庭的な幸せを\n得ることができます。きっと年を重ねるごとに自らの人生が充足感に満ちてくることでし\nょう。これは、平凡な幸せのように見えて現代ではハードルの高い理想的な人生でもありま\nす。しっかりと計画性をもって資格取得や人生設計などに取り組むなど、準備することが重\n要です。","customer_comment":[{"text":"現状をお話ししたところ優しく受け止めていただき、これから目指す方向や自分に必要なことを的確に示してもらえました。（30代/女性）","img":"https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_01.png"},{"text":"とてもフレンドリーに話してくださり、ポジティブな気持ちになれました。（60代/女性）","img":"https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_02.png"},{"text":"世の中のキャリアコンサルタントにはこちらの相談をきちんと聞かずに一方的に話すような方もいますが、スタッフサービスのコンサルタントは共感し、励まし、解決の糸口を見つけてくれました。（40代/女性）","img":"https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_03.png"}],"top_rc":{},"bottom_rc":{"doc_id":"129","doc_code":"bdghrkvri8lho1VKCRF","doc_title":"test document 45 new","doc_type":"YOUTUBE","doc_thumb":"https://test-lac.learningpocket.com/uploads/teacher/EvVbU9pomcFgD1JlSt/oi53yrc6gt2f/mt_1253922500_v1_khAi1h8rk.PNG","memo":"このページでは、診断コンテンツ結果ページに表示される動画と紹介文を設定するページです"},"type":"CAREER_ANCHOR","result_type":"TYPE8","user_type":"STAFF","html":"https://test-lac.learningpocket.com/diagnostic/result.html"}})
+

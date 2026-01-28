@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Kuroshiro Browser Demo</title>
+
+</head>
+<body>
+  <h2>Kuroshiro Test - Kiểm tra Console</h2>
+ <script type="module">
+      import * as KuroshiroBundle from 'https://cdn.jsdelivr.net/npm/kuroshiro-browser@0.1.0/+esm';
+     const { Kuroshiro } = KuroshiroBundle;
+
+const kuroshiro = await Kuroshiro.buildAndInitWithKuromoji(true)
+    const result = await kuroshiro.convert("紹介", { to: "katakana" });
+    console.log(result);
+</script>
+</body>
+</html>

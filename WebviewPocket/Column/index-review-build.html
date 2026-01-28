@@ -1,0 +1,943 @@
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="encoding" content="utf-8">
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <meta name="viewport"
+    content="height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <link rel="stylesheet" type="text/css" href="/assets/css/phosphor-icons/bold/style.css">
+  <style>
+   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+:root {
+  --spacer: 20px;
+  --body-font-size: 16px;
+  --body-font-size-lg: 22px;
+  --body-font-size-md: 18px;
+  --body-line-height: 1.5715;
+}
+@font-face {
+  font-family: 'Yugothib'; 
+  src: url('file:///android_asset/fonts/yugothib.ttf');
+  font-weight: normal; /* Độ dày */
+  font-style: normal;  /* Kiểu */
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: var(--body-font-size);
+  line-height: var(--body-line-height);
+  width: 100%;
+  min-height: 100vh;
+  color: #4C4C4C;
+  position: relative;
+  background-color: #fff;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+dd {
+  margin-left: 0;
+}
+
+.hide { display: none!important; visibility: hidden;width: 0; height: 0;}
+
+.not-allow {
+  pointer-events: none;
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-black {
+  color: #000
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.mt-5 {
+  margin-top: 5px!important;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.mb-0 {
+  margin-bottom: 0px!important;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+.mt-20px {
+  margin-top: 20px;
+}
+
+.mr-7px  {
+  margin-right: 7px;
+}
+
+.p-15 {
+  padding: 15px;
+}
+.fs-14 {
+  font-size: 14px!important;
+}
+.fs-16 {
+  font-size: 16px;
+}
+.fs-20 {
+  font-size: 20px;
+}
+
+.f-bold {
+  font-weight: bold;
+}
+
+.fs-lg {
+  font-size: var(--body-font-size-lg) !important;
+}
+
+.fs-md {
+  font-size: var(--body-font-size-md) !important;
+}
+
+.justify-content-between {
+  justify-content: space-between !important;
+}
+.d-flex {
+  display: flex !important;
+}
+
+.d-none {
+  display: none!important;
+}
+
+.my-3 {
+  margin-top: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+}
+
+pre {
+  overflow: auto;
+}
+
+.faker-phone {
+	position: relative;
+	background: #2d3436;
+	width: calc(98px * 4);
+	height: calc(211px * 4);
+	padding: 60px 15px 70px;
+	border-radius: 35px;
+	box-sizing: border-box;
+	
+	&::before {
+		content: '';
+		position: absolute;
+		top: 27px;
+		left: 50%;
+		margin-left: -25px;
+		width: 50px;
+		height: 6px;
+		border-radius: 3px;
+		background: #000;
+		opacity: .7;
+	}
+	
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: 15px;
+		left: 50%;
+		margin-left: -22px;
+		height: 40px;
+		width: 40px;
+		background: rgba(0, 0, 0, .5);
+		border: 2px solid rgba(0, 0, 0, .8);
+		border-radius: 100%;
+	}
+	
+	&--screen {
+		width: 100%;
+		height: 100%;
+		background: #fff;
+		overflow: auto;
+		position: relative;
+	}
+}
+
+.faker-phone--screen {
+  overflow: auto;
+  height: 100%;
+  max-height: 100%;
+  background-color: #fff;
+  position: relative;
+}
+
+.faker-phone--screen::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.faker-phone--screen::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.faker-phone--screen::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.faker-phone--screen::-webkit-scrollbar-thumb:hover {
+  background: #555;
+} 
+
+.page-content {
+  width: 100%;
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+
+.container {
+  width: 100%;
+  padding-right: var(--spacer, .75rem);
+  padding-left: var(--spacer, .75rem);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.header-top {
+  height: 48px;
+  position: relative;
+}
+
+.content-inner {
+  padding: var(--spacer) 1.25rem;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  word-break: break-all;
+}
+
+.badge {
+  --badge-padding-x: 0.4375rem;
+  --badge-padding-y: 0.3125rem;
+  --badge-font-weight: 600;
+  --badge-color: #000;
+  --badge-background: pink;
+  --badge-border-radius: var(--border-radius-sm);
+  display: inline-block;
+  padding: var(--badge-padding-y) var(--badge-padding-x);
+  font-weight: var(--badge-font-weight);
+  line-height: 1;
+  color: var(--badge-color);
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: var(--badge-border-radius);
+  background-color: var(--badge-background);
+}
+
+.badge-style {
+  max-width: 70%; /* Giới hạn chiều rộng của badge */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.date {
+  white-space: nowrap;
+}
+
+.content-img img {
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table, tr, td { 
+  border: 1px solid gray;
+}
+
+table img {
+  max-width: 100% !important;
+  height: auto;
+}
+
+.toc_container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.toc_container ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.toc_container li ul {
+  padding-left: 30px;
+}
+
+.toc_container li a:not(.btn-arrow) {
+  padding: 10px 0;
+}
+
+.toc-link,
+.btn-arrow {
+  color: gray;
+}
+
+.btn-arrow {
+  text-decoration: none;
+  width: 22px;
+  height: 22px;
+  line-height: 24px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.btn-arrow--gray {
+  background-color: grey;
+  color: #fff;
+}
+
+.toc-submenu {
+  display: none; 
+  overflow: hidden;
+  transition: height 0.3s ease-out;
+}
+
+.toc-submenu li { 
+  margin: 5px 0; 
+}
+
+.toc-submenu.open {
+  display: block;
+}
+
+.btn-arrow {
+  transition: transform 0.3s ease-in-out;
+}
+
+.btn-arrow.open {
+  transform: rotate(-180deg);
+}
+
+.title-doc {
+  --title-doc-font-size: 20px;
+  font-size: var(--title-doc-font-size);
+  margin-bottom: 15px;
+}
+
+.title-doc--h3 {
+  margin-bottom: 10px;
+}
+
+.title-doc--main {
+  --tilte-doc-line-color: pink;
+  padding-left: 8px;
+  border-left: 3px solid var(--tilte-doc-line-color);
+  font-size: var(--title-doc-font-size);
+}
+
+
+/* .title-doc--h3 { 
+  font-size: 18px;
+} */
+
+.content {
+  margin-bottom: 15px;
+}
+
+.content,
+.content-text {
+  word-break: break-word;
+  overflow: hidden;
+}
+
+
+.content *,
+.content-text * {
+  max-width: 100% !important;
+}
+
+.content img {
+  max-width: 100%;
+}
+
+
+.content p {
+  margin-top: 0;
+}
+
+.btn-back-top {
+  z-index: 100;
+  position: fixed;
+  right: 0;
+  bottom: 10%;
+  width: 40px;
+  height: 35px;
+  line-height: 37px;
+  text-align: center;
+  overflow: hidden;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px 0 0 10px;
+  background-color: #999;
+  opacity: 0.8;
+  transition: transform 0.3s ease-in-out;
+  border: none;
+}
+
+.btn-back-top-custom {
+  z-index: 1;
+  position: absolute;
+  right: 16px;
+  bottom: 85px;
+  width: 40px;
+  height: 35px;
+  line-height: 37px;
+  text-align: center;
+  overflow: hidden;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px 0 0 10px;
+  background-color: #999;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  border: none;
+}
+
+.btn-back-top.show {
+  transform: translateX(0);
+  opacity: 0.8;
+}
+
+.btn-back-top-custom.show { 
+  transform: translateX(0);
+  opacity: 0.8;
+}
+
+.web-view-iframe-player{position: relative;width: 100%;height: 100%;}
+.toc-content p:empty {display: none}
+  </style>
+  <!-- <script type="text/javascript" src="js/column-detail.js"></script> -->
+</head>
+
+<body>
+  <script type="text/javascript">
+
+class ColumnDetail {
+  constructor() {
+    this.data = {};
+    this.isAppCall = false;
+  }
+
+  setDataColumn (data) {
+    try {
+      this.data = data;
+      const loadingImg = ' data-lazy-web-view-$1';
+      const patternImg = new RegExp('\\s(src\="|\')', 'g');
+      this.data.content = (document.getElementById('column-content').innerText || '')
+          .replace(patternImg, loadingImg);
+
+      let tocContents = document.querySelectorAll('.column-toc-content');
+      if ( tocContents.length > 0 ){
+        tocContents.forEach( (text, idx) => {
+          if (!this.data.tocs[idx]) {
+            this.data.tocs[idx] = { content: '', childs: [] };
+          }
+          this.data.tocs[idx].content = (text.innerText||'')
+              .replace(patternImg, loadingImg);
+      
+          const childs = document.querySelectorAll(
+              '.column-toc-content-child[data-p-id="'+this.data.tocs[idx].id+'"]'
+          );
+          if (childs.length){
+            childs.forEach( (child) => {
+              let level = child.getAttribute('data-p-idx') || '';
+              if (!this.data.tocs[idx].childs[level]) {
+                this.data.tocs[idx].childs[level] = { content: '' };
+              }
+          
+              //if (this.data.tocs[idx].childs[level] || false)
+              this.data.tocs[idx].childs[level].content = (child.innerText||'')
+                .replace(patternImg, loadingImg);
+            });
+          }
+        });
+      }
+
+      tocContents = null;
+
+      this.isAppCall = data.isAppCall;
+      columnDetail.render();
+    } catch (error) {
+      const msg= error.message;
+      this.postMessage('loadDataFail', {error: msg, "success":  false });
+    }
+  }
+
+  createToc() {
+    return this.data.tocs.map(item => {
+      const childrenHtml = item.childs ? Object.values(item.childs).map(child => `
+        <li>
+          <a href="javascript:void(0)" class="btn-arrow">
+            <i class="ph-bold ph-caret-down"></i>
+          </a>
+          <a href="#heading-${child.id}" class="toc-link" data-id="${child.id}">
+              ${child.title}
+          </a>
+        </li>
+      `).join('') : '';
+      return `
+        <li class="mb-15">
+          <a href="javascript:void(0)" class="btn-arrow btn-arrow--gray">
+            <i class="ph-bold ph-caret-down"></i>
+          </a>
+          <a href="#heading-${item.id}" class="toc-link" data-id="${item.id}">${item.title}</a>
+          ${childrenHtml ? `<ul class="toc-submenu open">${childrenHtml}</ul>` : ''}
+        </li>
+      `;
+    }).join('');
+  }
+
+  createContentToc () {
+    const isContentEmpty = (html) => {
+      // Remove all HTML tags and trim the content
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+    
+      // Get all text content from the temporary element
+      const textContent = tempDiv.textContent || tempDiv.innerText || '';
+    
+      // Remove all whitespace and check if it's empty
+      return textContent.trim() === '';
+    };
+    return this.data.tocs.map(content => {
+      const childrenContent = content.childs ? Object.values(content.childs).map(child => `
+          <div class="title-doc title-doc--h3" id="heading-${child.id}">
+            ${child.title}
+          </div>
+          ${isContentEmpty(child.content) ? '' : `<div class="content">${child.content}</div>`}
+        `).join('') : '';
+
+      return `
+        ${ content.title
+        ?  `<div class="parent-content">
+            <div class="title-doc title-doc--main" id="heading-${content.id}">${content.title}</div>
+              ${isContentEmpty(content.content) 
+                ? '' 
+                : `<div class="content">${content.content}</div>` }
+              ${childrenContent 
+                ? `<div class="child-content">${childrenContent}</div>` 
+                : ''}
+          </div>`
+          : ''
+         }
+      `;
+    }).join('')
+  }
+
+  async render() { 
+    try {
+
+      let { scate, date, title, image, content, tocs} = this.data;
+
+      document.body.innerHTML = '';
+
+      let container = document.createElement("div");
+      container.className = "page-content";
+      container.id = 'top-page-content';
+      //console.log(Object.values(toc.child));
+      // let isShowTableOfContent = toc && toc.length >= 1 && toc.map(p => {
+      //   return p.childs && Object.values(p.childs).length > 0
+      // });
+      let isShowTableOfContent = tocs && (tocs.length > 1 ||
+        tocs.some(function(p) {
+          return p.childs && Object.values(p.childs).length > 0;
+        }));
+   
+      container.innerHTML = `
+        <div class="header-container">
+            <a href="javascript:void(0)" class="btn-top" id="btn-top"></a>
+        </div>
+        <section class="content-inner">
+          <div class="d-flex justify-content-between">
+            <span class="badge badge-style" id="btn-cate" data-id="${scate.id}" data-title="${scate.title}" style="--badge-background: ${scate.bg_color || 'pink'}; --badge-color:${scate.txt_color || '#000'}">${scate.title || ''}</span>
+            <span class="date">${date}</span>
+          </div>
+          <div class="fs-lg my-3">${title}</div>
+          <div class="text-center content-img">
+            <img data-lazy-web-view-src="${image}" src="/assets/images/loading.gif" alt="" />
+          </div>
+          <div class="content-text mb-15">${content}</div>
+
+          <div class="toc_container ${isShowTableOfContent ? '' : 'd-none' }">
+            <span class="fs-md">目次</span>
+            <ul class="toc_list">${isShowTableOfContent ? this.createToc() : ''}</ul>
+          </div>
+          <div class="toc-content">${this.createContentToc()}</div>
+        </section>
+      `;
+
+      const btnBackToTop = document.createElement("a");
+      btnBackToTop.setAttribute("href", "#top-page-content");
+      btnBackToTop.className = "btn-back-top";
+      btnBackToTop.id = "scrollToTopBtn";
+      btnBackToTop.innerHTML = "<i class='ph-bold ph-caret-double-up'></i>";
+ 
+      if (!this.isAppCall) {
+        let UIFakeMobile = document.createElement("div");
+        UIFakeMobile.className = "faker-phone";
+
+        let pageLoader = document.createElement("div");
+        pageLoader.className = "page-loader";
+  
+        UIFakeMobile.innerHTML = `
+          <a href="javascript:void(0)" class="btn-back-top-custom" id="scrollToTopBtn">
+            <i class="ph-bold ph-caret-double-up"></i>
+          </a>
+          <div class="faker-phone--screen">
+            ${container.outerHTML}
+          </div>`;
+
+        document.body.className= 'd-flex justify-content-center align-items-center';
+        document.body.prepend(UIFakeMobile);
+        document.body.prepend(pageLoader);
+
+      } else {
+        document.body.prepend(container);
+  
+        // Remove all elements with the class 'btn-back-top'
+        document.querySelectorAll('.btn-back-top').forEach(element => element.remove());
+
+        // Remove the element with the ID 'scrollToTopBtn' if it exists
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        if (scrollToTopBtn) {
+          scrollToTopBtn.remove();
+        }
+
+        document.body.append(btnBackToTop);
+  
+      }
+
+      const DOMAIN_DEFAULT = {'www.staffservice.co.jp': true};
+
+      //Block default behavior of all tags a
+      document.querySelectorAll('.content-inner a[href]').forEach(anchor => {
+
+        let dataLink = anchor.getAttribute('href') || '';
+      
+        if ( dataLink &&
+            dataLink.indexOf('#') !== 0 &&
+            dataLink.toLowerCase() !== 'javascript:void(0)'
+        ) {
+
+          let url = false;
+          try{
+            url = new URL(dataLink);
+          }catch(e){ url= false; }
+
+          if ( url && url.host ) {
+            let isInnerURL = false;
+            // If the URL matches the default domain and has a hash, update the href to only the hash
+            if ( DOMAIN_DEFAULT.hasOwnProperty(url.host) &&
+                1 < (url.hash || '').length
+            ) {
+              try {
+                if (document.querySelector(url.hash)) {
+                  anchor.setAttribute('href', url.hash);
+                  isInnerURL = true;
+                }
+              } catch (e) {}
+            }
+
+            // Add event listener for valid URLs
+            isInnerURL || anchor.addEventListener('click', (e) => {
+              let target = e.target;
+              if( e.target.nodeName != 'A' ) target = target.parentElement;
+
+              // Validate the URL again before calling postMessage
+              //if (this.validURL(href)) {
+              e.preventDefault();
+
+              this.postMessage('toLinkBrowser', {
+                value: target.getAttribute('href')
+              });
+              //}
+            });
+          }
+        }
+      });
+
+      let iframePlayers = {'www.youtube.com': true};
+
+	  if( this.isAppCall ) document.querySelectorAll('iframe')
+	  .forEach(iframe => {
+		  let src = iframe.getAttribute('data-lazy-web-view-src');
+		  if( src.indexOf('http') === 0 ){
+			let url = new URL(src);
+			
+			if( iframePlayers.hasOwnProperty(url.hostname) ){
+
+				let div = document.createElement('a');
+                div.setAttribute('style', 'width:100%;height:100%;position:absolute;top:0;bottom:0;z-index:10');
+                div.setAttribute('href', 'javascript:void(0)');
+				iframe.after(div);
+
+				iframe.style.zIndex = '-1';
+				iframe.style.position = 'relative';
+				
+				div.addEventListener('click', (e) => {
+					e.preventDefault();  e.stopPropagation();
+					
+					this.postMessage('toLinkBrowser', { "value": src });
+					
+					return false;
+				});
+
+                div.append(iframe);
+
+                let wrapDiv = document.createElement('div');
+                wrapDiv.className = 'web-view-iframe-player';
+
+                if ( iframe.getAttribute('height') )
+                  wrapDiv.style.height = iframe.getAttribute('height') + 'px';
+
+                div.after(wrapDiv);
+
+                wrapDiv.append(div);
+			}
+		  }
+	  });
+	  
+      // Add event listeners after the DOM is added to the body
+      this.addHandleEvent();
+
+      logMsg('loadFinished');
+
+      const lazyItems = document.querySelectorAll('[data-lazy-web-view-src]'),
+            totalLazy = lazyItems.length;
+      if ( totalLazy ){
+        let timeout = 0;
+        lazyItems.forEach((item) => {
+          setTimeout(() => {
+            item.setAttribute('src', item.getAttribute('data-lazy-web-view-src'));
+          }, timeout || 50);
+          timeout += 100;
+        });
+
+        setTimeout(() => {
+          this.postMessage('loadFinished', {success: true})
+        }, Math.min(1000, totalLazy * 200) );
+      }else{
+        this.postMessage('loadFinished', { success: true });
+      }
+    } catch (error) {
+      const msg = error.message;
+      this.postMessage('loadFail', {error:  msg, "success":  false });
+
+      this.postMessage('loadFinished', { success: false });
+
+      logMsg('loadFail: ' + msg);
+    }
+  }
+
+  addHandleEvent() {
+    /**
+     * Event click send id cate
+     */
+    const btnCate = document.getElementById("btn-cate");
+    if (btnCate) {
+      btnCate.addEventListener('click', (e) => {
+        e.preventDefault();
+        const cateId = e.target.getAttribute("data-id");
+        const cateTitle = e.target.getAttribute("data-title");
+
+        this.postMessage('searchCate', { id: cateId, title: cateTitle });
+      });
+    } else {
+      console.error('btn-cate element not found');
+    }
+    /**
+    * Event click scroll to .... 
+    */
+    const tocLinks = document.querySelectorAll('.toc-link');
+    if (tocLinks.length > 0) {
+      tocLinks.forEach(tocLink => {
+        tocLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = e.target.getAttribute('href').substring(1);  // Get the target id
+          const targetElement = document.getElementById(targetId);
+
+          if (targetElement) {
+            const scrollOptions = {
+              top: targetElement.offsetTop - 20, // Adjust scroll position
+              behavior: 'smooth' // Smooth scroll
+            };
+          
+            if(!this.isAppCall) {
+              const container = document.querySelector('.faker-phone--screen');
+              container.scrollTo(scrollOptions);
+            } else {
+              // Scroll to the target element
+              window.scrollTo(scrollOptions)
+            }
+          } else {
+            console.error(`Element with ID ${targetId} not found`);
+          }
+        });
+      });
+    } else {
+      console.error('No .toc-link elements found');
+    }
+
+    /**
+    * Event click collapse table of content
+    */
+    const btnArrows = document.querySelectorAll('.btn-arrow');
+    if (btnArrows.length > 0) {
+      // Add click event listener to each btn-arrow
+      btnArrows.forEach(btnArrow => {
+        btnArrow.addEventListener('click', function() {
+          const submenu = this.parentElement.querySelector('.toc-submenu');
+      
+          // Check if submenu exists
+          if (!submenu) return;
+          submenu.classList.toggle('open');
+          this.classList.toggle('open');
+      
+          if (submenu.classList.contains('open')) {
+            // Calculate the height of the submenu
+            submenu.style.display = 'block';
+            const height = submenu.scrollHeight + 'px';
+            submenu.style.height = '0';
+      
+            setTimeout(() => {
+              submenu.style.height = height;
+            }, 10);
+      
+          } else {
+            // Close the submenu
+            submenu.style.height = submenu.scrollHeight + 'px';
+      
+            // Set timeout to delay height change for transition
+            setTimeout(() => {
+              submenu.style.height = '0';
+              // Hide submenu after transition ends
+              setTimeout(() => {
+                submenu.style.display = 'none';
+              }, 350);
+            }, 10);
+          }
+        });
+      });
+    } else {
+      console.error('No .btn-arrow elements found');
+    }
+
+    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+    if (scrollToTopBtn) {
+      const handleScrollTop = (scrollContainer) => {
+        if(!scrollContainer) {
+          return
+        }
+        scrollContainer.scrollTo({
+          top: 0,
+          behavior: 'smooth' // Smooth scroll
+        });
+      };
+
+      if(!this.isAppCall) {
+        const container = document.querySelector('.faker-phone--screen');
+        scrollToTopBtn.addEventListener('click', () => handleScrollTop(container)); 
+      } else {
+        scrollToTopBtn.addEventListener('click', () => handleScrollTop(document.querySelector('body')));
+      }
+    }
+  }
+
+  validURL(str){
+    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?' + // port
+      '(\\/[-a-z\\d%_.~+]*)*' + // path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
+  }
+
+  postMessage(fncName, msg) {
+    msg = JSON.stringify(msg);
+
+    if ('webkit' in window) {
+      window.webkit.messageHandlers[fncName].postMessage(msg);
+    } else if ('android' in window) {
+      (window.android || window.Android)[fncName](msg);
+    }
+  }
+}
+
+const columnDetail = new ColumnDetail();
+const logMsg = (arguments) => {
+  if (window.debug) console.log(arguments);
+}
+
+window.initColumn = function(data) {
+  try {
+    columnDetail.setDataColumn(data);
+  } catch (error) {
+    const msg = error.message;
+    this.postMessage('initColumnFail', {error: msg, "success":  false });
+  }
+  //columnDetail.setDataColumn(data)
+}
+
+columnDetail.postMessage('javascriptLoaded', {"success": true});
+  </script>
+  <script id="column-content" type="text/template"><p><a href="https://www.google.com/" target="_blank">https://www.google.com/</a><a href="https://www.google.com/" target="_blank"></a></p><p><a href="https://www.youtube.com/watch?v=S18cyHcqQ_w" target="_blank">https://www.youtube.com/watch?v=S18cyHcqQ_w</a></p><p><a href="https://www.facebook.com/nayukami/" target="_blank">https://www.facebook.com/nayukami/</a></p><p><br></p><p>                </p><p><br></p><p>2gZ9Ja4xgSmo5TbdeLUHTzkCwQyQlTasd6fwr7LRiApxkBg26hpFsuRq15vgNsAxodvR6kRLc8IKYyNu2fMAwmGmFUoeYrnPrKMBcBmrR0xkcHANY3BYnIqKwuw2fLVeTd9WK4r452Teif44aO1bI0BjJ2H1xbIMt7DaV0tbwhWCkDIsVAr2pBSw1axqOECbfrZALJ8ZwBCGt31RLyyxtzaU90sbugeNync49HzujeXhX5Ep464ShiTBcdGrKWFATIJbjLwVCR9w0twscXtLDxnP8e6sJiFgNoFzuhQMdJnx4hQzs5pM1D4Nd7nX3ptPNBJ1D6s4Unf3736WQrXOYK9VhL5t7G8LfouYodaJWHNrHre2t9mJqWuKZ07UMuJZw1cUTVJY1JlzQGRjgN0QZLm7eaJxAVXYDkjC6YYE2OucTE9YTCjwiQMsoCKHLClw8aYPLUejTrqrKnYHaSK7EOIFOuT8XBiskhOLTBGrSC0oRPLpmUenEHIwi5ypyxTVpU3IDvfbkMfJOblzZHqhlXx8HXQ1HjWNR9Lc7o8K0sQB6oF5wP3SEOsEjObOHi1VyRq5LVGyx3Q99OyzBr4ovPY1YiN00ceSPdbLzuO4uzuR5XtT6jBNdalOxqz2MU6io3qH5pkIfEEiWSCjTrGAzU7owMs5OLeNO3tMRWAT3APuU378wlf8D4EC71gsYSm4Nai7zko7UDrC05raEGdN6uVcnGqSE5drDyRJTmoort5OwDOUgqZ2blc3u6pHIlGJXz1i5OHiJ2LAnP0YxjuzdNP4IFNSguCNL4a5yLcxEBPfUwbEBA8f62XGgwEXYEqkGByJLUjUSjtV1g2onYRrnpMVFwA7WBmkRuheXh7YN5MZQ5rJEZNW2sqPcePI5V5oT3hUn4efwyL4rLZNbUxsCvitQqzBXkMnD8WuO7FnVxDnBug5oQv0t9mdpsKs5kO59gjWieeSkHPaIyINheN4c5VH3rZKTcgRGzJnivz5            </p></script><script type="text/javascript">window.initColumn = function (opts){
+  let data = {"date":"2024\/07\/18","title":"di o0QMnHJas8","scate":{"id":7,"title":"\u5c0f\u30ab\u30c6\u30b4\u30ea\u7de8\u96c6\u5c0f\u30ab\u30c6\u30b4\u30ea\u7de8\u96c6\u5c0f\u30ab\u30c6\u30b4\u30ea\u7de8","bg_color":"#93B0AE","txt_color":"#000000"},"image":"https:\/\/www.test.learningpocket.com\/uploads\/column\/R5YkN1un1j8\/W6Xnn1Sn082jz1pB.jpg","tocs":[{"id":"1587","level":"30","title":"7lH17o6bwLlsC4jZrbiFexxm3T7TLCYu7LovXPyszInrHYVN78RZ3mYz2xJgeEYJZgUl0icpiyNiy7nD9WS7PUCJvCP2ZWvnFg5M4CE0JiGWCMdtlAXKHV49E3MUQdq6kGE95jbk1cxzna3uUVGRVxEGLwpUP4zpcmSFcRv7a672rOBTrEHp1qpUrc5SBMzvBxc76eLTLA4Xpt3AAG8fZz2BQblXMk9k24YsM7OKXCxum12oUHOn4o7xjcySZje","content":"","childs":{"30-1":{"id":"1588","level":"30-1","title":"bDMPJqbjnSmPbus7gZfcSOi6v99FOryLxD5zoC1ZJAabqTFSiiP2ucVn5bFGcfdDrZ35KRgansjFU37Sk7MJs1xvlokQhI88WIjspWBmEgovSTUwch8mqbm7DqQTzFgI4sohlbFTlynpi4tS37si9gk7MddC2aeXEnLDtRYyv1CPzh22eCcsDh3WvfxOTQfTKTx5KnzQ7i4EUz5aPazBpGEClZSGe0m3SzymMdMljTxle9cfUbsYdCQCtNs0cwA","content":""}}}]};
+  Object.keys(opts||{}).forEach((key) => {
+      data[key] = opts[key] 
+  });
+  columnDetail.setDataColumn(data);
+  }</script>
+  <script type="text/javascript" defer>
+    document.addEventListener('DOMContentLoaded', function() { 
+      columnDetail.postMessage('javascriptLoaded', {"success": true});
+    })
+  </script>
+</body>
+
+</html>

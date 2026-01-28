@@ -1,0 +1,220 @@
+.header-top { position: relative; height: 45px;}
+.btn-open {
+    padding: 8px 12px;
+    font-size: 20px;
+    position: absolute;
+    top: 0;
+    right: 0px;
+    border: 0;
+    background-color: transparent;
+    display: inline-block;
+    outline: none;
+}
+
+.qs__top { 
+    display: flex; 
+    margin-bottom: 15px; 
+    padding: 0 15px;
+}
+
+.qs-total {
+    margin-right: 12px;
+    width: 52px;
+}
+
+.qs-total,
+.qs-total a {
+    cursor: not-allowed;
+    user-select: none;
+    pointer-events: none;
+    text-decoration: none;
+}
+
+.qs-timetext { 
+    margin-left: 12px;
+    width: 66px;
+}
+.qs-total, .qs-timetext { 
+    color: #071148; 
+    white-space: nowrap; 
+}
+
+/* css progress bar */
+.qs-progress {
+    width: calc(100% - 145px);
+    display: flex;
+    align-items: center;
+}
+
+.progress-bar {
+    flex-grow: 1;
+    width: 100%; 
+    border-radius: 7px;
+    height: 7px;
+    background-color: #D9D9D9;
+    overflow: hidden;
+}
+
+.progress-bar-inner { height: 100%; }
+
+.progress-bar-inner.animation-progress {
+    animation-name: progressbar-countdown;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: paused;
+    animation-timing-function: linear;
+}
+
+.progress-bar-inner.info {
+    background-color: #49A3E5;
+}
+
+.progress-bar-inner.warning{
+    background-color: #DC85FB;
+}
+
+.qs-question { padding: 15px; border-bottom: 1px solid  #49A3E5; border-top: 1px solid  #49A3E5;}
+
+.qs-question a,
+.qs-answer a {
+    cursor: not-allowed;
+    user-select: none;
+    pointer-events: none;
+    text-decoration: none;
+    color: #071148;
+}
+
+.question-text { 
+    margin-top: 10px;
+    color: #071148;
+}
+.qs-answer {
+    padding: 15px; 
+}
+
+.qs-answer-item { 
+    position: relative; 
+    display: flex; 
+    padding: 10px 20px; 
+    border: 1px solid #49A3E5; 
+    background-color: #FAFAFA; 
+    margin-bottom: 5px; 
+    border-radius: 15px; 
+    color: #071148;
+}
+.qs-answer__option { position: relative;}
+.qs-answer__option.disabled::after { content: "";position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 1; background-color: transparent;}
+.qs-answer__option.disabled.not-allow > label:not([type="radio"]:checked + label) {
+    background-color: #e9ecef;
+}
+.qs-answer__option.disabled.not-allow > label { opacity: .7;}
+[type="radio"]:checked,
+[type="radio"]:not(:checked) {
+    position: absolute;
+    left: -9999px;
+}
+[type="radio"]:checked + label {
+    background-color: #C1E2FC;
+}
+
+.answer-case { margin-right: 24px;}
+
+
+.btn-stop, .btn-continue { 
+    width: 112px; 
+}
+.fadeInRight:not(:first-child) {
+    -webkit-animation: fadeInRight .5s ease-in-out;
+    -moz-animation:  fadeInRight .5s ease-in-out;
+    -o-animation:  fadeInRight .5s ease-in-out;
+    animation: fadeInRight .5s ease-in-out;
+}
+
+.modal-dialog.hide{
+	opacity: 0;
+}
+.modal-dialog {
+    max-width: 350px;
+    margin: 165px auto auto;
+    position: relative;
+    width: auto;
+    background-color:  #FAFAFA;
+    box-shadow: 0 4px 6px rgb(0 0 0 / 35%);
+    border-radius: 15px;
+}
+.modal-title { color: #071148;}
+.modal-body, .modal-footer { padding: 20px 15px;}
+.modal-footer .btn { width: 112px; }
+.bubble { 
+    position: fixed;
+    right: 5px;
+    bottom: 55px;
+    background-color: #69D099; 
+    color: #FFFFFF;
+    border-radius: 5px;
+    z-index: 11;
+    opacity: 0;
+}
+.bubble__inner {
+    position: relative;
+    padding: 10px 20px;
+}
+.bubble__inner::after {
+    content: '';
+    position: absolute;
+    top: -36px;
+    right: 30%; 
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid #69D099;
+    border-right: 30px solid transparent;
+}
+.bubble__close { 
+    position: absolute; 
+    right: 5px; 
+    top: -8px; 
+    width: 20px; 
+    height: 20px; 
+    border-radius: 100%;
+    background-color:#A3E7C4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.qs__body { 
+    max-height: calc(100vh - 225px);
+    overflow: auto; 
+    -webkit-overflow-scrolling: touch;
+    -moz-overflow-scrolling: touch;
+    -o-overflow-scrolling: touch;
+    -ms-overflow-scrolling: touch;
+}
+
+.qs-item {
+    opacity: 1;
+    transform: translateX(100vw);
+}
+.qs-item:first-child {
+    transform: translateX(0px);
+}
+
+
+.question-preview .f-bold{
+	font-weight: 600 !important;
+}
+.question-preview .f-italic{
+	font-style: italic !important;
+}
+.question-preview .f-strikethrough{
+	text-decoration: line-through !important;
+}
+
+@keyframes progressbar-countdown {
+    0% {
+        width: 100%;
+    }
+
+    100% {
+        width: 0%;
+    }
+}
