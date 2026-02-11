@@ -75,11 +75,11 @@
   };
 
   resultPage.prototype.ComponentMain = function() { 
-    const { title } = this.data;
+    const { title, label } = this.data;
 
     const elMain = this.createComponent("section", "main-container");
     const elTitle =  this.createComponent("div", "header-title text-center", "", {});
-    const elTextTitle = this.createComponent("span", "fs-16", "あなたは");
+    const elTextTitle = this.createComponent("span", "fs-16", label);
     const elTextType = this.createComponent("span", "fs-20", title, {}); 
 
     elTitle.prepend(elTextTitle, elTextType)
@@ -489,70 +489,122 @@ isResult({
   "device_name": "Pixel 5a",
   "first_result": false,
   "data": {
-    "type": "P16_TYPES",
+    "type": "DI_TYPE",
     "user_type": "STAFF",
-    "title": "tính cách hướng nội",
-    "code": "pbg66HZmeL1AJ78Y0Q5",
-    "id": "4",
-    "img": "https://test-lac.learningpocket.com/uploads/diagnostic/result_images/roBbYkjjFrxii1P9.png",
+    "title": "di2",
+    "label": "di1",
+    "code": "xb2HuSQsZKb5hmTOjyo",
+    "id": "28",
+    "img": "https://test.learningpocket.com/uploads/diagnostic/result_images/Nf83T1CjwoYkx1Em.jpg",
     "detail_top": [
-      {
-        "id": "324",
-        "title": "Dolor minim omnis la",
-        "img": "",
-        "detail": "Ad labore facere sequi recusandae Mollitia et ex exercitation enim explicabo",
-        "position": "TOP",
-        "next_result": null
-      },
-      {
-        "id": "323",
-        "title": "Quibusdam vero labor",
-        "img": "",
-        "detail": "Id amet quo nihil laboriosam nulla ut dolor",
-        "position": "TOP",
-        "next_result": null
-      }
+        {
+            "id": "1233",
+            "title": "di3",
+            "img": "",
+            "detail": "di4",
+            "position": "TOP",
+            "next_result": null
+        }
     ],
     "detail_bot": [
-      {
-        "id": "322",
-        "title": "Iste est et rerum po",
-        "img": "https://test-lac.learningpocket.com/uploads/diagnostic/result_images/4rqtf2e42raiQ1Uv.jpg",
-        "detail": "Nihil rerum exercitationem fugiat qui nihil a non culpa ducimus debitis quisquam quia aut iste proident",
-        "position": "BOT",
-        "next_result": "3"
-      },
-      {
-        "id": "321",
-        "title": "Sint exercitation be",
-        "img": "https://test-lac.learningpocket.com/uploads/diagnostic/result_images/toCbdkPjorBim1Hx.png",
-        "detail": "Voluptas animi dolore voluptatibus qui",
-        "position": "BOT",
-        "next_result": "2"
-      }
+        {
+            "id": "1232",
+            "title": "di5",
+            "img": "https://test.learningpocket.com/uploads/diagnostic/result_images/RfQ3l1JjHo7kd1Ik.jpg",
+            "detail": "di6",
+            "position": "BOT",
+            "next_result": "25"
+        }
     ],
     "doc_rc": {
-      "doc_id": "262",
-      "doc_code": "Vubbc3lnBh1in18ILa2",
-      "doc_title": "material_youtube_10",
-      "doc_type": "YOUTUBE",
-      "doc_thumb": "https://test-lac.learningpocket.com/uploads/teacher/79wkFcdn8mN1P3tEWf6/O9Pk2cAngm71l3ba/mt_3896766131_v1_Vfjc1ihn3.jpg",
-      "memo": "Commodo laborum Et deserunt aliqua Ea ipsum corporis sed qui distinctio Praesentium eu ut nisi qui aute"
+        "doc_id": "914",
+        "doc_code": "03opivV0uo8kf1t5GAy",
+        "doc_title": "Material 0202",
+        "doc_type": "YOUTUBE",
+        "doc_thumb": "https://test.learningpocket.com/uploads/teacher/r9DlHvQhilup31Pd9/M9XkUc9n1m31/mt_1769189015_v1_XkHp1ko0v.jpg%22",
+        "memo": "di7"
     },
     "customer_comment": [
-      {
-        "text": "現状をお話ししたところ優しく受け止めていただき、これから目指す方向や自分に必要なことを的確に示してもらえました。（30代/女性）",
-        "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_01.png"
-      },
-      {
-        "text": "とてもフレンドリーに話してくださり、ポジティブな気持ちになれました。（60代/女性）",
-        "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_02.png"
-      },
-      {
-        "text": "世の中のキャリアコンサルタントにはこちらの相談をきちんと聞かずに一方的に話すような方もいますが、スタッフサービスのコンサルタントは共感し、励まし、解決の糸口を見つけてくれました。（40代/女性）",
-        "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_03.png"
-      }
+        {
+            "text": "現状をお話ししたところ優しく受け止めていただき、これから目指す方向や自分に必要なことを的確に示してもらえました。（30代/女性）",
+            "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_01.png"
+        },
+        {
+            "text": "とてもフレンドリーに話してくださり、ポジティブな気持ちになれました。（60代/女性）",
+            "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_02.png"
+        },
+        {
+            "text": "世の中のキャリアコンサルタントにはこちらの相談をきちんと聞かずに一方的に話すような方もいますが、スタッフサービスのコンサルタントは共感し、励まし、解決の糸口を見つけてくれました。（40代/女性）",
+            "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_03.png"
+        }
     ],
-    "html": "https://www.test-lac.learningpocket.com/diagnostic_new/result.html"
+    "html": "https://www.test.learningpocket.com/diagnostic_new/result.html"
   }
+  // "data": {
+  //   "type": "P16_TYPES",
+  //   "user_type": "STAFF",
+  //   "title": "tính cách hướng nội",
+  //   "code": "pbg66HZmeL1AJ78Y0Q5",
+  //   "id": "4",
+  //   "img": "https://test-lac.learningpocket.com/uploads/diagnostic/result_images/roBbYkjjFrxii1P9.png",
+  //   "detail_top": [
+  //     {
+  //       "id": "324",
+  //       "title": "Dolor minim omnis la",
+  //       "img": "",
+  //       "detail": "Ad labore facere sequi recusandae Mollitia et ex exercitation enim explicabo",
+  //       "position": "TOP",
+  //       "next_result": null
+  //     },
+  //     {
+  //       "id": "323",
+  //       "title": "Quibusdam vero labor",
+  //       "img": "",
+  //       "detail": "Id amet quo nihil laboriosam nulla ut dolor",
+  //       "position": "TOP",
+  //       "next_result": null
+  //     }
+  //   ],
+  //   "detail_bot": [
+  //     {
+  //       "id": "322",
+  //       "title": "Iste est et rerum po",
+  //       "img": "https://test-lac.learningpocket.com/uploads/diagnostic/result_images/4rqtf2e42raiQ1Uv.jpg",
+  //       "detail": "Nihil rerum exercitationem fugiat qui nihil a non culpa ducimus debitis quisquam quia aut iste proident",
+  //       "position": "BOT",
+  //       "next_result": "3"
+  //     },
+  //     {
+  //       "id": "321",
+  //       "title": "Sint exercitation be",
+  //       "img": "https://test-lac.learningpocket.com/uploads/diagnostic/result_images/toCbdkPjorBim1Hx.png",
+  //       "detail": "Voluptas animi dolore voluptatibus qui",
+  //       "position": "BOT",
+  //       "next_result": "2"
+  //     }
+  //   ],
+  //   "doc_rc": {
+  //     "doc_id": "262",
+  //     "doc_code": "Vubbc3lnBh1in18ILa2",
+  //     "doc_title": "material_youtube_10",
+  //     "doc_type": "YOUTUBE",
+  //     "doc_thumb": "https://test-lac.learningpocket.com/uploads/teacher/79wkFcdn8mN1P3tEWf6/O9Pk2cAngm71l3ba/mt_3896766131_v1_Vfjc1ihn3.jpg",
+  //     "memo": "Commodo laborum Et deserunt aliqua Ea ipsum corporis sed qui distinctio Praesentium eu ut nisi qui aute"
+  //   },
+  //   "customer_comment": [
+  //     {
+  //       "text": "現状をお話ししたところ優しく受け止めていただき、これから目指す方向や自分に必要なことを的確に示してもらえました。（30代/女性）",
+  //       "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_01.png"
+  //     },
+  //     {
+  //       "text": "とてもフレンドリーに話してくださり、ポジティブな気持ちになれました。（60代/女性）",
+  //       "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_02.png"
+  //     },
+  //     {
+  //       "text": "世の中のキャリアコンサルタントにはこちらの相談をきちんと聞かずに一方的に話すような方もいますが、スタッフサービスのコンサルタントは共感し、励まし、解決の糸口を見つけてくれました。（40代/女性）",
+  //       "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_03.png"
+  //     }
+  //   ],
+  //   "html": "https://www.test-lac.learningpocket.com/diagnostic_new/result.html"
+  // }
 }) 

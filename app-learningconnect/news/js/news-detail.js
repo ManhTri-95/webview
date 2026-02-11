@@ -415,6 +415,32 @@
 
     addHandleEvent() {
       /**
+       * Event click download confirm links
+       */
+      const downloadConfirmLinks = document.querySelectorAll('.content-inner a.download-confirm');
+      if (downloadConfirmLinks.length > 0) {
+        downloadConfirmLinks.forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const href = link.getAttribute('href');
+            const fileName = link.getAttribute('data-name') || 'Unknown';
+           
+            // console.log('Download confirmed:', {
+            //   fileName: fileName,
+            //   href: href,
+            //   url: href
+            // });
+            
+            this.postMessage('toDownload', {
+               fileName: fileName,
+               url: href   
+            });
+          });
+        });
+      }
+
+      /**
        * Event click send id cate
        */
       const btnCate = document.getElementById("btn-cate");

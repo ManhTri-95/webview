@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="encoding" content="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <!-- <link rel="stylesheet" href="index.css"> -->
+     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  width: 100%;
+  min-height: 100vh;
+  color: #4C4C4C;
+  position: relative;
+  background-color: #fff;
+}
+
+#diagnose {
+  opacity: 1;
+  transform: translateX(100vw);
+}
+
+.container {
+  width: 100%;
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+
+.hide { display: none!important; visibility: hidden;width: 0; height: 0;}
+
+.not-allow {
+  pointer-events: none;
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-black {
+  color: #000
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.mt-5 {
+  margin-top: 5px!important;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.mb-0 {
+  margin-bottom: 0px!important;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+.mt-20px {
+  margin-top: 20px;
+}
+
+.mr-7px  {
+  margin-right: 7px;
+}
+
+.p-15 {
+  padding: 15px;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+.fs-14 {
+  font-size: 14px!important;
+}
+.fs-16 {
+  font-size: 16px;
+}
+.fs-20 {
+  font-size: 20px;
+}
+
+.f-bold {
+  font-weight: bold;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.gap-2 {
+  gap: 10px;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.main-container {
+  position: relative;
+}
+
+.header-top {
+  height: 48px;
+  position: relative;
+}
+
+.header-label {
+  font-size: 16px;
+  background-color: #CEEED8;
+  color: #424040;
+  text-align: center;
+  padding: 7px 15px;
+  height: 37px;
+}
+
+.header-title {
+  padding: 7px 15px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.header-title span {
+  display: block;
+  color: #252525;
+}
+
+.banner  {
+  margin-top: 15px;
+}
+
+.banner img {
+  max-width: 100%;
+  width: 90%;
+}
+
+.btn {
+  display: inline-block;
+  border-radius: 5px;
+  text-align: center;
+  line-height: initial;
+  font-size: 16px;
+  border: none;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 35%);
+  padding: 6px 15px;
+  position: relative;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top:0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.inner-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn--primary {
+  /* background-color: #49A3E5; */
+  background-color: #2E75B4;
+  color: #EDEDED;
+}
+
+.btn--light {
+  background-color: #F7F7F7;
+  border: 1px solid #CEEED8;
+}
+
+.btn--success {
+  background-color: #CEEED8;
+}
+
+.btn--error {
+  background-color: #ea4025;
+  color: #fff;
+}
+
+.btn--warning {
+  background-color: #F09A37;
+  color: #fff;
+}
+
+.btn--blue {
+  background-color: #5DC1C9;
+  color: #fff;
+}
+
+.btn--blue1 {
+  background-color: #339AC3;
+  color: #fff;
+}
+
+.btn--pink {
+  background-color: #F787BF;
+  color: #fff;
+}
+
+.btn--large {
+  padding: 9px 15px;
+}
+
+.fixed-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: #fff;
+}
+
+.btn-start {
+  /* font-size: 18px; */
+  font-size: clamp(14px, 4.2vw, 20px);
+  padding: 10px;
+  max-width: 500px;
+  background-color: #203864;
+}
+
+.btn-start small { 
+  font-size: clamp(8px, 2.4vw, 13px);
+}
+
+.btn-start[data-type="p16_types"] { 
+  min-width: 200px;
+}
+
+.group-btn .btn {
+  margin: 0 18px;
+  color: #4C4C4C;
+}
+
+.btn-top {
+  height: 48px;
+  width: 48px;
+  display: inline-block;
+}
+
+.btn-open {
+  padding: 11px 7px;
+}
+
+.qs-item__top {
+  padding: 30px 0;
+}
+
+.qs-number {
+  width: 75px;
+  height: 75px;
+  border: 3px solid #A6DAB6;
+  border-radius: 50%;
+  font-size: 48px;
+  color: #A6DAB6;
+  line-height: 54px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.qs-item__body {
+  padding: 0 15px;
+}
+.qs-question {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+}
+.qs-answer,
+.qs-progress {
+  padding: 15px;
+}
+
+.qs-answer__option {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.qs-answer__option.disabled {
+  opacity: .8;
+}
+
+[type="radio"]:checked, [type="radio"]:not(:checked) {
+  position: absolute;
+  left: -9999px;
+}
+
+.qs-answer-item {
+  position: relative;
+  display: block;
+  padding: 10px 20px;
+  border: 1px solid #49A3E5;
+  background-color: #FFFFFF;
+  margin-bottom: 5px;
+  border-radius: 7px;
+  color: #49A3E5;
+}
+
+[type="radio"]:checked + label {
+  background-color: #C1E2FC;
+}
+
+.qs-progress {
+  position: relative;
+}
+
+.progress-bar-text {
+  font-weight: bold;
+  position: absolute;
+  top: 0px
+}
+
+.progress-bar-text.left {
+  left: 15px;
+}
+
+.progress-bar-text.right {
+  right: 15px;
+}
+
+.progress-bar {
+  margin-top: 10px;
+  height: 10px;
+  width: 100%;
+  background-color : #E5E5E5
+}
+
+.progress-bar__inner {
+  background-color: #A6DAB6;
+  height: 100%;
+  width: 0%;
+  transition: width 800ms;
+}
+
+.result-content {
+  font-size: 14px;
+  color: #252525;
+  padding: 15px 0;
+}
+
+.result-content__img{
+  max-width: 80%;
+}
+
+.tite-cate {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.content-item {
+  padding: 5px 15px;
+}
+
+.content-item img {
+  max-width: 80%;
+}
+
+.content-label  {
+  text-align: center;
+  font-weight: bold;
+  padding: 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.content-label.blue {
+  background-color: #DCF0FF;
+  color: #0286E7;
+}
+.content-label.yellow {
+  background-color: #FFF5C4;
+  color: #FA8600;
+}
+.content-label.success {
+  background-color: #E7FBED;
+  color: #149B15;
+}
+.content-label.fs-small {
+  font-size: 14px;
+}
+.result-button button {
+  min-width: 262px;
+}
+
+.comment-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 15px;
+}
+.comment-item .comment__image {
+  width: 100px;
+}
+.comment-item .comment__text {
+  width: calc(100% - 100px);
+  background-color: #E7FBED;
+  padding: 15px 10px;
+  border-radius: 25px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 15px;
+  z-index: 1060;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+  opacity: 0;
+  transform: translateY(100vh);
+  transition: all .5s;
+}
+
+.modal-dialog {
+  max-width: 350px;
+  margin: 165px auto auto;
+  position: relative;
+  width: auto;
+  background-color: #FAFAFA;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 35%);
+  border-radius: 15px;
+}
+
+.modal-body, .modal-footer {
+  padding: 20px 15px;
+}
+
+.fadeinBottom {
+  opacity: 1;
+  transform: translateY(0);
+  -webkit-transform: translateY(0);
+  -o-transform: translateY(0);
+  -moz-transform: translateY(0);
+}
+
+.anreer-anchor, 
+.enneagram {
+  display: flex;
+  flex-direction: column;
+}
+
+.anreer-anchor {
+  flex-direction: column-reverse !important;
+}
+
+
+.btn-area-large {
+  flex: auto; /* ~55% */
+}
+
+.btn-area-small {
+  flex: auto;
+}
+     </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      // function for extending a class
+
+window.viewManager = function(){}
+
+viewManager.prototype.init = function() {
+  
+}
+
+window.baseOS = function(){
+  console.log('ios')
+}
+
+baseOS.prototype.getMsgJson = function(params){
+  console.log(params)
+}
+
+/**
+ * IOS
+ */
+window.iOS = function(){
+  console.log('ios')
+}
+window.iOS.prototype = window.baseOS.prototype;
+
+window.iOS.prototype.postMessage = function(fncName, msg){
+  msg = this.getMsgJson(msg);
+  window.webkit.messageHandlers[fncName].postMessage(msg);
+}
+
+
+/**
+ * Android
+ */
+window.Android = function(){
+  console.log('android')
+}
+
+window.Android.prototype = window.baseOS.prototype;
+
+window.Android.prototype.postMessage = function(fncName, msg){
+  msg = this.getMsgJson(msg);
+  if ((window.android || window.Android)) {
+    (window.android || window.Android)[fncName](msg);
+  }
+  
+}
+
+Android.prototype = new viewManager();
+iOS.prototype = new viewManager();
+
+
+
+    </script>
+    <script type="text/javascript">
+      (function (){
+const dataAnswer = new Map();
+class BaseQuestion {
+  constructor() {
+    this.dataDiagnose = {
+      currentQuestion: 0,
+      numberQuestion: 1,
+      startQuestion: 2,
+      maxDiagnose: 0,
+      maxDiagnoseNew: 0,
+      listQuestion: {},
+      optionAnswer: {},
+      postData: {
+        type: null,
+        result_type: null,
+        data: "",
+      }
+    };
+    // dataAnswer = new Map();
+  }
+
+  isParamsDiagonse(obj) {
+    return 'career_anchor' in obj && 'enneagram' in obj && 'start_page' in obj;
+  }
+
+  init(params) {
+    if (!this.checkObjNotEmpty(params)) {
+      this.postMessage('logError', { error: 'Data passed in is correct' });
+      return;
+    }
+
+    this.response = params;
+    this.data = this.response.data;
+    this.destination = this.response.destination || null;
+    this.dataEnneagram = this.data.enneagram;
+    this.dataCareer = this.data.career_anchor;
+     this.dataContents = this.data.contents || {};
+    this.startPage = this.data.start_page.start_page;
+    this.baseUrl = 'https://' + location.host;
+
+    this.createUIPageStart();
+  }
+
+  createComponent(tag, className = "", textContent = "", attributes = {}) {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (textContent) el.innerHTML = textContent;
+    Object.entries(attributes).forEach(([k, v]) => el.setAttribute(k, v));
+    return el;
+  }
+
+  baseMatchStringUrl(str) {
+    const tempBrPlaceholder = "__TEMP_BR_PLACEHOLDER__";
+    const stringWithoutBr = str.replace(/<br\s*\/?>(?=http)/gi, tempBrPlaceholder);
+    window.onClick = elem => this.postMessage('toLinkBrowser', { value: elem.getAttribute("data-url") });
+    const result = stringWithoutBr.replace(/http[s]?:\/\/\S+/gi, match => {
+      const anchorTag = document.createElement("a");
+      anchorTag.setAttribute("onclick", "onClick(this)");
+      anchorTag.setAttribute("href", "javascript:void(0)");
+      anchorTag.setAttribute("data-url", match.replace(/__TEMP_BR_PLACEHOLDER__/g, ""));
+      anchorTag.textContent = match;
+      return anchorTag.outerHTML;
+    });
+    return result.replace(new RegExp(tempBrPlaceholder, "g"), "<br>");
+  }
+
+  createUIPageStart() {
+    const { text_top: textTop, img: startPageImage, text_bottom: textBottom } = this.startPage;
+    const body = document.body;
+    const container = this.createComponent("div", "container start-diagnose", "", { id: "start_diagnose" });
+    const main = this.createComponent("section", "main-container");
+    
+    // Create initial buttons for enneagram and career_anchor
+    const buttonWrapper = this.createComponent("div", "d-flex p-10 gap-2");
+    const buttonEnneagram = this.createComponent("div", "text-center btn-area-large");
+    buttonEnneagram.appendChild(this.ComponentButton({
+      text: "<small>決まっている方<br>─ 性格から導くステップアップ方法 ─</small><br/>診断スタート！",
+      isClass: "btn--primary btn-start w-100",
+      additionalAttributes: { 'data-type': 'enneagram' },
+      pressHandler: this.evtNextPageDiagnose.bind(this)
+    }));
+    const buttonCareerAnchor = this.createComponent("div", "text-center btn-area-small");
+    buttonCareerAnchor.appendChild(this.ComponentButton({
+      text: "<small>決まっていない方<br>─ あなたの適職診断 ─</small><br/>診断スタート！",
+      isClass: "btn--primary btn-start w-100",
+      additionalAttributes: { 'data-type': 'career_anchor' },
+      pressHandler: this.evtNextPageDiagnose.bind(this)
+    }));
+    buttonWrapper.append(buttonEnneagram, buttonCareerAnchor);
+
+    // Add initial start page content
+    main.prepend(
+      this.createComponent("div", "header-title text-truncate", textTop),
+      (() => {
+        const bannerStart = this.createComponent("div", "banner mt-15 text-center", "", { id: "banner" });
+        bannerStart.appendChild(this.createComponent("img", "", "", { src: startPageImage }));
+        return bannerStart;
+      })(),
+      this.createComponent("div", "p-15 text-center", textBottom)
+    );
+
+    // Dynamically create components from dataContents (sorted by order)
+    const sortedContents = Object.entries(this.dataContents).sort(([, a], [, b]) => {
+      const orderA = a.order !== undefined ? a.order : Infinity;
+      const orderB = b.order !== undefined ? b.order : Infinity;
+      return orderA - orderB;
+    });
+
+    sortedContents.forEach(([contentKey, contentData]) => {
+      if (contentData && contentData.title && contentData.img && contentData.description) {
+        const elComponentTitle = this.createComponent("div", "header-title", contentData.title);
+        const elComponentSubTitle = this.createComponent("div", "text-center", contentData.sub_title || "");
+        const elComponentBanner = this.createComponent("div", "banner mt-15 text-center", "");
+        elComponentBanner.appendChild(this.createComponent("img", "", "", { src: contentData.img }));
+        const elComponentContent = this.createComponent("div", "p-15", this.baseMatchStringUrl(contentData.description));
+        const elComponentBtn = this.createComponent("div", "p-15 text-center");
+        
+        elComponentBtn.appendChild(this.ComponentButton({
+          text: `診断スタート！`,
+          isClass: "btn--primary btn-start w-100",
+          additionalAttributes: { 'data-type': contentKey },
+          pressHandler: this.evtNextPageDiagnose.bind(this)
+        }));
+
+        main.appendChild(elComponentTitle);
+        main.appendChild(elComponentSubTitle);
+        main.appendChild(elComponentBanner);
+        main.appendChild(elComponentContent);
+        main.appendChild(elComponentBtn);
+      }
+    });
+
+    container.prepend(main, buttonWrapper);
+    body.prepend(container);
+  }
+  
+
+  /**
+   * create component Button
+   * @returns HTML
+   */
+  ComponentButton({ text, isClass = "", pressHandler, additionalAttributes = {} }) {
+    const button = this.createComponent("button", `btn ${isClass}`, text, additionalAttributes);
+    button.addEventListener("click", pressHandler);
+    return button;
+  }
+  
+  evtNextPageDiagnose(e) {
+    const typeDiagnose = e.target.getAttribute('data-type');
+    if (!typeDiagnose) return;
+    console.log({ type: typeDiagnose });
+    this.postMessage('toPage', { type: typeDiagnose });
+  }
+  
+
+  /**
+   * Check key in object exist or not exist 
+   * @param {*} obj 
+   * @param {*} key 
+   */
+  keyExistInObj(obj, key) {
+    if (!obj || !(key in obj)) {
+      this.postMessage('logError', { error: `key ${key} does not exist` });
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Check type and object empty
+   * @param {*} obj 
+   * @returns boolean
+   */
+  checkObjNotEmpty(obj) {
+    if (!obj || typeof obj !== 'object' || Array.isArray(obj)) {
+      this.postMessage('logError', { error: 'Parameter is not a valid object' });
+      return false;
+    }
+    if (Object.keys(obj).length === 0) {
+      this.postMessage('logError', { error: 'Object is empty' });
+      return false;
+    }
+    return true;
+  }
+  
+  postMessage(fncName, msg){
+    msg = JSON.stringify(msg);
+    
+    if( 'webkit' in window ){
+      window.webkit.messageHandlers[fncName].postMessage(msg);
+    }else if( 'android' in window ) {
+      (window.android || window.Android)[fncName](msg);
+    }
+  }
+}
+  
+const isBaseQs = new BaseQuestion();
+
+window.isDiagnose = (params) => { 
+  let e = null, isSuccess = false;
+  try { 
+    switch((params.type||'').toLowerCase()) {
+      case "ios":
+        const ios = new iOS();
+          break;
+      case "android": 
+        const android = new Android();
+        break;
+      default:
+    }
+    isBaseQs.init(params);
+    isSuccess = true;
+  } catch (error) {
+    e = error.message;
+  }
+  isBaseQs.postMessage('loadFinished', {error: e, "success": isSuccess});
+  return isSuccess;
+}
+isBaseQs.postMessage('javascriptLoaded', {"success": true});
+})()
+    </script>
+    
+    <!-- <script type="text/javascript" src="js/enneagram.js"></script> -->
+  </body>
+</html>

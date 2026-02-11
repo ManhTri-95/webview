@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="encoding" content="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  width: 100%;
+  color: #4C4C4C;
+  position: relative;
+  background-color: #fff;
+}
+
+#diagnose {
+  opacity: 1;
+  transform: translateX(100vw);
+}
+
+.container {
+  width: 100%;
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+
+.hide { display: none!important; visibility: hidden;width: 0; height: 0;}
+
+.not-allow {
+  pointer-events: none;
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-black {
+  color: #000
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.mt-5 {
+  margin-top: 5px!important;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.mb-0 {
+  margin-bottom: 0px!important;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+.mt-20px {
+  margin-top: 20px;
+}
+
+.p-15 {
+  padding: 15px;
+}
+.fs-14 {
+  font-size: 14px!important;
+}
+.fs-16 {
+  font-size: 16px;
+}
+.fs-20 {
+  font-size: 20px;
+}
+
+.f-bold {
+  font-weight: bold;
+}
+
+.main-container {
+  position: relative;
+}
+
+.header-top {
+  height: 48px;
+  position: relative;
+}
+
+.header-label {
+  font-size: 16px;
+  background-color: #CEEED8;
+  color: #424040;
+  text-align: center;
+  padding: 7px 15px;
+  height: 37px;
+}
+
+.header-title {
+  margin-top: 15px;
+  padding: 7px 15px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.header-title span {
+  display: block;
+  color: #252525;
+}
+
+.banner  {
+  margin-top: 15px;
+}
+
+.banner img {
+  max-width: 100%;
+  width: 90%;
+}
+
+.btn {
+  display: inline-block;
+  border-radius: 5px;
+  text-align: center;
+  line-height: initial;
+  font-size: 16px;
+  border: none;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 35%);
+  padding: 6px 15px;
+  position: relative;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top:0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.inner-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn--primary {
+  background-color: #49A3E5;
+  color: #EDEDED;
+}
+
+.btn--light {
+  background-color: #F7F7F7;
+  border: 1px solid #CEEED8;
+}
+
+.btn--success {
+  background-color: #CEEED8;
+}
+
+.btn--error {
+  background-color: #ea4025;
+  color: #fff;
+}
+
+.btn--warning {
+  background-color: #F09A37;
+  color: #fff;
+}
+
+.btn--blue {
+  background-color: #5DC1C9;
+  color: #fff;
+}
+
+.btn--blue1 {
+  background-color: #339AC3;
+  color: #fff;
+}
+
+.btn--pink {
+  background-color: #F787BF;
+  color: #fff;
+}
+
+.btn--large {
+  padding: 9px 15px;
+}
+
+.fixed-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: #fff;
+}
+
+.btn-start {
+  font-size: 20px;
+  padding: 10px 20px;
+  max-width: 500px;
+}
+
+.group-btn .btn {
+  margin: 0 18px;
+  color: #4C4C4C;
+}
+
+.btn-top {
+  height: 48px;
+  width: 48px;
+  display: inline-block;
+}
+
+.btn-open {
+  padding: 11px 7px;
+}
+
+.qs-item__top {
+  padding: 30px 0;
+}
+
+.qs-number {
+  width: 75px;
+  height: 75px;
+  border: 3px solid #A6DAB6;
+  border-radius: 50%;
+  font-size: 48px;
+  color: #A6DAB6;
+  line-height: 54px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.qs-item__body {
+  padding: 0 15px;
+}
+.qs-question {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+}
+.qs-answer,
+.qs-progress {
+  padding: 15px;
+}
+
+.qs-answer__option {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.qs-answer__option.disabled {
+  opacity: .8;
+}
+
+[type="radio"]:checked, [type="radio"]:not(:checked) {
+  position: absolute;
+  left: -9999px;
+}
+
+.qs-answer-item {
+  position: relative;
+  display: block;
+  padding: 10px 20px;
+  border: 1px solid #49A3E5;
+  background-color: #FFFFFF;
+  margin-bottom: 5px;
+  border-radius: 7px;
+  color: #49A3E5;
+}
+
+[type="radio"]:checked + label {
+  background-color: #C1E2FC;
+}
+
+.qs-progress {
+  position: relative;
+}
+
+.progress-bar-text {
+  font-weight: bold;
+  position: absolute;
+  top: 0px
+}
+
+.progress-bar-text.left {
+  left: 15px;
+}
+
+.progress-bar-text.right {
+  right: 15px;
+}
+
+.progress-bar {
+  margin-top: 10px;
+  height: 10px;
+  width: 100%;
+  background-color : #E5E5E5
+}
+
+.progress-bar__inner {
+  background-color: #A6DAB6;
+  height: 100%;
+  width: 0%;
+  transition: width 800ms;
+}
+
+.result-content {
+  font-size: 14px;
+  color: #252525;
+  padding: 15px 0;
+}
+
+.result-content__img{
+  max-width: 80%;
+}
+
+.tite-cate {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.content-item {
+  padding: 5px 15px;
+}
+
+.content-item img {
+  max-width: 80%;
+}
+
+.content-label  {
+  text-align: center;
+  font-weight: bold;
+  padding: 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.content-label.blue {
+  background-color: #DCF0FF;
+  color: #0286E7;
+}
+.content-label.yellow {
+  background-color: #FFF5C4;
+  color: #FA8600;
+}
+.content-label.success {
+  background-color: #E7FBED;
+  color: #149B15;
+}
+.content-label.fs-small {
+  font-size: 14px;
+}
+.result-button button {
+  min-width: 262px;
+}
+
+.comment-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 15px;
+}
+.comment-item .comment__image {
+  width: 100px;
+}
+.comment-item .comment__text {
+  width: calc(100% - 100px);
+  background-color: #E7FBED;
+  padding: 15px 10px;
+  border-radius: 25px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 15px;
+  z-index: 1060;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+  opacity: 0;
+  transform: translateY(100vh);
+  transition: all .5s;
+}
+
+.modal-dialog {
+  max-width: 350px;
+  margin: 165px auto auto;
+  position: relative;
+  width: auto;
+  background-color: #FAFAFA;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 35%);
+  border-radius: 15px;
+}
+
+.modal-body, .modal-footer {
+  padding: 20px 15px;
+}
+
+.fadeinBottom {
+  opacity: 1;
+  transform: translateY(0);
+  -webkit-transform: translateY(0);
+  -o-transform: translateY(0);
+  -moz-transform: translateY(0);
+}
+
+.anreer-anchor, 
+.enneagram {
+  display: flex;
+  flex-direction: column;
+}
+
+.anreer-anchor {
+  flex-direction: column-reverse !important;
+}
+
+</style>
+  </head>
+<body>
+<script type="text/javascript">
+      // function for extending a class
+
+window.viewManager = function(){}
+
+viewManager.prototype.init = function() {
+  
+}
+
+window.baseOS = function(){
+  console.log('ios')
+}
+
+baseOS.prototype.getMsgJson = function(params){
+  console.log(params)
+}
+
+/**
+ * IOS
+ */
+window.iOS = function(){
+  console.log('ios')
+}
+window.iOS.prototype = window.baseOS.prototype;
+
+window.iOS.prototype.postMessage = function(fncName, msg){
+  msg = this.getMsgJson(msg);
+  window.webkit.messageHandlers[fncName].postMessage(msg);
+}
+
+
+/**
+ * Android
+ */
+window.Android = function(){
+  console.log('android')
+}
+
+window.Android.prototype = window.baseOS.prototype;
+
+window.Android.prototype.postMessage = function(fncName, msg){
+  msg = this.getMsgJson(msg);
+  if ((window.android || window.Android)) {
+    (window.android || window.Android)[fncName](msg);
+  }
+  
+}
+
+Android.prototype = new viewManager();
+iOS.prototype = new viewManager();
+
+
+
+    </script>
+
+<script type="text/javascript">
+(function () {
+  const dataAnswer = new Map();
+
+  // Base Question Class
+  class BaseQuestion {
+    constructor() {
+      this.dataDiagnose = {
+        currentQuestion: 0,
+        numberQuestion: 1,
+        startQuestion: 2,
+        maxDiagnose: 0,
+        maxDiagnoseNew: 0,
+        listQuestion: {},
+        optionAnswer: {},
+        postData: {
+          type: null,
+          result_type: null,
+          data: "",
+        }
+      };
+    }
+
+    isParamsDiagonse = (obj) => 'career_anchor' in obj && 'enneagram' in obj && 'start_page' in obj && 'contents' in obj;
+
+    init(params) {
+      if (this.checkObjNotEmpty(params)) {
+        this.response = params;
+        this.data = this.response.data;
+        this.destination = this.response.destination || null;
+        this.dataEnneagram = this.data.enneagram;
+        this.dataCareer = this.data.career_anchor;
+        this.dataContents = this.data.contents || {};
+        this.startPage = this.data.start_page.start_page;
+        this.baseUrl = `https://${location.host}`;
+        this.createUIPageDiagnose();      
+        this.createUIPageStart();
+        
+        if (this.destination) {
+          const typeDiagnose = this.destination;
+          this.initDiagnoseByType(typeDiagnose);
+          document.querySelector('body').appendChild(this.ComponentModal());
+          document.getElementById("diagnose").classList.remove('hide');
+          document.getElementById("start_diagnose").classList.add('hide');
+          this.fadeInRight(document.getElementById("diagnose"));
+        }
+      } else {
+        this.postMessage('logError', { error: 'Data passed in is correct' });
+      }
+    }
+
+    initDiagnoseByType(typeDiagnose) {
+      const diagnoseMap = {
+        'enneagram': () => new Enneagrame().initEnneagrame(this.dataEnneagram, typeDiagnose),
+        'career_anchor': () => new Career().initCareer(this.dataCareer, typeDiagnose)
+      };
+      
+      // Check if typeDiagnose exists in contents
+      if (this.dataContents.hasOwnProperty(typeDiagnose)) {
+        new Diagnosis().init(this.dataContents[typeDiagnose], typeDiagnose);
+      } else if (diagnoseMap[typeDiagnose]) {
+        diagnoseMap[typeDiagnose]();
+      }
+    }
+
+    createComponent(tag, className = "", textContent = "", attributes = {}) {
+      const element = document.createElement(tag);
+      element.className = className;
+      element.innerHTML = textContent;
+      Object.entries(attributes).forEach(([key, value]) => {
+        element.setAttribute(key, value);
+      });
+      return element;
+    }
+
+    baseMatchStringUrl(str) {
+      const tempBrPlaceholder = "__TEMP_BR_PLACEHOLDER__";
+      const stringWithoutBr = str.replace(/<br\s*\/?>/gi, tempBrPlaceholder);
+      const removeBrFromHref = (href) => href.replace(/__TEMP_BR_PLACEHOLDER__/g, "");
+
+      window.onClick = (elem) => {
+        const url = elem.getAttribute("data-url");
+        this.postMessage('toLinkBrowser', { value: url });
+      };
+
+      const regex = /http[s]?:\/\/\S+/gi;
+      const result = stringWithoutBr.replace(regex, (match) => {
+        const hrefWithoutBr = removeBrFromHref(match);
+        const anchorTag = document.createElement("a");
+        anchorTag.setAttribute("onclick", "onClick(this)");
+        anchorTag.setAttribute("href", "javascript:void(0)");
+        anchorTag.setAttribute("data-url", hrefWithoutBr);
+        anchorTag.textContent = match;
+        return anchorTag.outerHTML;
+      });
+
+      return result.replace(new RegExp(tempBrPlaceholder, "g"), "<br>");
+    }
+
+    createUIPageStart() {
+      const { text_top, img: startPageImg, text_bottom } = this.startPage;
+      const textLabel = "診断コンテンツ";
+      const isPage = "start_diagnose";
+      const body = document.body;
+
+      const container = this.createComponent('div', 'container start-diagnose', '', { id: 'start_diagnose' });
+      const main = this.createComponent('section', 'main-container');
+
+      const elTitle = this.createComponent('div', 'header-title text-truncate', text_top);
+      const elBanner = this.createComponent('div', 'banner mt-15 text-center', '', { id: 'banner' });
+      elBanner.appendChild(this.createComponent('img', '', '', { src: startPageImg }));
+      const elContent = this.createComponent('div', 'p-15', text_bottom);
+
+      // Create buttons for enneagram and career_anchor
+      const elBtnStartEnneagram = this.createComponent('div', 'p-15 text-center');
+      elBtnStartEnneagram.appendChild(this.ComponentButton({
+        text: '<small class="mr-7px">やりたいことが決まっている方</small><br/>診断スタート！',
+        isClass: "btn--primary btn-start w-100",
+        additionalAttributes: { 'data-type': 'enneagram' },
+        pressHandler: this.evtNextPageDiagnose.bind(this)
+      }));
+
+      const elBtnStartCarrierAnchor = this.createComponent('div', 'p-15 text-center');
+      elBtnStartCarrierAnchor.appendChild(this.ComponentButton({
+        text: '<small class="mr-7px">やりたいことが決まっていない方</small><br/>診断スタート！',
+        isClass: "btn--primary btn-start w-100",
+        additionalAttributes: { 'data-type': 'career_anchor' },
+        pressHandler: this.evtNextPageDiagnose.bind(this)
+      }));
+
+      main.prepend(elTitle, elBanner, elContent);
+      const buttonsContainer = this.createComponent('div');
+      buttonsContainer.appendChild(elBtnStartEnneagram);
+      buttonsContainer.appendChild(elBtnStartCarrierAnchor);
+
+      // Dynamically create components from contents (sorted by order)
+      const sortedContents = Object.entries(this.dataContents).sort(([, a], [, b]) => {
+        const orderA = a.order !== undefined ? a.order : Infinity;
+        const orderB = b.order !== undefined ? b.order : Infinity;
+        return orderA - orderB;
+      });
+
+      console.log(sortedContents);
+
+      sortedContents.forEach(([contentKey, contentData]) => {
+        if (contentData && contentData.title && contentData.img && contentData.description) {
+          const elComponentTitle = this.createComponent('div', 'header-title', contentData.title);
+          const elComponentSubTitle = this.createComponent('div', 'text-center', contentData.sub_title || '');
+          const elComponentBanner = this.createComponent('div', 'banner mt-15 text-center', '');
+          elComponentBanner.appendChild(this.createComponent('img', '', '', { src: contentData.img }));
+          const elComponentContent = this.createComponent('div', 'p-15', this.baseMatchStringUrl(contentData.description));
+          const elComponentBtn = this.createComponent('div', 'p-15 text-center');
+          
+          elComponentBtn.appendChild(this.ComponentButton({
+            text: `<small class="mr-7px">${contentData.title}</small></br>診断スタート！`,
+            isClass: "btn--primary btn-start w-100",
+            additionalAttributes: { 'data-type': contentKey },
+            pressHandler: this.evtNextPageDiagnose.bind(this)
+          }));
+
+          main.appendChild(elComponentTitle);
+          main.appendChild(elComponentSubTitle);
+          main.appendChild(elComponentBanner);
+          main.appendChild(elComponentContent);
+          main.appendChild(elComponentBtn);
+        }
+      });
+
+      container.prepend(this.ComponentHeader(textLabel, isPage), main, buttonsContainer);
+      body.prepend(container);
+    }
+
+    createUIPageDiagnose() {
+      const isPage = "diagnose";
+      const textLabel = "";
+      const body = document.body;
+
+      const container = this.createComponent('div', 'container hide', '', { id: 'diagnose' });
+      const main = this.createComponent('section', 'main-container');
+      const wrapperQs = this.createComponent('div', 'wrapper-qs');
+      const qsItem = this.createComponent('div', 'qs-item');
+      const qsItemTop = this.createComponent('div', 'qs-item__top');
+      const qsNumber = this.createComponent('div', 'qs-number');
+      const textNumber = this.createComponent('span', '', '', { id: 'number-question' });
+      const qsItemBody = this.createComponent('div', 'qs-item__body');
+      const qsQuestion = this.createComponent('div', 'qs-question', '', { id: 'question' });
+      const qsAnswer = this.createComponent('div', 'qs-answer');
+
+      qsNumber.appendChild(textNumber);
+      qsItemTop.appendChild(qsNumber);
+      qsItemBody.prepend(qsQuestion, qsAnswer, this.ComponentProgress());
+      qsItem.prepend(qsItemTop, qsItemBody);
+      wrapperQs.appendChild(qsItem);
+      main.appendChild(wrapperQs);
+      container.prepend(this.ComponentHeader(textLabel, isPage), main);
+      body.prepend(container);
+    }
+
+    ComponentHeader(text, typePage) {
+      const header = this.createComponent('herder', 'header-container');
+      const headerTop = this.createComponent('div');
+      const btnTop = this.createComponent('a');
+      const icon = this.createComponent('img');
+      const headerLabel = this.createComponent('div', 'header-label text-truncate', text || '');
+
+      const headerConfig = {
+        'start_diagnose': {
+          topClass: 'header-top',
+          btnClass: 'btn-top',
+          icon: 'ic_arrow_back.png',
+          handler: this.evtBackHomPage.bind(this)
+        },
+        'diagnose': {
+          topClass: 'header-top text-right',
+          btnClass: 'btn-top btn-open',
+          icon: 'icon-close.png',
+          handler: this.evtOpenModal.bind(this),
+          iconWidth: '33'
+        }
+      };
+
+      const config = headerConfig[typePage];
+      if (config) {
+        headerTop.className = config.topClass;
+        btnTop.className = config.btnClass;
+        icon.setAttribute("src", `${this.baseUrl}/assets/images/${config.icon}`);
+        if (config.iconWidth) icon.setAttribute("width", config.iconWidth);
+        btnTop.addEventListener("click", config.handler);
+      }
+
+      btnTop.appendChild(icon);
+      headerTop.appendChild(btnTop);
+      header.prepend(headerTop, headerLabel);
+      return header;
+    }
+
+    ComponentProgress() {
+      const progressWrapper = this.createComponent('div', 'qs-progress');
+      const textProgressLeft = this.createComponent('span', 'progress-bar-text left', '0%');
+      const textProgressRight = this.createComponent('span', 'progress-bar-text right', '100%');
+      const progressBar = this.createComponent('div', 'progress-bar');
+      const progressBarInner = this.createComponent('div', 'progress-bar__inner', '', { id: 'progressMeter' });
+
+      progressBar.appendChild(progressBarInner);
+      progressWrapper.prepend(textProgressLeft, textProgressRight, progressBar);
+      return progressWrapper;
+    }
+
+    ComponentButton({ text, isClass, pressHandler, additionalAttributes = {} }) {
+      const button = this.createComponent('button', `btn ${isClass}`, text);
+      Object.entries(additionalAttributes).forEach(([key, value]) => {
+        button.setAttribute(key, value);
+      });
+      button.addEventListener("click", pressHandler);
+      return button;
+    }
+
+    ComponentOptionAnswer({ id, name, value, data_text, data_point = "", data_group = "", data_type = "", data_next = "", data_question_order = "", text_label, evtCheckHandler }) {
+      const answerItemDiv = this.createComponent('div', 'qs-answer__option');
+      const answerCheckInput = this.createComponent('input', '', '', {
+        type: 'radio',
+        value: value,
+        id: id,
+        name: name,
+        'data-point': data_point,
+        'data-group': data_group,
+        'data-type': data_type,
+        'data_text': data_text,
+        'data_next': data_next,
+        'data_question_order': data_question_order
+      });
+
+      answerCheckInput.addEventListener("change", evtCheckHandler);
+      const answerLabel = this.createComponent('label', 'qs-answer-item text-center', text_label, { for: id });
+      answerItemDiv.appendChild(answerCheckInput);
+      answerItemDiv.appendChild(answerLabel);
+      return answerItemDiv;
+    }
+
+    ComponentModal() {
+      const modal = this.createComponent('div', 'modal');
+      const modalDialog = this.createComponent('div', 'modal-dialog');
+      const modalBody = this.createComponent('div', 'modal-body');
+      const modalFooter = this.createComponent('div', 'modal-footer text-center');
+      const textTitle = this.createComponent('p', 'text-center modal-title fs-16', '診断を続けますか？');
+      const footerInner = this.createComponent('div', 'group-btn');
+
+      footerInner.prepend(
+        this.ComponentButton({
+          text: "やめる",
+          isClass: "btn--light",
+          pressHandler: this.evtBackStartPage.bind(this)
+        }),
+        this.ComponentButton({
+          text: "続ける",
+          isClass: "btn--success",
+          pressHandler: this.evtCloseModal
+        })
+      );
+
+      modalFooter.appendChild(footerInner);
+      modalBody.prepend(textTitle);
+      modalDialog.prepend(modalBody, modalFooter);
+      modal.appendChild(modalDialog);
+      return modal;
+    }
+
+    createDiagnoseQs(diagnoseQuestion) {
+      if (this.checkObjNotEmpty(diagnoseQuestion)) {
+        this.createQuestion(diagnoseQuestion);
+        this.createAnswerOption(diagnoseQuestion);
+      }
+    }
+
+    createDiagnoseQsNew(diagnoseQuestion, keyQs, orderQs) {
+      if (this.checkObjNotEmpty(diagnoseQuestion)) {
+        this.createQuestion(diagnoseQuestion);
+        this.createAnswerOptionDiagnosisNew(diagnoseQuestion, keyQs, orderQs);
+      }
+    }
+
+    createQuestion(diagnoseQuestion) {
+      if (this.keyExistInObj(diagnoseQuestion, 'text')) {
+        const questionNumber = document.getElementById("number-question");
+        const questionsText = document.getElementById("question");
+        questionsText.textContent = diagnoseQuestion.text;
+        questionNumber.textContent = this.dataDiagnose.numberQuestion;
+      }
+    }
+
+    createAnswerOptionDiagnosisNew(diagnoseQuestion, keyQs, orderQs) {
+      const answerOptionList = diagnoseQuestion.answers;
+      const elAnswerList = document.querySelector('.qs-answer');
+      elAnswerList.innerHTML = "";
+      const fragment = document.createDocumentFragment();
+
+      Object.keys(answerOptionList)
+        .sort((a, b) => answerOptionList[a].order - answerOptionList[b].order)
+        .forEach(key => {
+          const option = answerOptionList[key];
+          fragment.appendChild(
+            this.ComponentOptionAnswer({
+              id: `diagnose-${this.dataDiagnose.numberQuestion}-${key}`,
+              name: `diagnose[${this.dataDiagnose.numberQuestion}][]`,
+              value: key,
+              data_text: option.text,
+              data_point: option.point,
+              data_group: option.group,
+              text_label: option.text,
+              data_next: option.next,
+              data_question_order: orderQs,
+              evtCheckHandler: (e) => this.handleAnswerSelection(e, keyQs, orderQs)
+            })
+          );
+        });
+      
+      elAnswerList.appendChild(fragment);
+    }
+
+    handleAnswerSelection(e, keyQs, orderQs) {
+      const toDiagnose = e.target.getAttribute("data_next");
+
+      dataAnswer.set(keyQs, e.target.value);
+
+      if (!toDiagnose) {
+        this.disableOptionAnswer();
+        this.showProgressNew(orderQs, toDiagnose);
+        this.dataDiagnose.postData.data = this.mapToString(dataAnswer);
+        setTimeout(() => {
+          this.postMessage("postData", this.dataDiagnose.postData);
+        }, 500);
+        return;
+      }
+
+      this.dataDiagnose.currentQuestion += 1;
+      this.dataDiagnose.numberQuestion += 1;
+      this.evtNextDiagnoseQsNew(toDiagnose);
+    }
+
+    createAnswerOption(diagnoseQuestion) {
+      const answerList = document.querySelector('.qs-answer');
+      answerList.innerHTML = "";
+      const fragment = document.createDocumentFragment();
+
+      Object.keys(this.dataDiagnose.optionAnswer).forEach(option => {
+        const optionData = this.dataDiagnose.optionAnswer[option];
+        fragment.appendChild(
+          this.ComponentOptionAnswer({
+            id: `diagnose-${this.dataDiagnose.numberQuestion}-${option}`,
+            name: `diagnose[${this.dataDiagnose.numberQuestion}][]`,
+            value: option,
+            data_text: optionData.text,
+            data_point: optionData.point,
+            data_group: diagnoseQuestion.group,
+            text_label: optionData.text,
+            evtCheckHandler: (e) => this.handleTraditionalAnswerSelection(e, diagnoseQuestion)
+          })
+        );
+      });
+      
+      answerList.appendChild(fragment);
+    }
+
+    handleTraditionalAnswerSelection(e, diagnoseQuestion) {
+      const data_point = e.target.getAttribute("data-point");
+
+      if (this.dataDiagnose.numberQuestion < this.dataDiagnose.maxDiagnose) {
+        this.dataDiagnose.currentQuestion += 1;
+        this.dataDiagnose.numberQuestion += 1;
+        this.dataDiagnose.startQuestion += 1;
+
+        if (this.dataDiagnose.postData.type === "enneagram") {
+          const toDiagnose = diagnoseQuestion[data_point];
+          dataAnswer.set(this.dataDiagnose.currentQuestion, toDiagnose);
+        } else if (this.dataDiagnose.postData.type === "career_anchor") {
+          const toDiagnose = `Q${this.dataDiagnose.startQuestion}`;
+          this.argolithmCareer(data_point, e.target.getAttribute("data-group"));
+          dataAnswer.set(this.dataDiagnose.currentQuestion, e.target.value);
+        }
+        this.evtNextDiagnoseQs(diagnoseQuestion[data_point] || `Q${this.dataDiagnose.startQuestion}`);
+      } else {
+        this.handleFinalAnswer(e, diagnoseQuestion, data_point);
+      }
+    }
+
+    handleFinalAnswer(e, diagnoseQuestion, data_point) {
+      switch (this.dataDiagnose.postData.type) {
+        case "enneagram":
+          dataAnswer.set(this.dataDiagnose.numberQuestion, diagnoseQuestion[data_point]);
+          this.dataDiagnose.postData.result_type = diagnoseQuestion[data_point];
+          this.disableOptionAnswer();
+          document.querySelector(".progress-bar__inner").style.width = "100%";
+          this.dataDiagnose.postData.data = this.mapToString(dataAnswer);
+          this.postMessage("postData", this.dataDiagnose.postData);
+          break;
+        case "career_anchor":
+          this.argolithmCareer(data_point, e.target.getAttribute("data-group"));
+          dataAnswer.set(this.dataDiagnose.numberQuestion, e.target.value);
+          this.compareCareer();
+          break;
+      }
+    }
+
+    disableOptionAnswer() {
+      const answerOptions = document.querySelectorAll(".qs-answer__option");
+      answerOptions.forEach(option => {
+        option.classList.add("disabled", "not-allow");
+      });
+    }
+
+    restartDiagnose() {
+      this.dataDiagnose = {
+        currentQuestion: 0,
+        numberQuestion: 1,
+        startQuestion: 2,
+        maxDiagnose: 0,
+        maxDiagnoseNew: 0,
+        listQuestion: {},
+        optionAnswer: {},   
+        postData: {
+          type: null,
+          result_type: null,
+          data: "",
+        }
+      };
+      this.createQuestion(this.dataDiagnose.listQuestion);
+      document.querySelector(".progress-bar__inner").style.width = "0%";
+    }
+
+    mapToString(map) {
+      return `{${Array.from(map.entries()).map(([key, value]) => `"${key}": "${value}"`).join(', ')}}`;
+    }
+
+    evtBackHomPage() {
+      this.postMessage('backPage', { value: "home" });
+    }
+
+    evtNextPageDiagnose(e) {
+      const startPage = document.getElementById("start_diagnose");
+      const diagnosePage = document.getElementById("diagnose");
+      
+      startPage.classList.add('hide');
+      document.body.appendChild(this.ComponentModal());
+      diagnosePage.classList.remove('hide');
+      this.fadeInRight(diagnosePage);
+
+      this.initDiagnoseByType(e.target.getAttribute('data-type'));
+    }
+
+    evtNextDiagnoseQs(key) {
+      if (this.keyExistInObj(this.dataDiagnose.listQuestion, key)) {
+        this.createDiagnoseQs(this.dataDiagnose.listQuestion[key]);
+        this.showProgress();
+      }
+    }
+
+    evtNextDiagnoseQsNew(key) {
+      if (this.keyExistInObj(this.dataDiagnose.listQuestion, key)) {
+        const question = this.dataDiagnose.listQuestion[key];
+        this.showProgressNew(question.order, key);
+        this.createDiagnoseQsNew(question, key, question.order);
+      }
+    }
+
+    evtOpenModal() {
+      document.querySelector('.modal').classList.add("fadeinBottom");
+    }
+
+    evtCloseModal() {
+      document.querySelector('.modal').classList.remove("fadeinBottom");
+    }
+
+    evtBackStartPage() {
+      const modal = document.querySelector('.modal');
+      modal.classList.remove("fadeinBottom");
+      
+      setTimeout(() => {
+        this.restartDiagnose();
+        document.getElementById("diagnose").classList.add('hide');
+        document.getElementById("start_diagnose").classList.remove('hide');
+        modal.remove();
+      }, 500);
+      
+      this.postMessage('backPage', { value: "top" });
+    }
+
+    showProgress() {
+      const increment = Math.ceil((this.dataDiagnose.currentQuestion) / (this.dataDiagnose.maxDiagnose) * 100);
+      const progressMeter = document.getElementById("progressMeter");
+      progressMeter.style.width = `${increment}%`;
+    }
+
+    showProgressNew(orderQs, nextQs) {
+      const progressMeter = document.getElementById("progressMeter");
+      const totalQuestion = this.dataDiagnose.maxDiagnoseNew;
+      const percentPerQuestion = (1 / totalQuestion) * 100;
+
+      if (!nextQs) {
+        progressMeter.style.width = '100%';
+      } else {
+        progressMeter.style.width = `${(orderQs - 1) * percentPerQuestion}%`;
+      }
+    }
+
+    fadeInRight(elem) {
+      const styleElem = window.getComputedStyle(elem);
+      const matrix = new WebKitCSSMatrix(styleElem.transform);
+      const widthDevice = window.innerWidth > 0 ? window.innerWidth : screen.width;
+
+      if (matrix.m41 <= 0) {
+        elem.style.transform = "translateX(0px)";
+        return;
+      }
+
+      const offset = widthDevice >= 768 ? 50 : 15;
+      elem.style.transform = `translateX(${Number(matrix.m41 - offset)}px)`;
+      setTimeout(() => this.fadeInRight(elem), 10);
+    }
+
+    keyExistInObj(obj, key) {
+      if (!obj.hasOwnProperty(key)) {
+        this.postMessage('logError', { error: `key ${key} does not exist` });
+        return false;
+      }
+      return true;
+    }
+
+    checkObjNotEmpty(obj) {
+      if (Object.keys(obj).length === 0) {
+        this.postMessage('logError', { error: 'Object is empty' });
+        return false;
+      }
+      if (obj.constructor !== Object) {
+        this.postMessage('logError', { error: 'Parameter is not a object' });
+        return false;
+      }
+      return true;
+    }
+
+    postMessage(fncName, msg) {
+      const msgStr = JSON.stringify(msg);
+      if ('webkit' in window) {
+        window.webkit.messageHandlers[fncName].postMessage(msgStr);
+      } else if ('android' in window) {
+        (window.android || window.Android)[fncName](msgStr);
+      }
+    }
+  }
+
+  // Enneagrame Class
+  class Enneagrame extends BaseQuestion {
+    constructor() {
+      super();
+    }
+
+    initEnneagrame(params, isType) {
+      this.isType = isType;
+      this.params = params;
+      this.objEenneagram();
+    }
+
+    objEenneagram() {
+      this.dataDiagnose.listQuestion = this.params.items;
+      this.dataDiagnose.optionAnswer = this.params.answers;
+      this.dataDiagnose.postData.type = this.isType;
+      this.dataDiagnose.maxDiagnose = 8;
+
+      if (this.keyExistInObj(this.dataDiagnose.listQuestion, `Q${this.dataDiagnose.numberQuestion + 1}`)) {
+        this.createDiagnoseQs(this.dataDiagnose.listQuestion.Q2);
+        this.showProgress();
+      }
+    }
+  }
+
+  // Career Class
+  class Career extends BaseQuestion {
+    constructor() {
+      super();
+      this.optScores = {};
+      this.listType = [];
+    }
+
+    initCareer(params, isType) {
+      this.isType = isType;
+      this.params = params;
+      this.objCareer();
+    }
+
+    objCareer() {
+      this.dataDiagnose.listQuestion = this.params.items;
+      this.dataDiagnose.optionAnswer = this.params.answers;
+      this.dataDiagnose.postData.type = this.isType;
+      this.dataDiagnose.maxDiagnose = Object.keys(this.params.items).length - 1;
+
+      if (this.keyExistInObj(this.dataDiagnose.listQuestion, `Q${this.dataDiagnose.numberQuestion + 1}`)) {
+        this.createDiagnoseQs(this.dataDiagnose.listQuestion.Q2);
+        this.showProgress();
+      }
+      this.assignObjScore();
+    }
+
+    assignObjScore() {
+      const listCareer = Object.values(this.dataDiagnose.listQuestion);
+      const uniqueGroup = [...new Set(listCareer.map(item => item.group).filter(Boolean))].sort();
+      this.listType = uniqueGroup;
+      uniqueGroup.forEach(element => {
+        this.optScores[element] = 0;
+      });
+    }
+
+    argolithmCareer(point, group) {
+      if (this.optScores.hasOwnProperty(group)) {
+        this.optScores[group] += Number(point);
+      }
+    }
+
+    compareCareer() {
+      const max = Math.max(...Object.values(this.optScores));
+      const getKeyMax = Object.keys(this.optScores).filter(key => this.optScores[key] === max);
+
+      if (getKeyMax.length === 1) {
+        const isNumberType = this.listType.findIndex(item => item === getKeyMax[0]);
+        this.dataDiagnose.postData.result_type = `TYPE${isNumberType + 1}`;
+        document.querySelector(".progress-bar__inner").style.width = "100%";
+        this.disableOptionAnswer();
+        this.dataDiagnose.postData.data = this.mapToString(dataAnswer);
+        this.postMessage('postData', this.dataDiagnose.postData);
+      } else if (getKeyMax.length > 1) {
+        const keyLastCareer = 'Q26';
+        if (this.keyExistInObj(this.dataDiagnose.listQuestion, keyLastCareer)) {
+          this.createLastQsCareer(keyLastCareer);
+        }
+      }
+    }
+
+    createLastQsCareer(key) {
+      const lastQsCareer = this.dataDiagnose.listQuestion[key];
+      const orderedLastQsCareer = Object.keys(lastQsCareer).sort().reduce((obj, k) => {
+        obj[k] = lastQsCareer[k];
+        return obj;
+      }, {});
+
+      const filterOptionLastCareer = Object.fromEntries(
+        Object.entries(orderedLastQsCareer).filter(([k]) => k !== "text")
+      );
+
+      const answerList = document.querySelector('.qs-answer');
+      this.dataDiagnose.maxDiagnose += 1;
+      this.dataDiagnose.numberQuestion += 1;
+
+      if (this.checkObjNotEmpty(lastQsCareer)) {
+        this.createQuestion(lastQsCareer);
+      }
+
+      answerList.innerHTML = "";
+      if (this.checkObjNotEmpty(filterOptionLastCareer)) {
+        Object.entries(filterOptionLastCareer).forEach(([option, value]) => {
+          const evtCheckHandler = (e) => {
+            const type = e.target.value;
+            this.dataDiagnose.postData.result_type = type;
+            this.disableOptionAnswer();
+            document.querySelector(".progress-bar__inner").style.width = "100%";
+            dataAnswer.set(this.dataDiagnose.numberQuestion, e.target.value);
+            this.dataDiagnose.postData.data = this.mapToString(dataAnswer);
+            this.postMessage('postData', this.dataDiagnose.postData);
+          };
+
+          answerList.appendChild(
+            this.ComponentOptionAnswer({
+              id: option,
+              name: "",
+              value: option,
+              data_text: value,
+              text_label: value,
+              evtCheckHandler: evtCheckHandler
+            })
+          );
+        });
+      }
+    }
+  }
+
+  // Diagnosis Class
+  class Diagnosis extends BaseQuestion {
+    constructor() {
+      super();
+    }
+
+    init(params, isType) {
+      this.isType = isType;
+      this.params = params;
+      this.objDiagnosis();
+    }
+
+    objDiagnosis() {
+      this.dataDiagnose.listQuestion = this.params.items;
+      this.dataDiagnose.postData.type = this.isType;
+      this.dataDiagnose.maxDiagnose = this.params.question_count;
+      this.dataDiagnose.maxDiagnoseNew = this.params.question_max;
+
+      const arrayFromObject = Object.values(this.dataDiagnose.listQuestion);
+      const elementWithOrder1 = arrayFromObject.find(item => item.order === 1);
+      const keyWithOrder1 = Object.keys(this.dataDiagnose.listQuestion)
+        .find(key => this.dataDiagnose.listQuestion[key] === elementWithOrder1);
+
+      if (keyWithOrder1) {
+        this.createDiagnoseQs(this.dataDiagnose.listQuestion[keyWithOrder1]);
+        this.createDiagnoseQsNew(this.dataDiagnose.listQuestion[keyWithOrder1], keyWithOrder1, elementWithOrder1.order);
+        this.showProgressNew(keyWithOrder1, elementWithOrder1.order);
+      }
+    }
+  }
+
+  const isBaseQs = new BaseQuestion();
+
+  window.isDiagnose = function(params) {
+    let e = null;
+    let isSuccess = false;
+
+    try {
+      const type = (params.type || '').toLowerCase();
+      if (type === "ios" || type === "android") {
+        // Platform detection if needed
+      }
+      isBaseQs.init(params);
+      isSuccess = true;
+    } catch (error) {
+      e = error.message;
+    }
+
+    isBaseQs.postMessage('loadFinished', { error: e, success: isSuccess });
+    return isSuccess;
+  };
+
+  isBaseQs.postMessage('javascriptLoaded', { success: true });
+})();
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="encoding" content="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+    *, ::after, ::before {
+      box-sizing: border-box;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #f2f2f2;
+    }
+
+    /* Header */
+    .header {
+      background: #4CAF50;
+      color: white;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .back-btn {
+      margin-right: 12px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* Search */
+    .search-wrapper {
+      background: white;
+      padding: 16px;
+    }
+
+    .search-wrapper__input {
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #aaa;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 12px 10px 36px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+    }
+
+    /* Section */
+    .section {
+      
+      /* margin-top: 12px; */
+    }
+
+    .section-container {
+      background: white;
+    }
+
+    .section-title {
+      padding: 10px 16px;
+      font-weight: 600;
+      color: #2e7d32;
+      border-bottom: 1px solid #eee;
+    }
+
+    .list-item {
+      padding: 16px 16px 16px 32px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+
+    .list-item:last-child {
+      border-bottom: none;
+    }
+
+    .list-item:active {
+      background: #f5f5f5;
+    }
+
+    /* FAQ */
+    .faq-item {
+      padding: 12px 16px 12px 32px;
+      color: #1976d2;
+      cursor: pointer;
+    }
+
+    .view-all {
+      text-align: center;
+      padding: 10px;
+      color: #1976d2;
+      cursor: pointer;
+    }
+
+    .search-result-item {
+      padding: 12px 16px 12px 32px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Contact */
+    .contact-text {
+      padding: 16px;
+      font-size: 14px;
+    }
+
+    .contact-btn {
+      margin: 0 16px 16px;
+      padding: 10px;
+      width: calc(100% - 32px);
+      border-radius: 8px;
+      border: 1px solid #1976d2;
+      color: #1976d2;
+      background: white;
+      cursor: pointer;
+    }
+
+
+    .nav-item {
+      text-align: center;
+      color: #777;
+    }
+
+    .nav-item.active {
+      color: orange;
+    }
+
+    .spacer {
+      height: 60px;
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/javascript">
+      (function() {
+        class HelpPageController {
+          #data = null;
+          #searchResults = null;
+          #currentSearchPage = 1;
+          #itemsPerPage = 10;
+          #searchQuery = '';
+
+          constructor() {
+            // Initialize without data - will be set via init() method
+          }
+
+          /**
+           * Initializes the help page with data from Flutter
+           * @public
+           * @param {Object} data - Data structure containing topics and faqs
+           */
+          init(data) {
+            try {
+              this.#data = data;
+              this.render();
+              this.setupEventListeners();
+            } catch (error) {
+              console.error('Failed to initialize help page:', error);
+              throw error;
+            }
+          }
+
+          /**
+           * Sends message to Flutter app
+           * @private
+           */
+          postMessage(fncName, msg) {
+            try {
+              if (window[fncName]?.postMessage) {
+                window[fncName].postMessage(JSON.stringify(msg));
+              } else {
+                console.warn(`JavaScript channel ${fncName} is not defined`);
+              }
+            } catch (error) {
+              console.error('An error occurred while calling the postMessage function:', error);
+            }
+          }
+
+          /**
+           * Renders the help page UI
+           * @private
+           */
+          render() {
+            if (!this.#data) {
+              console.warn('Data is not initialized. Call init() first.');
+              return;
+            }
+
+            const app = document.getElementById("app");
+
+            app.innerHTML = `
+              <div class="search-wrapper">
+                <div class="search-wrapper__input">
+                  <label for="searchInput" class="search-icon">
+                    <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" class="DocSearch-Search-Icon"><path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </label>
+                  <input 
+                    type="search"
+                    class="search-input"
+                    placeholder="知りたい内容についてご記入ください"
+                    id="searchInput"
+                  />
+                </div>
+              </div>
+
+              <div id="searchResults" class="search-results"></div>
+
+              <div class="section">
+                <div class="section-title">ヘルプページトピック</div>
+                <div class="section-container">
+                  ${this.#data.topics.map(item => `
+                    <div class="list-item" data-id="${item.id}" data-type="topic">${item.title}</div>
+                  `).join("")}
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title">よくある質問</div>
+                <div class="section-container">
+                  ${this.#data.faqs.map(item => `
+                    <div class="faq-item" data-id="${item.id}" data-type="faq">${item.title}</div>
+                  `).join("")}
+                  <div class="view-all">[すべてのFAQを見る]</div>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title">解決しない場合</div>
+                <div class="section-container">
+                  <div class="contact-text">
+                    解決しない場合はこちらからお問い合わせください。
+                  </div>
+                  <div class="view-all">[お問い合わせする]</div>
+                </div>
+              </div>
+            `;
+          }
+
+          /**
+           * Renders search results
+           * @private
+           */
+          renderSearchResults() {
+            if (!this.#searchResults || !this.#searchResults.items) {
+              return;
+            }
+
+            const resultsContainer = document.getElementById("searchResults");
+            if (!resultsContainer) return;
+
+            const items = this.#searchResults.items || [];
+            const totalItems = this.#searchResults.total || 0;
+            const pageCount = this.#searchResults.pageCount || 1;
+
+            if (items.length === 0) {
+              resultsContainer.innerHTML = '<div class="no-results">検索結果が見つかりません</div>';
+              return;
+            }
+
+            let html = '<div class="section-container">';
+            
+            items.forEach(item => {
+              const icon = item.type === 'topic' ? '📌' : '❓';
+              html += `
+                <div class="search-result-item" data-id="${item.id}" data-type="${item.type}">
+                  <div class="result-content">
+                    <div class="result-type">
+                      <span class="result-icon">${icon}</span>
+                      ${item.type === 'topic' ? 'トピック' : 'FAQ'}
+                    </div>
+                    <div class="result-title">${item.title}</div>
+                  </div>
+                </div>
+              `;
+            });
+
+            // Add "load more" button if not last page
+            if (pageCount > this.#currentSearchPage) {
+              html += `
+                <div class="view-all search-load-more" data-page="${this.#currentSearchPage + 1}">
+                  [もっと見る (${this.#currentSearchPage}/${pageCount})]
+                </div>
+              `;
+            }
+
+            html += '</div>';
+            resultsContainer.innerHTML = html;
+          }
+
+          /**
+           * Appends more search results
+           * @public
+           */
+          appendSearchResults(newResults) {
+            if (!this.#searchResults) return;
+
+            if (newResults.items) {
+              this.#searchResults.items = [...this.#searchResults.items, ...newResults.items];
+              this.#searchResults.pageCount = newResults.pageCount || this.#searchResults.pageCount;
+              this.#currentSearchPage++;
+            }
+
+            this.renderSearchResults();
+            this.setupEventListeners();
+          }
+
+          /**
+           * Sets search results
+           * @public
+           */
+          setSearchResults(results) {
+            this.#searchResults = results;
+            this.#currentSearchPage = 1;
+            this.renderSearchResults();
+            this.setupEventListeners();
+          }
+
+          /**
+           * Sets up event listeners
+           * @private
+           */
+          setupEventListeners() {
+            // List item clicks
+            document.querySelectorAll('.list-item').forEach(item => {
+              item.addEventListener('click', () => {
+                const id = item.dataset.id;
+                const title = item.textContent;
+                this.postMessage('selectTopic', {
+                  type: 'topic',
+                  id: id,
+                  title: title
+                });
+              });
+            });
+
+            // FAQ item clicks
+            document.querySelectorAll('.faq-item').forEach(item => {
+              item.addEventListener('click', () => {
+                const id = item.dataset.id;
+                const title = item.textContent;
+                this.postMessage('selectFaq', {
+                  type: 'faq',
+                  id: id,
+                  title: title
+                });
+              });
+            });
+
+            // Search input
+            const searchInput = document.getElementById("searchInput");
+            if (searchInput) {
+              // Handle keyup to show sections when search is cleared
+              searchInput.addEventListener('keyup', (e) => {
+                const query = searchInput.value.trim();
+                if (!query) {
+                  // Show all sections if search is cleared
+                  document.querySelectorAll('.section').forEach(section => {
+                    section.style.display = '';
+                  });
+                  // Clear search results
+                  document.getElementById("searchResults").innerHTML = '';
+                }
+              });
+
+              // Handle Enter key for search
+              searchInput.addEventListener('keydown', (e) => {
+                if (e.key === "Enter") {
+                  const query = searchInput.value.trim();
+                  if (query) {
+                    this.#searchQuery = query;
+                    this.#currentSearchPage = 1;
+
+                    // Hide all sections when searching
+                    document.querySelectorAll('.section').forEach(section => {
+                      section.style.display = 'none';
+                    });
+
+                    console.log('query :', {
+                      query: query,
+                      page: 1
+                    });
+                    this.postMessage('search', {
+                      query: query,
+                      page: 1
+                    });
+
+                  }
+                }
+              });
+            }
+
+            // Search results - load more button
+            document.querySelectorAll('.search-load-more').forEach(btn => {
+              btn.addEventListener('click', () => {
+                const page = parseInt(btn.dataset.page);
+                console.log('query :', {
+                  query: this.#searchQuery,
+                  page: page
+                });
+                this.postMessage('search', {
+                  query: this.#searchQuery,
+                  page: page
+                });
+              });
+            });
+
+            // Search result items click
+            document.querySelectorAll('.search-result-item').forEach(item => {
+              item.addEventListener('click', () => {
+                const id = item.dataset.id;
+                const type = item.dataset.type;
+                const title = item.querySelector('.result-title').textContent;
+                
+                const messageName = type === 'topic' ? 'selectTopic' : 'selectFaq';
+                this.postMessage(messageName, {
+                  type: type,
+                  id: id,
+                  title: title
+                });
+              });
+            });
+          }
+
+          /**
+           * Updates data with new structure
+           * @public
+           */
+          setData(newData) {
+            this.#data = newData;
+            this.render();
+            this.setupEventListeners();
+          }
+
+          /**
+           * Gets current data
+           * @public
+           */
+          getData() {
+            return this.#data;
+          }
+        }
+
+        // Initialize
+        try {
+          const helpPageController = new HelpPageController();
+          window.helpPageController = helpPageController;
+
+          // Initialize function to be called from Flutter
+          window.initHelpPage = function (data) {
+            let error = null;
+            let isSuccess = false;
+            try {
+              helpPageController.init(data);
+              isSuccess = true;
+            } catch (err) {
+              error = err.message;
+            }
+            
+            helpPageController.postMessage('loadFinished', {
+              error: error,
+              success: isSuccess
+            });
+            
+            return isSuccess;
+          };
+
+          // Send notification that JavaScript is loaded
+          helpPageController.postMessage('javascriptLoaded', { success: true });
+
+        } catch (error) {
+          console.error('Failed to initialize help page:', error);
+        }
+
+        initHelpPage({
+          topics: [
+            { id: '1', title: 'トピック1' },
+            { id: '2', title: 'トピック2' },  
+            { id: '3', title: 'トピック3' }
+          ],
+          faqs: [ 
+            { id: '1', title: 'FAQ 1' },
+            { id: '2', title: 'FAQ 2' },
+            { id: '3', title: 'FAQ 3' }
+          ] 
+        })
+      })();
+
+      // window.helpPageController.setSearchResults({
+      //   items: [
+      //     { id: '1', type: 'topic', title: 'Cách reset password' },
+      //     { id: '2', type: 'faq', title: 'Quên mật khẩu phải làm sao?' },
+      //     { id: '3', type: 'topic', title: 'Cách đăng nhập' },
+      //     { id: '4', type: 'faq', title: 'Không thể đăng nhập được' }
+      //   ],
+      //   total: 25,
+      //   pageCount: 3
+      // });
+    </script>
+  </body>
+</html>
