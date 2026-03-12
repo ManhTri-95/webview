@@ -4,23 +4,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="encoding" content="utf-8">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Change Address">
+    <meta name="format-detection" content="telephone=no,email=no,address=no">
     <style>
+
+
 *, ::after, ::before {
   box-sizing: border-box;
 }
 
-:root { 
+:root {
   --bs-body-font-size: 1rem;
   --bs-body-line-height: 1.5;
   --bs-body-font-weight: 400;
   --bs-body-bg: #FAFAFA;
   --bs-body-font-color: #212529;
   --bs-body-font-family: Arial, Helvetica, sans-serif;
+  --safe-area-inset-top: 0px;
+  --safe-area-inset-bottom: 0px;
 }
 
-body { 
+body {
   margin: 0;
   font-size: var(--bs-body-font-size);
   line-height: var(--bs-body-line-height);
@@ -28,6 +35,20 @@ body {
   background-color: var(--bs-body-bg);
   color: var(--bs-body-font-color);
   font-family: var(--bs-body-font-family);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+  -webkit-user-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-draggable: none;
+  -webkit-appearance: none;
+  appearance: none;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 .text-center {
@@ -58,6 +79,11 @@ body {
 .mx-3 {
   margin-left: 1rem!important;
   margin-right: 1rem!important;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .mb-3 {
@@ -118,31 +144,62 @@ body {
   max-width: 1024px;
   margin-left: auto;
   margin-right: auto;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 26px;
   position: relative;
+  touch-action: manipulation;
+}
+
+form {
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.sub-title {
+  color: #005617;
+  font-weight: 700;
 }
 
 label {
+  color: #005617;
+  font-weight: 700;
   display: inline-block;
 }
 
 .form-label {
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .form-control {
   display: block;
   width: 100%;
-  font-size: 1rem;
+  font-size: 16px;
   color: #212529;
   line-height: 1.5;
   padding: 0.375rem 0.75rem;
   border: 1px solid #ced4da;
   background-color: #fff;
   border-radius: 5px;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-user-select: text;
+  user-select: text;
+  touch-action: manipulation;
 }
 
 .form-control:focus {
@@ -150,6 +207,19 @@ label {
   background-color: #fff;
   border-color: #86b7fe;
   outline: 0;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: none;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.form-control:disabled,
+.form-control[disabled] {
+  opacity: .75;
+  -webkit-text-fill-color: #212529;
+  background-color: #fff;
+  color: #212529;
+  cursor: not-allowed;
 }
 
 .input-group {
@@ -165,6 +235,31 @@ label {
   flex: 1 1 auto;
   width: 1%;
   min-width: 0;
+}
+
+.input-group>.disable{
+  background-color: #fff !important;
+  color: #000 !important;
+  -webkit-text-fill-color: #000;
+  opacity: 1;
+}
+
+.custom-select::before {
+  content: "\25BC";
+  position: absolute;
+  right: 0.9rem;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.7rem;
+  color: #888;
+  pointer-events: none;
+} 
+
+.custom-select .form-control:read-only:focus {
+  background-color: #fff !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .btn {
@@ -188,6 +283,12 @@ label {
   user-select: none;
   border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
   border-radius: var(--bs-btn-border-radius);
+}
+
+.btn--round {
+  --bs-btn-padding-x: 2rem;
+  --bs-btn-padding-y: 0.7rem;
+  border-radius: 2rem;
 }
 
 .btn--primary {
@@ -215,7 +316,8 @@ label {
 .text-valid {
   position: absolute;
   left: 15px;
-  font-size: 0.7rem;
+  bottom: -24px;
+  font-size: 1rem;
   line-height: 1.5;
   color: red;
   font-style: italic;
@@ -248,18 +350,199 @@ label {
 
 .zip-code-container {
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: flex-end;
 }
 
-.zip-code-container .form-group { 
+.strike-through {
+  margin-bottom: 6px;
+}
+
+.data-input{
+  color: red;
+}
+
+
+.zip-code-container .form-group {
   margin-bottom: 0;
 }
-    </style>
+
+/* iOS fixes for white overlay and auto-zoom */
+input,
+textarea,
+select,
+button {
+  font-size: 16px !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  -webkit-border-radius: 0 !important;
+  border-radius: 0 !important;
+  -webkit-tap-highlight-color: transparent !important;
+  touch-action: manipulation;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  -webkit-user-modify: read-write-plaintext-only;
+  background-clip: padding-box;
+}
+
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  display: never !important;
+  pointer-events: none;
+  height: 0;
+  width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+textarea {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  -webkit-user-callout: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+  appearance: none !important;
+  outline: 0 !important;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-appearance: none !important;
+}
+
+/* Prevent default iOS long-press menu */
+*:not(input):not(textarea):not(button) {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-user-callout: none;
+  -webkit-touch-callout: none;
+}
+
+/* Additional iOS fixes for gray overlay and selection issues */
+::selection {
+  background-color: transparent;
+  color: inherit;
+}
+
+::-moz-selection {
+  background-color: transparent;
+  color: inherit;
+}
+
+html {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-callout: none;
+  -webkit-user-drag: none;
+}
+
+/* Disable text selection styling on iOS */
+input::selection,
+textarea::selection,
+button::selection {
+  background-color: transparent;
+}
+
+/* Fix for iOS cursor position */
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+  caret-color: #212529;
+}
+
+/* Prevent iOS from zooming on input focus */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+  font-size: 16px;
+  min-height: 44px;
+  padding: 8px 12px;
+}
+
+/* Enhanced button focus state for iOS */
+button:active {
+  opacity: 0.8;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent iOS gesture issues */
+.container,
+form {
+  -webkit-touch-callout: none;
+  -webkit-user-callout: none;
+}
+
+</style>
   </head>
   <body>
-    <script type="text/javascript" src="https://ajaxzip3.github.io/ajaxzip3.js"></script>
     <script type="text/javascript">
-     (function() {
+/* ================================================================ *
+    ajaxzip3.js ---- AjaxZip3 郵便番号→住所変換ライブラリ
+    Copyright (c) 2008-2015 Ninkigumi Co.,Ltd.
+    http://ajaxzip3.github.io/
+    Copyright (c) 2006-2007 Kawasaki Yusuke <u-suke [at] kawa.net>
+    http://www.kawa.net/works/ajax/AjaxZip2/AjaxZip2.html
+    Permission is hereby granted, free of charge, to any person
+    obtaining a copy of this software and associated documentation
+    files (the "Software"), to deal in the Software without
+    restriction, including without limitation the rights to use,
+    copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following
+    conditions:
+    The above copyright notice and this permission notice shall be
+    included in all copies or substantial portions of the Software.
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+    OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+    HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+    WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+    OTHER DEALINGS IN THE SOFTWARE.
+* ================================================================ */
+
+AjaxZip3=function(){};AjaxZip3.VERSION="0.51";AjaxZip3.JSONDATA="https://yubinbango.github.io/yubinbango-data/data";AjaxZip3.CACHE=[];AjaxZip3.prev="";AjaxZip3.nzip="";AjaxZip3.fzip1="";AjaxZip3.fzip2="";AjaxZip3.fpref="";AjaxZip3.addr="";AjaxZip3.fstrt="";AjaxZip3.farea="";AjaxZip3.ffocus=true;AjaxZip3.onSuccess=null;AjaxZip3.onFailure=null;AjaxZip3.PREFMAP=[null,"北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"];AjaxZip3.zip2addr=function(h,g,k,b,l,a,m){AjaxZip3.fzip1=AjaxZip3.getElementByName(h);AjaxZip3.fzip2=AjaxZip3.getElementByName(g,AjaxZip3.fzip1);AjaxZip3.fpref=AjaxZip3.getElementByName(k,AjaxZip3.fzip1);AjaxZip3.faddr=AjaxZip3.getElementByName(b,AjaxZip3.fzip1);AjaxZip3.fstrt=AjaxZip3.getElementByName(a,AjaxZip3.fzip1);AjaxZip3.farea=AjaxZip3.getElementByName(l,AjaxZip3.fzip1);AjaxZip3.ffocus=m===undefined?true:m;if(!AjaxZip3.fzip1){return}if(!AjaxZip3.fpref){return}if(!AjaxZip3.faddr){return}var c=AjaxZip3.fzip1.value;if(AjaxZip3.fzip2&&AjaxZip3.fzip2.value){c+=AjaxZip3.fzip2.value}if(!c){return}AjaxZip3.nzip="";for(var f=0;f<c.length;f++){var d=c.charCodeAt(f);if(d<48){continue}if(d>57){continue}AjaxZip3.nzip+=c.charAt(f)}if(AjaxZip3.nzip.length<7){return}var j=function(){var i=AjaxZip3.nzip+AjaxZip3.fzip1.name+AjaxZip3.fpref.name+AjaxZip3.faddr.name;if(AjaxZip3.fzip1.form){i+=AjaxZip3.fzip1.form.id+AjaxZip3.fzip1.form.name+AjaxZip3.fzip1.form.action}if(AjaxZip3.fzip2){i+=AjaxZip3.fzip2.name}if(AjaxZip3.fstrt){i+=AjaxZip3.fstrt.name}if(i==AjaxZip3.prev){return}AjaxZip3.prev=i};var n=AjaxZip3.nzip.substr(0,3);var e=AjaxZip3.CACHE[n];if(e){return AjaxZip3.callback(e)}AjaxZip3.zipjsonpquery()};AjaxZip3.callback=function(h){function d(){if(typeof AjaxZip3.onFailure==="function"){AjaxZip3.onFailure()}}var m=h[AjaxZip3.nzip];var e=(AjaxZip3.nzip-0+4278190080)+"";if(!m&&h[e]){m=h[e]}if(!m){d();return}var b=m[0];if(!b){d();return}var o=AjaxZip3.PREFMAP[b];if(!o){d();return}var c=m[1];if(!c){c=""}var r=m[2];if(!r){r=""}var f=m[3];if(!f){f=""}var q=AjaxZip3.faddr;var k=c;if(AjaxZip3.fpref.type=="select-one"||AjaxZip3.fpref.type=="select-multiple"){var a=AjaxZip3.fpref.options;for(var g=0;g<a.length;g++){var n=a[g].value;var p=a[g].text;a[g].selected=(n==b||n==o||p==o)}}else{if(AjaxZip3.fpref.name==AjaxZip3.faddr.name){k=o+k}else{AjaxZip3.fpref.value=o}}if(AjaxZip3.farea){q=AjaxZip3.farea;AjaxZip3.farea.value=r}else{k+=r}if(AjaxZip3.fstrt){q=AjaxZip3.fstrt;if(AjaxZip3.faddr.name==AjaxZip3.fstrt.name){k=k+f}else{if(f){AjaxZip3.fstrt.value=f}}}AjaxZip3.faddr.value=k;if(typeof AjaxZip3.onSuccess==="function"){AjaxZip3.onSuccess()}if(!AjaxZip3.ffocus){return}if(!q){return}if(!q.value){return}var l=q.value.length;q.focus();if(q.createTextRange){var j=q.createTextRange();j.move("character",l);j.select()}else{if(q.setSelectionRange){q.setSelectionRange(l,l)}}};AjaxZip3.getResponseText=function(b){var c=b.responseText;if(navigator.appVersion.indexOf("KHTML")>-1){var a=escape(c);if(a.indexOf("%u")<0&&a.indexOf("%")>-1){c=decodeURIComponent(a)}}return c};AjaxZip3.getElementByName=function(d,b){if(typeof(d)=="string"){var e=document.getElementsByName(d);if(!e){return null}if(e.length>1&&b&&b.form){var c=b.form.elements;for(var a=0;a<c.length;a++){if(c[a].name==d){return c[a]}}}else{return e[0]}}return d};AjaxZip3.zipjsonpquery=function(){var a=AjaxZip3.JSONDATA+"/"+AjaxZip3.nzip.substr(0,3)+".js";var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",a);document.getElementsByTagName("head").item(0).appendChild(b)};function $yubin(a){AjaxZip3.callback(a)};
+</script>
+    <script type="text/javascript">
+
+(function() {
+  window.onerror = function (message, source, lineno, colno, error) {
+    try {
+     console.log('window.onerror triggered:', { message, source, lineno, colno, error });
+      window.error?.postMessage(JSON.stringify({
+        type: 'error',
+        code: 'JAVASCRIPT_ERROR',
+        message: message || 'An unknown JavaScript error has occurred',
+        details: {
+          source: source || 'unknown',
+          line: lineno || 'unknown',
+          column: colno || 'unknown',
+          stack: error?.stack || 'no stack trace'
+        }
+      }))
+
+    } catch (e) {
+      console.error('Failed to send error to Flutter:', e);
+    }
+
+    return true;
+  }
+
   class UserChangeInAddress {
     /** @type {HTMLFormElement | null} */
     #form = null;
@@ -267,10 +550,11 @@ label {
     #config = {
       formClasses: ['px-15px'],
       inputClasses: ['form-control'],
-      buttonClasses: ['btn', 'btn--warning', 'w-100', 'mt-5', 'd-block', 'radius-0'],
+      buttonClasses: ['btn', 'btn--round', 'btn--warning', 'mt-5', 'mx-auto'],
       requiredLabel: '<span class="required">必須</span>',
       validationMessage: 'を入力してください',
-      zipValidationMessage: '郵便番号に該当する住所が見つかりません'
+      zipValidationMessage: '郵便番号に該当する住所が見つかりません',
+      isOpenKeyboard: false
     }
 
     /**
@@ -296,10 +580,16 @@ label {
      */
     #createForm() {
       const body = document.body;
-      document.body.innerHTML = '';
       const container = this.#createElement('div', { className: 'container' });
       this.#form = this.#createElement('form', { className: 'mt-2rem'});
       
+      const buttonSubmit =  this.#createElement('div', { className: 'text-center' });
+      buttonSubmit.append(this.#createElement('button', { 
+          className: this.#config.buttonClasses.join(' '),
+          textContent: '申請内容確認',
+          type: 'button',
+          events: { click: this.#validateForm.bind(this) }
+        }))
       // const userName = this.#createElement('span', {
       //   className: 'fs-3 d-inline-block mb-3 px-15px',
       //   id: 'username'
@@ -308,10 +598,10 @@ label {
       const formElements = [
         //userName,
         this.#createDateField(),
-        this.#createElement('span', {
-          className: 'd-block mt-4 mb-4 px-15px sub-title',
-          textContent: '転居先住所'
-        }),
+        // this.#createElement('span', {
+        //   className: 'd-block mt-4 mb-4 px-15px sub-title',
+        //   textContent: '転居先住所'
+        // }),
         this.#createZipCodeContainer(),
         this.#createFormGroup({
           label: '都道府県',
@@ -331,12 +621,14 @@ label {
           name: 'building', 
         }),
 
-        this.#createElement('button', { 
-          className: this.#config.buttonClasses.join(' '),
-          textContent: '入力内容確認',
-          type: 'button',
-          events: { click: this.#validateForm.bind(this) }
-        })
+       
+        // this.#createElement('button', { 
+        //   className: this.#config.buttonClasses.join(' '),
+        //   textContent: '入力内容確認',
+        //   type: 'button',
+        //   events: { click: this.#validateForm.bind(this) }
+        // })
+        buttonSubmit
       ];
 
       this.#form.append(...formElements);
@@ -357,7 +649,16 @@ label {
         if (textContent) element.textContent = textContent;
         if (innerHTML) element.innerHTML = innerHTML;
         Object.entries(attributes).forEach(([key, value]) => {
+          // element.setAttribute(key, value);
+          if (typeof value === 'boolean') {
+            if (value) {
+              element.setAttribute(key, ''); 
+            } else {
+              element.removeAttribute(key); 
+            }
+          } else {
             element.setAttribute(key, value);
+          }
         });
 
         Object.entries(events).forEach(([event, handler]) => {
@@ -374,36 +675,39 @@ label {
      */
     #createDateField () {
       const formGroup = this.#createElement('div', { className: `form-group ${this.#config.formClasses.join(' ')}` });
-      const inputGroup = this.#createElement('div', { className: 'input-group' });
+      const inputGroup = this.#createElement('div', { className: 'input-group custom-select' });
 
       const label = this.#createElement('label', {
         className: 'form-label',
-        for: 'date',
         innerHTML: `転居日 ${this.#config.requiredLabel}` 
       });
 
       const input = this.#createElement('input', {
-        className: this.#config.inputClasses.join(' '),
+        // className: this.#config.inputClasses.join(' '),
+        className: `${this.#config.inputClasses.join(' ')}`,
         type: 'text',
         id: 'date',
-        placeholder: '右のカレンダーから選択',
+        placeholder: '日付を選択してください',
         required: true,
-        disabled: 'disabled'
+        readonly: true,
+        events: { click: this.#handleCalendar.bind(this) }
+        // disabled: 'disabled'
       });
 
-      const button = this.#createElement('button', {
-        className: 'btn btn--primary ml-3',
-        type: 'button',
-        textContent: '選択',
-        events: { click: this.#handleCalendar.bind(this) }
-      });
+      // const button = this.#createElement('button', {
+      //   className: 'btn btn--primary ml-3',
+      //   type: 'button',
+      //   textContent: '選択',
+      //   events: { click: this.#handleCalendar.bind(this) }
+      // });
 
       const validation = this.#createElement('span', {
         className: 'text-valid',
         textContent: '転居日を入力してください'
       });
 
-      inputGroup.append(input, button);
+      // inputGroup.append(input, button);
+      inputGroup.append(input);
       formGroup.append(label, inputGroup, validation);
       return formGroup;
     }
@@ -430,7 +734,7 @@ label {
       }));
 
       const strikethrough = this.#createElement('span', {
-        className: 'd-inline-block mx-3',
+        className: 'd-inline-block strike-through mx-3',
         textContent: '-'
       });
 
@@ -574,24 +878,100 @@ label {
      * @private
      */
     #setupEventListeners() { 
-      const inputs = this.#form?.querySelectorAll('input[type="text"], input[type="number"]');
-      inputs?.forEach(input => {
-        input.addEventListener('focus', () => { 
-          const fieldMap = {
-            'zip21': 'zipcode',
-            'zip22': 'zipcode',
-            'pref21': 'prefecture',
-            'addr21': 'address',
-            'building': 'building'
-          };
+      // iOS: Prevent gray overlay on tap/selection
+      document.addEventListener('touchstart', (event) => {
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.tagName === 'BUTTON') {
+          event.preventDefault();
+          event.target.focus();
+        }
+      }, { passive: false });
 
-          const field = fieldMap[input.name];
-          if (field) {
-            const y = Math.round(input.getBoundingClientRect().top);
-            this.postMessage('focusItem', { value: field, y });
+      document.addEventListener('touchend', (event) => {
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.tagName === 'BUTTON') {
+          event.target.focus();
+        }
+      }, { passive: false });
+
+      // Handle focus position and keyboard appearance
+      const inputs = this.#form?.querySelectorAll('input[type="text"], input[type="number"], textarea');
+      inputs?.forEach(input => {
+        input.addEventListener('focus', (e) => { 
+          try {
+            // Prevent gray selection overlay
+            if (document.activeElement === e.target) {
+              // Clear any active selection
+              setTimeout(() => {
+                const selection = window.getSelection();
+                if (selection) selection.removeAllRanges();
+              }, 0);
+            }
+
+            // Scroll into view with safe area compensation
+            setTimeout(() => {
+              const rect = e.target.getBoundingClientRect();
+              const safeTop = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--safe-area-inset-top') || '0');
+              
+              if (rect.top < 100) {
+                e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+            }, 100);
+
+            const fieldMap = {
+              'zip21': 'zipcode',
+              'zip22': 'zipcode',
+              'pref21': 'prefecture',
+              'addr21': 'address',
+              'building': 'building',
+              'date': 'date'
+            };
+
+            const field = fieldMap[e.target.name];
+            if (field) {
+              const rect = e.target.getBoundingClientRect();
+              const y = Math.round(rect.top + rect.height / 2);
+              console.log(`Focused on ${field} field at position y: ${y}`);
+              this.postMessage('focusItem', { value: field, y });
+              this.#config.isOpenKeyboard = true;
+            }
+          } catch (error) {
+            console.error('Focus event error:', error);
           }
-        })
-      })
+        });
+
+        input.addEventListener('blur', () => {
+          this.#config.isOpenKeyboard = false;
+          this.postMessage('hideKeyboard', { value: false });
+        });
+
+        // Prevent long-press selection overlay on iOS
+        input.addEventListener('contextmenu', (e) => {
+          e.preventDefault();
+          return false;
+        });
+
+        // Prevent selection highlighting
+        input.addEventListener('selectstart', (e) => {
+          e.preventDefault();
+          return false;
+        });
+      });
+
+      // Handle touch outside input to blur
+      document.addEventListener('touchstart', (event) => {
+        const active = document.activeElement;
+        const isTargetAnInput = event.target.tagName === 'INPUT' || 
+                               event.target.tagName === 'TEXTAREA' ||
+                               event.target.tagName === 'BUTTON';
+        
+        if (
+          (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA') &&
+          !active.contains(event.target) &&
+          !isTargetAnInput
+        ) {
+          active.blur();
+          this.#config.isOpenKeyboard = false;
+        }
+      }, { passive: true });
     }
   
     /**
@@ -727,6 +1107,16 @@ label {
 
     }
 
+
+    /**
+      * Set open keyboard state
+      * @public
+      * @param {boolean} isOpen - Whether the keyboard is open
+      */
+    setOpenKeyboard(isOpen) { 
+      this.#config.isOpenKeyboard = isOpen;
+    }
+
     /**
      * Handles calendar button click
      * @private
@@ -783,7 +1173,6 @@ label {
     }
     userChangeInAddress.postMessage('javascriptLoaded', {"success": true});
     
-   //initCallApp({"name": "userA", "id":"42432", "date_move": "24/05/2023"})
     window.selectDate = function(param) {
       userChangeInAddress.setDataDateField(param);
     }
@@ -796,7 +1185,10 @@ label {
       details: { error: error.message }
     }));
   }
+
 })();
-    </script>
+
+//initCallApp({"name": "userA", "id":"42432", "date_move": ""})
+</script>
   </body>
 </html>

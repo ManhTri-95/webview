@@ -5,6 +5,7 @@
       this.response = response;
       this.data = this.response.data;
       this.baseUrl = 'https://' + location.host;
+      this.firstResult = this.response.first_result;
       this.createUI();
     } else {
       this.postMessage('logError', { error: 'Data passed in is correct' });
@@ -41,8 +42,10 @@
     iconBackTop.addEventListener("click", this.evtBackPage.bind(this));
     elBtnBackTop.appendChild(iconBackTop);
 
+    if (!this.firstResult) {
+      headerTop.appendChild(elBtnBackTop);
+    }
 
-    headerTop.appendChild(elBtnBackTop);
     headerTop.className = "header-top";
     header.prepend(headerTop, headerLabel);
 
@@ -440,6 +443,6 @@
     return isSuccess;
   }
   result.postMessage('javascriptLoaded', {"success": true});
-  isResult({"type":"android","version":32,"device_name":"Pixel 3a","data":{"text":"生活様式タイプ","img":"https://d2p333gdzaltfu.cloudfront.net/diagnostic/career-anchor/type_8.png","aptitude":"あなたは、日々をバランスよく楽しみたいと願っている人です。一見、おっとりしているよ\nうに見えても、仕事とプライベートを上手に両立させながら、どちらの幸せもつかみたいと\nいうしっかり者でもあります。ハードすぎない仕事を長く続けていきたいあなたには、大手\n企業の会社員や残業の少ないデスクワークなどが適しています。育児休暇、有給休暇などの\n制度が整った組織に守られながら、家庭や子育ての時間をもつことが人生を輝かせるでし\nょう。","advice":"あなたがオンでもオフでも笑顔でいられるキーワードは、「両立」「家庭的」「充足感」。仕事\nもプライベートも大切にして両立させることで、キャリアアップしつつも家庭的な幸せを\n得ることができます。きっと年を重ねるごとに自らの人生が充足感に満ちてくることでし\nょう。これは、平凡な幸せのように見えて現代ではハードルの高い理想的な人生でもありま\nす。しっかりと計画性をもって資格取得や人生設計などに取り組むなど、準備することが重\n要です。","customer_comment":[{"text":"現状をお話ししたところ優しく受け止めていただき、これから目指す方向や自分に必要なことを的確に示してもらえました。（30代/女性）","img":"https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_01.png"},{"text":"とてもフレンドリーに話してくださり、ポジティブな気持ちになれました。（60代/女性）","img":"https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_02.png"},{"text":"世の中のキャリアコンサルタントにはこちらの相談をきちんと聞かずに一方的に話すような方もいますが、スタッフサービスのコンサルタントは共感し、励まし、解決の糸口を見つけてくれました。（40代/女性）","img":"https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_03.png"}],"top_rc":{},"bottom_rc":{"doc_id":"129","doc_code":"bdghrkvri8lho1VKCRF","doc_title":"test document 45 new","doc_type":"YOUTUBE","doc_thumb":"https://test-lac.learningpocket.com/uploads/teacher/EvVbU9pomcFgD1JlSt/oi53yrc6gt2f/mt_1253922500_v1_khAi1h8rk.PNG","memo":"このページでは、診断コンテンツ結果ページに表示される動画と紹介文を設定するページです"},"type":"CAREER_ANCHOR","result_type":"TYPE8","user_type":"GUEST","html":"https://test-lac.learningpocket.com/diagnostic/result.html"}})
+  isResult({"type":"android","first_result": true,"version":32,"device_name":"Pixel 3a","data":{"text":"生活様式タイプ","img":"https://d2p333gdzaltfu.cloudfront.net/diagnostic/career-anchor/type_8.png","aptitude":"あなたは、日々をバランスよく楽しみたいと願っている人です。一見、おっとりしているよ\nうに見えても、仕事とプライベートを上手に両立させながら、どちらの幸せもつかみたいと\nいうしっかり者でもあります。ハードすぎない仕事を長く続けていきたいあなたには、大手\n企業の会社員や残業の少ないデスクワークなどが適しています。育児休暇、有給休暇などの\n制度が整った組織に守られながら、家庭や子育ての時間をもつことが人生を輝かせるでし\nょう。","advice":"あなたがオンでもオフでも笑顔でいられるキーワードは、「両立」「家庭的」「充足感」。仕事\nもプライベートも大切にして両立させることで、キャリアアップしつつも家庭的な幸せを\n得ることができます。きっと年を重ねるごとに自らの人生が充足感に満ちてくることでし\nょう。これは、平凡な幸せのように見えて現代ではハードルの高い理想的な人生でもありま\nす。しっかりと計画性をもって資格取得や人生設計などに取り組むなど、準備することが重\n要です。","customer_comment":[{"text":"現状をお話ししたところ優しく受け止めていただき、これから目指す方向や自分に必要なことを的確に示してもらえました。（30代/女性）","img":"https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_01.png"},{"text":"とてもフレンドリーに話してくださり、ポジティブな気持ちになれました。（60代/女性）","img":"https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_02.png"},{"text":"世の中のキャリアコンサルタントにはこちらの相談をきちんと聞かずに一方的に話すような方もいますが、スタッフサービスのコンサルタントは共感し、励まし、解決の糸口を見つけてくれました。（40代/女性）","img":"https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_03.png"}],"top_rc":{},"bottom_rc":{"doc_id":"129","doc_code":"bdghrkvri8lho1VKCRF","doc_title":"test document 45 new","doc_type":"YOUTUBE","doc_thumb":"https://test-lac.learningpocket.com/uploads/teacher/EvVbU9pomcFgD1JlSt/oi53yrc6gt2f/mt_1253922500_v1_khAi1h8rk.PNG","memo":"このページでは、診断コンテンツ結果ページに表示される動画と紹介文を設定するページです"},"type":"CAREER_ANCHOR","result_type":"TYPE8","user_type":"GUEST","html":"https://test-lac.learningpocket.com/diagnostic/result.html"}})
 
 })()

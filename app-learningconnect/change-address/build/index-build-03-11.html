@@ -5,312 +5,424 @@
     <meta http-equiv="encoding" content="utf-8">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-
     <style>
 
-    *, ::after, ::before {
-      box-sizing: border-box;
-    }
 
-    :root {
-      --bs-body-font-size: 1rem;
-      --bs-body-line-height: 1.5;
-      --bs-body-font-weight: 400;
-      --bs-body-bg: #FAFAFA;
-      --bs-body-font-color: #212529;
-      --bs-body-font-family: Arial, Helvetica, sans-serif;
-    }
+*, ::after, ::before {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      font-size: var(--bs-body-font-size);
-      line-height: var(--bs-body-line-height);
-      font-weight: var(--bs-body-font-weight);
-      background-color: var(--bs-body-bg);
-      color: var(--bs-body-font-color);
-      font-family: var(--bs-body-font-family);
-    }
+:root {
+  --bs-body-font-size: 1rem;
+  --bs-body-line-height: 1.5;
+  --bs-body-font-weight: 400;
+  --bs-body-bg: #FAFAFA;
+  --bs-body-font-color: #212529;
+  --bs-body-font-family: Arial, Helvetica, sans-serif;
+  --safe-area-inset-top: 0px;
+  --safe-area-inset-bottom: 0px;
+}
 
-    .text-center {
-      text-align: center;
-    }
+body {
+  margin: 0;
+  font-size: var(--bs-body-font-size);
+  line-height: var(--bs-body-line-height);
+  font-weight: var(--bs-body-font-weight);
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-font-color);
+  font-family: var(--bs-body-font-family);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+  -webkit-user-callout: none;
+}
 
-    .d-inline-block {
-      display: inline-block !important;
-    }
+.text-center {
+  text-align: center;
+}
 
-    .d-block {
-      display: block !important;
-    }
+.d-inline-block {
+  display: inline-block !important;
+}
 
-    .ml-auto {
-      margin-left: auto!important;
-    }
+.d-block {
+  display: block !important;
+}
 
-    .mr-auto {
-      margin-right: auto!important;
-    }
+.ml-auto {
+  margin-left: auto!important;
+}
 
-    .mx-2 {
-      margin-left: 0.5rem!important;
-      margin-right: 0.5rem!important;
-    }
+.mr-auto {
+  margin-right: auto!important;
+}
 
-    .mx-3 {
-      margin-left: 1rem!important;
-      margin-right: 1rem!important;
-    }
+.mx-2 {
+  margin-left: 0.5rem!important;
+  margin-right: 0.5rem!important;
+}
 
-    .mx-auto {
-      margin-left: auto;
-      margin-right: auto;
-    }
+.mx-3 {
+  margin-left: 1rem!important;
+  margin-right: 1rem!important;
+}
 
-    .mb-3 {
-      margin-bottom: 1rem!important;
-    }
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
 
-    .ml-3 {
-      margin-left: 1rem!important;
-    }
+.mb-3 {
+  margin-bottom: 1rem!important;
+}
 
-    .mt-3 {
-      margin-top: 1rem!important;
-    }
+.ml-3 {
+  margin-left: 1rem!important;
+}
 
-    .mb-4 {
-      margin-bottom: 1.5rem!important;
-    }
+.mt-3 {
+  margin-top: 1rem!important;
+}
 
-    .mt-2rem {
-      margin-top: 2rem!important;
-    }
+.mb-4 {
+  margin-bottom: 1.5rem!important;
+}
 
-    .mt-5 {
-      margin-top: 3rem!important;
-    }
+.mt-2rem {
+  margin-top: 2rem!important;
+}
 
-    .mb-5 {
-      margin-bottom: 3rem!important;
-    }
+.mt-5 {
+  margin-top: 3rem!important;
+}
 
-    .my-5 {
-      margin-top: 3rem!important;
-      margin-bottom: 3rem!important;
-    }
+.mb-5 {
+  margin-bottom: 3rem!important;
+}
 
-    .mb-35px {
-      margin-bottom: 35px !important;
-    }
+.my-5 {
+  margin-top: 3rem!important;
+  margin-bottom: 3rem!important;
+}
 
-    .w-100 {
-      width: 100%;
-    }
+.mb-35px {
+  margin-bottom: 35px !important;
+}
 
-    .w-135px {
-      width: 135px;
-    }
+.w-100 {
+  width: 100%;
+}
 
-    .px-15px {
-      padding-left: 15px;
-      padding-right: 15px;
-    }
+.w-135px {
+  width: 135px;
+}
 
-    .radius-0 {
-      border-radius: 0 !important;
-    }
+.px-15px {
+  padding-left: 15px;
+  padding-right: 15px;
+}
 
-    .container {
-      max-width: 1024px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+.radius-0 {
+  border-radius: 0 !important;
+}
 
-    .form-group {
-      margin-bottom: 26px;
-      position: relative;
-    }
+.container {
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+}
 
-    .sub-title {
-      color: #005617;
-      font-weight: 700;
-    }
+.form-group {
+  margin-bottom: 26px;
+  position: relative;
+  touch-action: manipulation;
+}
 
-    label {
-      color: #005617;
-      font-weight: 700;
-      display: inline-block;
-    }
+form {
+  touch-action: pan-y;
+  -webkit-user-select: none;
+}
 
-    .form-label {
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-    }
+.sub-title {
+  color: #005617;
+  font-weight: 700;
+}
 
-    .form-control {
-      display: block;
-      width: 100%;
-      font-size: 1rem;
-      color: #212529;
-      line-height: 1.5;
-      padding: 0.375rem 0.75rem;
-      border: 1px solid #ced4da;
-      background-color: #fff;
-      border-radius: 5px;
-    }
+label {
+  color: #005617;
+  font-weight: 700;
+  display: inline-block;
+}
 
-    .form-control:focus {
-      color: #212529;
-      background-color: #fff;
-      border-color: #86b7fe;
-      outline: 0;
-    }
+.form-label {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
 
-    .form-control:disabled,
-    .form-control[disabled] {
-        opacity: 1;
-        -webkit-text-fill-color: #212529;
-        background-color: #fff;
-        color: #212529;
-        cursor: not-allowed;
-    }
+.form-control {
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  color: #212529;
+  line-height: 1.5;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  border-radius: 5px;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-user-select: text;
+  user-select: text;
+  touch-action: manipulation;
+}
 
-    .input-group {
-      position: relative;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: stretch;
-      width: 100%;
-    }
+.form-control:focus {
+  color: #212529;
+  background-color: #fff;
+  border-color: #86b7fe;
+  outline: 0;
+  -webkit-tap-highlight-color: none;
+  box-shadow: none;
+}
 
-    .input-group>.form-control {
-      position: relative;
-      flex: 1 1 auto;
-      width: 1%;
-      min-width: 0;
+.form-control:disabled,
+.form-control[disabled] {
+  opacity: .75;
+  -webkit-text-fill-color: #212529;
+  background-color: #fff;
+  color: #212529;
+  cursor: not-allowed;
+}
 
-    }
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
 
-    .input-group>.disable{
-      background-color: #fff !important;
-      color: #000 !important;
-      -webkit-text-fill-color: #000;
-      opacity: 1;
-    }
+.input-group>.form-control {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+}
 
-    .btn {
-      --bs-btn-padding-x: 0.75rem;
-      --bs-btn-padding-y: 0.375rem;
-      --bs-btn-color: #212529;
-      --bs-btn-bg: transparent;
-      --bs-btn-border-radius: 0.375rem;
-      --bs-btn-border-width: 1px;
-      --bs-btn-border-color: transparent;
-      --bs-btn-font-size: 1rem;
-      display: inline-block;
-      padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
-      background-color: var(--bs-btn-bg);
-      color: var(--bs-btn-color);
-      font-size: var(--bs-btn-font-size);
-      text-align: center;
-      text-decoration: none;
-      vertical-align: middle;
-      cursor: pointer;
-      user-select: none;
-      border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
-      border-radius: var(--bs-btn-border-radius);
-    }
+.input-group>.disable{
+  background-color: #fff !important;
+  color: #000 !important;
+  -webkit-text-fill-color: #000;
+  opacity: 1;
+}
 
-    .btn--round {
-      --bs-btn-padding-x: 2rem;
-      --bs-btn-padding-y: 0.7rem;
-      border-radius: 2rem;
-    }
+.custom-select::before {
+  content: "\25BC";
+  position: absolute;
+  right: 0.9rem;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.7rem;
+  color: #888;
+  pointer-events: none;
+} 
 
-    .btn--primary {
-      --bs-btn-color: #fff;
-      --bs-btn-bg: #00A2E8;
-    }
+.custom-select .form-control:read-only:focus {
+  background-color: #fff !important;
+  -webkit-box-shadow: none !important;
+}
 
-    .btn--light {
-      --bs-btn-color: #000;
-      --bs-btn-bg: #f8f9fa;
-      --bs-btn-border-color: #212529;
-    }
+.btn {
+  --bs-btn-padding-x: 0.75rem;
+  --bs-btn-padding-y: 0.375rem;
+  --bs-btn-color: #212529;
+  --bs-btn-bg: transparent;
+  --bs-btn-border-radius: 0.375rem;
+  --bs-btn-border-width: 1px;
+  --bs-btn-border-color: transparent;
+  --bs-btn-font-size: 1rem;
+  display: inline-block;
+  padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
+  background-color: var(--bs-btn-bg);
+  color: var(--bs-btn-color);
+  font-size: var(--bs-btn-font-size);
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
+  border-radius: var(--bs-btn-border-radius);
+}
 
-    .btn--lg {
-      --bs-btn-padding-x: 1rem;
-      --bs-btn-padding-y: 0.5rem;
-      --bs-btn-font-size: 1.25rem;
-    }
+.btn--round {
+  --bs-btn-padding-x: 2rem;
+  --bs-btn-padding-y: 0.7rem;
+  border-radius: 2rem;
+}
 
-    .btn--warning {
-      --bs-btn-color: #fff;
-      --bs-btn-bg: #FF7F26;
-    }
+.btn--primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #00A2E8;
+}
 
-    .text-valid {
-      position: absolute;
-      left: 15px;
-      bottom: -24px;
-      font-size: 1rem;
-      line-height: 1.5;
-      color: red;
-      font-style: italic;
-      display: none;
-      opacity: 0;
-    }
+.btn--light {
+  --bs-btn-color: #000;
+  --bs-btn-bg: #f8f9fa;
+  --bs-btn-border-color: #212529;
+}
 
-    .is-invalid .text-valid {
-      display: block;
-      opacity: 1;
-    }
+.btn--lg {
+  --bs-btn-padding-x: 1rem;
+  --bs-btn-padding-y: 0.5rem;
+  --bs-btn-font-size: 1.25rem;
+}
 
-    .w-100px {
-      width: 100px;
-    }
+.btn--warning {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #FF7F26;
+}
 
-    .w-170px {
-      width: 170px;
-    }
+.text-valid {
+  position: absolute;
+  left: 15px;
+  bottom: -24px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: red;
+  font-style: italic;
+  display: none;
+  opacity: 0;
+}
 
-    .required {
-      background-color: #F3A423;
-      color: #fff;
-      font-size: .6rem;
-      display: inline-block;
-      padding: 1px 2px;
-      border-radius: 4px;
-      margin-left: 5px;
-    }
+.is-invalid .text-valid {
+  display: block;
+  opacity: 1;
+}
 
-    .zip-code-container {
-      position: relative;
-      margin-bottom: 22px;
-      display: flex;
-      align-items: flex-end;
-    }
+.w-100px {
+  width: 100px;
+}
 
-    .strike-through {
-      margin-bottom: 6px;
-    }
+.w-170px {
+  width: 170px;
+}
 
-    .data-input{
-      color: red;
-    }
+.required {
+  background-color: #F3A423;
+  color: #fff;
+  font-size: .6rem;
+  display: inline-block;
+  padding: 1px 2px;
+  border-radius: 4px;
+  margin-left: 5px;
+}
+
+.zip-code-container {
+  position: relative;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.strike-through {
+  margin-bottom: 6px;
+}
+
+.data-input{
+  color: red;
+}
 
 
-    .zip-code-container .form-group {
-      margin-bottom: 0;
-    }
+.zip-code-container .form-group {
+  margin-bottom: 0;
+}
 
-    </style>
+/* iOS fixes for white overlay and auto-zoom */
+input,
+textarea,
+select,
+button {
+  font-size: 16px !important;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+  outline: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent default iOS long-press menu */
+*:not(input):not(textarea) {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+
+</style>
   </head>
   <body>
-    <script type="text/javascript" src="https://ajaxzip3.github.io/ajaxzip3.js"></script>
     <script type="text/javascript">
-   
+/* ================================================================ *
+    ajaxzip3.js ---- AjaxZip3 郵便番号→住所変換ライブラリ
+    Copyright (c) 2008-2015 Ninkigumi Co.,Ltd.
+    http://ajaxzip3.github.io/
+    Copyright (c) 2006-2007 Kawasaki Yusuke <u-suke [at] kawa.net>
+    http://www.kawa.net/works/ajax/AjaxZip2/AjaxZip2.html
+    Permission is hereby granted, free of charge, to any person
+    obtaining a copy of this software and associated documentation
+    files (the "Software"), to deal in the Software without
+    restriction, including without limitation the rights to use,
+    copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following
+    conditions:
+    The above copyright notice and this permission notice shall be
+    included in all copies or substantial portions of the Software.
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+    OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+    HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+    WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+    OTHER DEALINGS IN THE SOFTWARE.
+* ================================================================ */
+
+AjaxZip3=function(){};AjaxZip3.VERSION="0.51";AjaxZip3.JSONDATA="https://yubinbango.github.io/yubinbango-data/data";AjaxZip3.CACHE=[];AjaxZip3.prev="";AjaxZip3.nzip="";AjaxZip3.fzip1="";AjaxZip3.fzip2="";AjaxZip3.fpref="";AjaxZip3.addr="";AjaxZip3.fstrt="";AjaxZip3.farea="";AjaxZip3.ffocus=true;AjaxZip3.onSuccess=null;AjaxZip3.onFailure=null;AjaxZip3.PREFMAP=[null,"北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"];AjaxZip3.zip2addr=function(h,g,k,b,l,a,m){AjaxZip3.fzip1=AjaxZip3.getElementByName(h);AjaxZip3.fzip2=AjaxZip3.getElementByName(g,AjaxZip3.fzip1);AjaxZip3.fpref=AjaxZip3.getElementByName(k,AjaxZip3.fzip1);AjaxZip3.faddr=AjaxZip3.getElementByName(b,AjaxZip3.fzip1);AjaxZip3.fstrt=AjaxZip3.getElementByName(a,AjaxZip3.fzip1);AjaxZip3.farea=AjaxZip3.getElementByName(l,AjaxZip3.fzip1);AjaxZip3.ffocus=m===undefined?true:m;if(!AjaxZip3.fzip1){return}if(!AjaxZip3.fpref){return}if(!AjaxZip3.faddr){return}var c=AjaxZip3.fzip1.value;if(AjaxZip3.fzip2&&AjaxZip3.fzip2.value){c+=AjaxZip3.fzip2.value}if(!c){return}AjaxZip3.nzip="";for(var f=0;f<c.length;f++){var d=c.charCodeAt(f);if(d<48){continue}if(d>57){continue}AjaxZip3.nzip+=c.charAt(f)}if(AjaxZip3.nzip.length<7){return}var j=function(){var i=AjaxZip3.nzip+AjaxZip3.fzip1.name+AjaxZip3.fpref.name+AjaxZip3.faddr.name;if(AjaxZip3.fzip1.form){i+=AjaxZip3.fzip1.form.id+AjaxZip3.fzip1.form.name+AjaxZip3.fzip1.form.action}if(AjaxZip3.fzip2){i+=AjaxZip3.fzip2.name}if(AjaxZip3.fstrt){i+=AjaxZip3.fstrt.name}if(i==AjaxZip3.prev){return}AjaxZip3.prev=i};var n=AjaxZip3.nzip.substr(0,3);var e=AjaxZip3.CACHE[n];if(e){return AjaxZip3.callback(e)}AjaxZip3.zipjsonpquery()};AjaxZip3.callback=function(h){function d(){if(typeof AjaxZip3.onFailure==="function"){AjaxZip3.onFailure()}}var m=h[AjaxZip3.nzip];var e=(AjaxZip3.nzip-0+4278190080)+"";if(!m&&h[e]){m=h[e]}if(!m){d();return}var b=m[0];if(!b){d();return}var o=AjaxZip3.PREFMAP[b];if(!o){d();return}var c=m[1];if(!c){c=""}var r=m[2];if(!r){r=""}var f=m[3];if(!f){f=""}var q=AjaxZip3.faddr;var k=c;if(AjaxZip3.fpref.type=="select-one"||AjaxZip3.fpref.type=="select-multiple"){var a=AjaxZip3.fpref.options;for(var g=0;g<a.length;g++){var n=a[g].value;var p=a[g].text;a[g].selected=(n==b||n==o||p==o)}}else{if(AjaxZip3.fpref.name==AjaxZip3.faddr.name){k=o+k}else{AjaxZip3.fpref.value=o}}if(AjaxZip3.farea){q=AjaxZip3.farea;AjaxZip3.farea.value=r}else{k+=r}if(AjaxZip3.fstrt){q=AjaxZip3.fstrt;if(AjaxZip3.faddr.name==AjaxZip3.fstrt.name){k=k+f}else{if(f){AjaxZip3.fstrt.value=f}}}AjaxZip3.faddr.value=k;if(typeof AjaxZip3.onSuccess==="function"){AjaxZip3.onSuccess()}if(!AjaxZip3.ffocus){return}if(!q){return}if(!q.value){return}var l=q.value.length;q.focus();if(q.createTextRange){var j=q.createTextRange();j.move("character",l);j.select()}else{if(q.setSelectionRange){q.setSelectionRange(l,l)}}};AjaxZip3.getResponseText=function(b){var c=b.responseText;if(navigator.appVersion.indexOf("KHTML")>-1){var a=escape(c);if(a.indexOf("%u")<0&&a.indexOf("%")>-1){c=decodeURIComponent(a)}}return c};AjaxZip3.getElementByName=function(d,b){if(typeof(d)=="string"){var e=document.getElementsByName(d);if(!e){return null}if(e.length>1&&b&&b.form){var c=b.form.elements;for(var a=0;a<c.length;a++){if(c[a].name==d){return c[a]}}}else{return e[0]}}return d};AjaxZip3.zipjsonpquery=function(){var a=AjaxZip3.JSONDATA+"/"+AjaxZip3.nzip.substr(0,3)+".js";var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",a);document.getElementsByTagName("head").item(0).appendChild(b)};function $yubin(a){AjaxZip3.callback(a)};
+</script>
+    <script type="text/javascript">
 
 (function() {
   window.onerror = function (message, source, lineno, colno, error) {
@@ -345,7 +457,8 @@
       buttonClasses: ['btn', 'btn--round', 'btn--warning', 'mt-5', 'mx-auto'],
       requiredLabel: '<span class="required">必須</span>',
       validationMessage: 'を入力してください',
-      zipValidationMessage: '郵便番号に該当する住所が見つかりません'
+      zipValidationMessage: '郵便番号に該当する住所が見つかりません',
+      isOpenKeyboard: false
     }
 
     /**
@@ -440,7 +553,16 @@
         if (textContent) element.textContent = textContent;
         if (innerHTML) element.innerHTML = innerHTML;
         Object.entries(attributes).forEach(([key, value]) => {
+          // element.setAttribute(key, value);
+          if (typeof value === 'boolean') {
+            if (value) {
+              element.setAttribute(key, ''); 
+            } else {
+              element.removeAttribute(key); 
+            }
+          } else {
             element.setAttribute(key, value);
+          }
         });
 
         Object.entries(events).forEach(([event, handler]) => {
@@ -457,36 +579,39 @@
      */
     #createDateField () {
       const formGroup = this.#createElement('div', { className: `form-group ${this.#config.formClasses.join(' ')}` });
-      const inputGroup = this.#createElement('div', { className: 'input-group' });
+      const inputGroup = this.#createElement('div', { className: 'input-group custom-select' });
 
       const label = this.#createElement('label', {
         className: 'form-label',
-        for: 'date',
         innerHTML: `転居日 ${this.#config.requiredLabel}` 
       });
 
       const input = this.#createElement('input', {
-        className: this.#config.inputClasses.join(' '),
+        // className: this.#config.inputClasses.join(' '),
+        className: `${this.#config.inputClasses.join(' ')}`,
         type: 'text',
         id: 'date',
-        placeholder: '右のカレンダーから選択',
+        placeholder: '日付を選択してください',
         required: true,
-        disabled: 'disabled'
+        readonly: true,
+        events: { click: this.#handleCalendar.bind(this) }
+        // disabled: 'disabled'
       });
 
-      const button = this.#createElement('button', {
-        className: 'btn btn--primary ml-3',
-        type: 'button',
-        textContent: '選択',
-        events: { click: this.#handleCalendar.bind(this) }
-      });
+      // const button = this.#createElement('button', {
+      //   className: 'btn btn--primary ml-3',
+      //   type: 'button',
+      //   textContent: '選択',
+      //   events: { click: this.#handleCalendar.bind(this) }
+      // });
 
       const validation = this.#createElement('span', {
         className: 'text-valid',
         textContent: '転居日を入力してください'
       });
 
-      inputGroup.append(input, button);
+      // inputGroup.append(input, button);
+      inputGroup.append(input);
       formGroup.append(label, inputGroup, validation);
       return formGroup;
     }
@@ -657,41 +782,55 @@
      * @private
      */
     #setupEventListeners() { 
-      const inputs = this.#form?.querySelectorAll('input[type="text"], input[type="number"]');
-      inputs?.forEach(input => {
-        input.addEventListener('focus', () => { 
-          const fieldMap = {
-            'zip21': 'zipcode',
-            'zip22': 'zipcode',
-            'pref21': 'prefecture',
-            'addr21': 'address',
-            'building': 'building'
-          };
+      // const inputs = this.#form?.querySelectorAll('input[type="text"], input[type="number"]');
+      // inputs?.forEach(input => {
+      //   input.addEventListener('focus', () => { 
+      //     const fieldMap = {
+      //       'zip21': 'zipcode',
+      //       'zip22': 'zipcode',
+      //       'pref21': 'prefecture',
+      //       'addr21': 'address',
+      //       'building': 'building'
+      //     };
 
-          const field = fieldMap[input.name];
-          if (field) {
-            const y = Math.round(input.getBoundingClientRect().top);
-            this.postMessage('focusItem', { value: field, y });
-          }
-        })
-      });
+      //     const field = fieldMap[input.name];
+      //     if (field) {
+      //       const y = Math.round(input.getBoundingClientRect().top);
+      //       console.log(`Focused on ${field} field, sending focusItem message with y: ${y}`);
+      //       this.postMessage('focusItem', { value: field, y });
+      //     }
+      //   })
+      // });
 
-      document.addEventListener('touchstart', (event) => {
-        const active = document.activeElement;
-        if (
-          active &&
-          (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA') &&
-          !active.contains(event.target)
-        ) {
-          active.blur();
+  // document.addEventListener('touchstart', (event) => {
+  //   const active = document.activeElement;
+  //   const isTargetAnInput = event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA';
+    
+  //   // Chỉ log nếu input đang focus và touch ngoài input (không phải chạm vào input khác)
+  //   if (
+  //     (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA') &&
+  //     !active.contains(event.target) &&
+  //     !isTargetAnInput
+  //   ) {
+  //     active.blur();
 
-          // Nếu cần gửi signal cho Flutter để native cũng đóng bàn phím:
-          // window.error?.postMessage(JSON.stringify({
-          //   type: 'hideKeyboard'
-          // }));
-        }
-      });
-    }
+  //     this.postMessage('hideKeyboard', { value: this.#config.isOpenKeyboard });
+  //   }
+  // });
+
+    // document.addEventListener('focusin', (e) => {
+    //   console.log('focusin event:', e.target);
+    //   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+    //     // First scroll attempt - early delay
+    //     setTimeout(() => {
+    //       e.target.scrollIntoView({
+    //         behavior: 'smooth',
+    //         block: 'center'
+    //       })
+    //     }, 50);
+    //   }
+    // })
+  }
   
     /**
      * Validates individual input
@@ -826,6 +965,16 @@
 
     }
 
+
+    /**
+      * Set open keyboard state
+      * @public
+      * @param {boolean} isOpen - Whether the keyboard is open
+      */
+    setOpenKeyboard(isOpen) { 
+      this.#config.isOpenKeyboard = isOpen;
+    }
+
     /**
      * Handles calendar button click
      * @private
@@ -882,7 +1031,6 @@
     }
     userChangeInAddress.postMessage('javascriptLoaded', {"success": true});
     
-  //  initCallApp({"name": "userA", "id":"42432", "date_move": "24/05/2023"})
     window.selectDate = function(param) {
       userChangeInAddress.setDataDateField(param);
     }
@@ -897,6 +1045,8 @@
   }
 
 })();
-    </script>
+
+initCallApp({"name": "userA", "id":"42432", "date_move": ""})
+</script>
   </body>
 </html>

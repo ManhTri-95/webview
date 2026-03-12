@@ -9,7 +9,8 @@ class UserChangeInAddress {
    buttonClasses: ['btn', 'btn--warning', 'w-100', 'mt-5', 'd-block', 'radius-0'],
    requiredLabel: '<span class="required">必須</span>',
    validationMessage: 'を入力してください',
-   zipValidationMessage: '郵便番号に該当する住所が見つかりません'
+   zipValidationMessage: '郵便番号に該当する住所が見つかりません',
+   isOpenKeyboard: false
  }
 
  /**
@@ -433,8 +434,16 @@ class UserChangeInAddress {
      dateField.value = param?.date_move || '';
      this.#validateInput(dateField);
    }
-
  }
+
+ /**
+  * Set open keyboard state
+  * @public
+  * @param {boolean} isOpen - Whether the keyboard is open
+  */
+  setOpenKeyboard(isOpen) { 
+    this.#config.isOpenKeyboard = isOpen;
+  }
 
  /**
   * Handles calendar button click
@@ -477,5 +486,10 @@ userChangeInAddress.postMessage('javascriptLoaded', {"success": true});
 window.selectDate = function(param) {
  userChangeInAddress.setDataDateField(param);
 }
-   initCallApp({"name": "userA", "id":"42432", "date_move": ""})
+
+window.setOpenKeyboard = function(isOpen) {
+ userChangeInAddress.setOpenKeyboard(isOpen);
+}
+
+initCallApp({"name": "userA", "id":"42432", "date_move": ""})
 })();

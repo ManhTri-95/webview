@@ -1,0 +1,22 @@
+{
+  "name": "help-page-builder",
+  "version": "1.0.0",
+  "description": "Build script to inline CSS and JS into HTML files",
+  "main": "build.js",
+  "scripts": {
+    "build:main": "node build.js help-main.html",
+    "build:faq-list": "node build.js help-faq-list.html",
+    "build:faq-detail": "node build.js help-faq-detail.html",
+    "build:contact": "node build.js help-contact-intermediate.html",
+    "build:manual-list": "node build.js help-operation-list.html",
+    "build:manual-detail": "node build.js 4.html",
+    "build:all": "npm run build:main && npm run build:faq-list && npm run build:faq-detail && npm run build:contact && npm run build:manual-list && npm run build:manual-detail"
+  },
+  "keywords": [
+    "build",
+    "html",
+    "inline"
+  ],
+  "author": "",
+  "license": "ISC"
+}

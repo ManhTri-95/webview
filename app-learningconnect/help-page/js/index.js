@@ -1,13 +1,15 @@
 (function() {
   class HelpPageController {
     #data = null;
-    #searchResults = null;
-    #currentSearchPage = 1;
-    #itemsPerPage = 10;
-    #searchQuery = '';
+    #searchManager = null;
 
     constructor() {
-      // Initialize without data - will be set via init() method
+      // Initialize SearchManager
+      this.#searchManager = new SearchManager({
+        postMessage: (fncName, msg) => this.postMessage(fncName, msg),
+        renderCallback: () => this.renderSearchResults(),
+        itemsPerPage: 10
+      });
     }
 
     /**
@@ -19,7 +21,7 @@
       try {
         this.#data = data;
         this.render();
-        this.setupEventListeners();
+        this.#setupStaticEventListeners();
       } catch (error) {
         console.error('Failed to initialize help page:', error);
         throw error;
@@ -53,6 +55,10 @@
       }
 
       const app = document.getElementById("app");
+      if (!app) {
+        console.warn('App element not found in DOM');
+        return;
+      }
 
       app.innerHTML = `
         <div class="search-wrapper">
@@ -68,29 +74,30 @@
             />
           </div>
         </div>
+        <div style="height: 73px;"></div>
 
         <div id="searchResults" class="search-results"></div>
 
         <div class="section">
           <div class="section-title">ヘルプページトピック</div>
           <div class="section-container">
-            ${this.#data.topics.map(item => `
-              <div class="list-item" data-id="${item.id}" data-type="topic">${item.title}</div>
-            `).join("")}
+            ${this.#data.help?.map(item => `
+              <div class="help-item" data-redirect="${item.help_redirect}" data-type="help" data-title="${item.title}">${item.title}</div>
+            `).join("") || ""}
           </div>
         </div>
 
         <div class="section">
           <div class="section-title">よくある質問</div>
           <div class="section-container">
-            ${this.#data.faqs.map(item => `
+            ${this.#data.faq?.map(item => `
               <div class="faq-item" data-id="${item.id}" data-type="faq">${item.title}</div>
-            `).join("")}
-            <div class="view-all redirect-page" data-page="FAQ_list">[すべてのFAQを見る]</div>
+            `).join("") || ""}
+            <div class="view-all redirect-page" data-page="faq_list">[すべてのFAQを見る]</div>
           </div>
         </div>
 
-        <div class="section">
+        <div class="section section-footer">
           <div class="section-title">解決しない場合</div>
           <div class="section-container">
             <div class="contact-text">
@@ -100,6 +107,31 @@
           </div>
         </div>
       `;
+
+      // Update padding-bottom based on section-footer height
+      this.#updateSectionFooterPadding();
+    }
+
+    /**
+     * Updates app padding-bottom based on section-footer height
+     * @private
+     */
+    #updateSectionFooterPadding() {
+      // Use requestAnimationFrame to ensure DOM is fully rendered
+      requestAnimationFrame(() => {
+        const app = document.getElementById("app");
+        const sectionFooter = document.querySelector(".section-footer");
+        
+        if (!app || !sectionFooter) return;
+        
+        // Get the height of section-footer
+        const footerHeight = sectionFooter.offsetHeight;
+        
+        // Set padding-bottom of app to match footer height
+        app.style.paddingBottom = `${footerHeight}px`;
+        
+        console.log('Footer height:', footerHeight, 'px');
+      });
     }
 
     /**
@@ -107,94 +139,83 @@
      * @private
      */
     renderSearchResults() {
-      if (!this.#searchResults || !this.#searchResults.items) {
-        return;
-      }
-
       const resultsContainer = document.getElementById("searchResults");
       if (!resultsContainer) return;
 
-      const items = this.#searchResults.items || [];
-      const totalItems = this.#searchResults.total || 0;
-      const pageCount = this.#searchResults.pageCount || 1;
-
-      if (items.length === 0) {
-        resultsContainer.innerHTML = '<div class="no-results">検索結果が見つかりません</div>';
-        return;
-      }
-
-      let html = '<div class="section-container">';
-      
-      items.forEach(item => {
-        const icon = item.type === 'topic' ? '📌' : '❓';
-        html += `
-          <div class="search-result-item" data-id="${item.id}" data-type="${item.type}">
-            <span class="result-icon">${icon}</span>
-            <div class="result-content">
-              <div class="result-type">
-                ${item.type === 'topic' ? 'トピック' : 'FAQ'}
-              </div>
-              <div class="result-title">${item.title}</div>
-            </div>
-          </div>
-        `;
-      });
-
-      // Add "load more" button if not last page
-      if (pageCount > this.#currentSearchPage) {
-        html += `
-          <div class="view-all search-load-more" data-page="${this.#currentSearchPage + 1}">
-            [もっと見る (${this.#currentSearchPage}/${pageCount})]
-          </div>
-        `;
-      }
-
-      html += '</div>';
+      // Get HTML from SearchManager
+      const html = this.#searchManager.renderSearchResultsHTML();
       resultsContainer.innerHTML = html;
     }
 
     /**
-     * Appends more search results
+     * Sets or appends search results
+     * Automatically detects whether to reset (page 1) or append based on existing results
      * @public
-     */
-    appendSearchResults(newResults) {
-      if (!this.#searchResults) return;
-
-      if (newResults.items) {
-        this.#searchResults.items = [...this.#searchResults.items, ...newResults.items];
-        this.#searchResults.pageCount = newResults.pageCount || this.#searchResults.pageCount;
-        this.#currentSearchPage++;
-      }
-
-      this.renderSearchResults();
-      this.setupEventListeners();
-    }
-
-    /**
-     * Sets search results
-     * @public
+     * @param {Object} results - Search results containing faq data with fallback status
      */
     setSearchResults(results) {
-      this.#searchResults = results;
-      this.#currentSearchPage = 1;
+      console.log('Setting search results:', results);
+      
+      // Auto-detect: if we have existing results, this is an append operation
+      const hasExistingResults = this.#searchManager.getItems().length > 0;
+      const page = hasExistingResults ? this.#searchManager.getCurrentSearchPage() + 1 : 1;
+      
+      this.#searchManager.setSearchResults(results, page);
       this.renderSearchResults();
-      this.setupEventListeners();
+      this.#setupDynamicEventListeners();
+      
+      // Remove loading state when appending (page > 1)
+      if (page > 1) {
+        this.removeLoadMoreButtonLoadingState();
+      }
     }
 
     /**
-     * Sets up event listeners
+     * Updates data after resetSearch and re-renders the page
+     * @public
+     * @param {Object} data - New data structure from app
+     */
+    updateDataAfterReset(data) {
+      try {
+        this.#data = data;
+
+        // Reset search state
+        this.#searchManager.reset();
+
+        // Clear search input
+        const searchInput = document.getElementById("searchInput");
+        if (searchInput) {
+          searchInput.value = '';
+        }
+
+        document.getElementById("searchResults").innerHTML = '';
+
+        // Re-render and setup static event listeners only
+        this.render();
+        this.#setupStaticEventListeners();
+
+        console.log('Data updated after reset');
+      } catch (error) {
+        console.error('Error updating data after reset:', error);
+      }
+    }
+
+    /**
+     * Sets up static event listeners (called only once)
      * @private
      */
-    setupEventListeners() {
-      // List item clicks
-      document.querySelectorAll('.list-item').forEach(item => {
+    #setupStaticEventListeners() {
+      // HELP item clicks
+      document.querySelectorAll('.help-item').forEach(item => {
         item.addEventListener('click', () => {
-          const id = item.dataset.id;
-          const title = item.textContent;
-          this.postMessage('selectTopic', {
+          const redirect = item.dataset.redirect;
+          console.log({
+            help_redirect: redirect,
             type: 'topic',
-            id: id,
-            //title: title
+          })
+          this.postMessage('selectTopic', {
+            help_redirect: redirect,
+            type: 'topic',
           });
         });
       });
@@ -203,11 +224,9 @@
       document.querySelectorAll('.faq-item').forEach(item => {
         item.addEventListener('click', () => {
           const id = item.dataset.id;
-          const title = item.textContent;
           this.postMessage('selectFaq', {
             type: 'faq',
-            id: id,
-            //title: title
+            id: id
           });
         });
       });
@@ -215,85 +234,102 @@
       // Search input
       const searchInput = document.getElementById("searchInput");
       if (searchInput) {
-        // Handle input event (triggers on typing and when clicking clear button)
-        searchInput.addEventListener('input', (e) => {
-          const query = searchInput.value.trim();
-          if (!query) {
-            // Show all sections if search is cleared
-            document.querySelectorAll('.section').forEach(section => {
-              section.style.display = '';
-            });
-            // Clear search results
-            document.getElementById("searchResults").innerHTML = '';
-          }
-        });
-
-        // Handle Enter key for search
-        searchInput.addEventListener('keydown', (e) => {
-          if (e.key === "Enter") {
-            const query = searchInput.value.trim();
-            if (query) {
-              this.#searchQuery = query;
-              this.#currentSearchPage = 1;
-
-              // Hide all sections when searching
-              document.querySelectorAll('.section').forEach(section => {
-                section.style.display = 'none';
-              });
-
-              console.log('query :', {
-                query: query,
-                page: 1
-              });
-              this.postMessage('search', {
-                query: query,
-                page: 1
-              });
-
-            }
-          }
+        // Setup search input events through SearchManager
+        this.#searchManager.setupSearchInputEvents({
+          searchType: 'faq',
+          onSearch: (params) => this.postMessage('search', params),
+          updateSectionFooterPadding: () => this.#updateSectionFooterPadding()
         });
       }
-
-      // Search results - load more button
-      document.querySelectorAll('.search-load-more').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const page = parseInt(btn.dataset.page);
-    
-          this.postMessage('loadMore', {
-            query: this.#searchQuery,
-            page: page
-          });
-        });
-      });
-
-      // Search result items click
-      document.querySelectorAll('.search-result-item').forEach(item => {
-        item.addEventListener('click', () => {
-          const id = item.dataset.id;
-          const type = item.dataset.type;
-          const title = item.querySelector('.result-title').textContent;
-          
-          const messageName = type === 'topic' ? 'selectTopic' : 'selectFaq';
-          this.postMessage(messageName, {
-            type: type,
-            id: id,
-            title: title
-          });
-        });
-      });
-
 
       // Redirect page clicks
       document.querySelectorAll('.redirect-page').forEach(item => {
         item.addEventListener('click', () => {
           const page = item.dataset.page;
-
+          
           this.postMessage('redirectPage', {
             page: page
           });
         });
       });
+
+      // Search results container with event delegation (set up only once)
+      const searchResults = document.getElementById('searchResults');
+      if (searchResults) {
+        searchResults.addEventListener('click', (e) => {
+          // Handle load-more button clicks
+          const loadMoreBtn = e.target.closest('.load-more-btn[data-page="search"]');
+          if (loadMoreBtn) {
+            // Add loading state
+            loadMoreBtn.classList.add('loading');
+            
+            const nextPage = this.#searchManager.getCurrentSearchPage() + 1;
+            console.log('Load more button clicked - loading next page:', nextPage);
+            this.postMessage('search', {
+              query: this.#searchManager.getSearchQuery(),
+              page: nextPage,
+              limit: this.#searchManager.getItemsPerPage(),
+              type: 'faq'
+            });
+            return;
+          }
+
+          // Handle search result items click
+          const resultItem = e.target.closest('.search-result-item');
+          if (resultItem) {
+            const type = resultItem.dataset.type;
+            const title = resultItem.querySelector('.result-title').textContent;
+            
+            if (type === 'help') {
+              const redirect = resultItem.dataset.redirect;
+              this.postMessage('selectTopic', {
+                help_redirect: redirect
+              });
+            } else {
+              const id = resultItem.dataset.id;
+              this.postMessage('selectFaq', {
+                type: 'faq',
+                id: id,
+                title: title
+              });
+            }
+          }
+        });
+      }
+
+      // Setup ResizeObserver to monitor section-footer height changes
+      const sectionFooter = document.querySelector('.section-footer');
+      if (sectionFooter) {
+        const resizeObserver = new ResizeObserver(() => {
+          this.#updateSectionFooterPadding();
+        });
+        resizeObserver.observe(sectionFooter);
+      }
+    }
+
+    /**
+     * Sets up dynamic event listeners (setup/re-setup for search results)
+     * Note: Event delegation listeners are set up only once in #setupStaticEventListeners()
+     * This method is kept as a no-op for backwards compatibility but listeners won't be recreated
+     * @private
+     */
+    #setupDynamicEventListeners() {
+      // Listeners for search results are now set up once in #setupStaticEventListeners()
+      // No need to recreate them on each setSearchResults() call
+    }
+
+    /**
+     * Removes loading state from search load-more button
+     * @private
+     */
+    removeLoadMoreButtonLoadingState() {
+      const searchResults = document.getElementById('searchResults');
+      if (!searchResults) return;
+      
+      const loadMoreBtn = searchResults.querySelector('.load-more-btn[data-page="search"]');
+      if (loadMoreBtn) {
+        loadMoreBtn.classList.remove('loading');
+      }
     }
 
     /**
@@ -303,7 +339,7 @@
     setData(newData) {
       this.#data = newData;
       this.render();
-      this.setupEventListeners();
+      this.#setupStaticEventListeners();
     }
 
     /**
@@ -346,16 +382,108 @@
     console.error('Failed to initialize help page:', error);
   }
 
-  initHelpPage({
-    topics: [
-      { id: '1', title: 'トピック1' },
-      { id: '2', title: 'トピック2' },  
-      { id: '3', title: 'トピック3' }
-    ],
-    faqs: [ 
-      { id: '1', title: 'FAQ 1' },
-      { id: '2', title: 'FAQ 2' },
-      { id: '3', title: 'FAQ 3' }
-    ] 
-  })
 })();
+
+// initHelpPage({
+//   help: [
+//     { title: 'ログインできない場合', help_redirect: 'daily_report' },
+//     { title: 'パスワードを変更する方法', help_redirect: 'development' },
+//     { title: 'アカウント設定について', help_redirect: 'current_address' },
+//     { title: 'エラーコード一覧', help_redirect: 'inquiry_list' }
+//   ],
+//   faq: [
+//     { id: 5, title: 'In other words, Navicat provides the ability for data in different databases and/or schemas to be ke' },
+//     { id: 94, title: 'The reason why a great man is great is that he resolves to be a great man. I may not have gone where' },
+//     { id: 80, title: 'Instead of wondering when your next vacation is, maybe you should set up a life you don\'t need to' },
+//     { id: 62, title: 'Remember that failure is an event, not a person.' }
+//   ]
+// })
+
+// Mock data for testing updateDataAfterReset
+// Simulate resetting and updating with fresh data after 10 seconds
+// setTimeout(() => {
+//   console.log('Simulating updateDataAfterReset...');
+//   window.helpPageController.updateDataAfterReset({
+//     help: [
+//       { title: 'ヘルプについて', help_redirect: 'help_about' },
+//       { title: 'ご利用方法', help_redirect: 'help_usage' },
+//       { title: 'トラブル対処', help_redirect: 'help_troubleshooting' },
+//       { title: 'お問い合わせ', help_redirect: 'inquiry_send' }
+//     ],
+//     faq: [
+//       { id: 1, title: 'ログインはどうするのですか？' },
+//       { id: 2, title: 'パスワードを忘れたら？' },
+//       { id: 3, title: '退会したい場合は？' },
+//       { id: 4, title: 'アプリが起動しない場合は？' }
+//     ]
+//   });
+// }, 10000);
+
+// window.helpPageController.setSearchResults({
+//   faq: {
+//     pagination: {
+//       page_count: 3,
+//       total_item_count: 25
+//     },
+//     items: [
+//       { id: 103, question: "ログイン時にエラーコードE001が表示されます", view_count: 0, score: 373.43835 },
+//       { id: 110, question: "ﾛｸﾞｲﾝできない（半角カタカナ）", view_count: 0, score: 119.75978 },
+//       { id: 111, question: "パスワードを忘れた場合の対処方法", view_count: 12, score: 98.12345 },
+//       { id: 112, question: "アカウントがロックされました", view_count: 5, score: 87.65432 },
+//       { id: 113, question: "二段階認証の設定方法", view_count: 3, score: 76.54321 },
+//       { id: 114, question: "メールアドレスを変更する方法", view_count: 8, score: 65.43210 },
+//       { id: 115, question: "セッションが切断される問題の対処", view_count: 2, score: 54.32109 },
+//       { id: 116, question: "表示が崩れる（CSS関連）", view_count: 1, score: 43.21098 },
+//       { id: 117, question: "データのエクスポート方法", view_count: 7, score: 32.10987 },
+//       { id: 118, question: "インポート時にエラーが発生する", view_count: 4, score: 21.09876 }
+//     ]
+//   }
+// });
+
+// Demo code moved to #setupInfiniteScroll() method
+
+// Mock data for testing setSearchResults with no results (fallback case)
+// setTimeout(() => {
+//   console.log('Testing setSearchResults with fallback data (no results)...');
+//   window.helpPageController.setSearchResults({
+//     type: "faq",
+//     zero_result: true,
+//     zero_msg: "該当するヘルプが見つかりませんでした。別のキーワードや短い単語で検索すると見つかる場合があります。",
+//     faq: {
+//       items: [
+//         { id: 107, question: "ラジコンカーが動きません", view_count: 5 },
+//         { id: 102, question: "アプリが起動しない場合の対処方法は？", view_count: 1 },
+//         { id: 103, question: "ログイン時にエラーコードE001が表示されます", view_count: 0 },
+//         { id: 104, question: "ゲームがフリーズする・動かない", view_count: 0 },
+//         { id: 105, question: "電子レンジが加熱できない原因は？", view_count: 0 }
+//       ],
+//       fallback: true,
+//       fallback_type: "popular"
+//     },
+//     helpCate: [],
+//     html: "https://api.test.engibase.com/help-html/faq-list.html?is_mobile=1"
+//   });
+// }, 5000);
+
+// Mock data for testing setSearchResults with results (normal search)
+// setTimeout(() => {
+//   console.log('Testing setSearchResults with normal search results...');
+//   window.helpPageController.setSearchResults({
+//     type: "faq",
+//     zero_result: false,
+//     zero_msg: null,
+//     faq: {
+//       pagination: {
+//         page_count: 1,
+//         total_item_count: 2
+//       },
+//       items: [
+//         { id: 103, question: "ログイン時にエラーコードE001が表示されます", view_count: 0, score: 185.75394 },
+//         { id: 110, question: "ﾛｸﾞｲﾝできない（半角カタカナ）", view_count: 0, score: 84.26331 }
+//       ],
+//       fallback: false
+//     },
+//     helpCate: [],
+//     html: "https://api.test.engibase.com/help-html/faq-list.html?is_mobile=1"
+//   });
+// }, 10000);

@@ -130,24 +130,12 @@
     return elDivImage;
   };
 
-  resultPage.prototype.loadImage = function(item, defaultSrc, successCallback, errorCallback, eventHandlers = []) {
+  resultPage.prototype.loadImage = function(item, successCallback, eventHandlers = []) {
     const img = new Image();
-    let errorOccurred = false;
 
     img.onload = function() {
       if (typeof successCallback === 'function') {
         successCallback(img);
-      }
-    };
-
-    img.onerror = function() {
-      if (!errorOccurred) {
-        errorOccurred = true;
-        img.src = defaultSrc;
-        img.onerror = null;
-        if (typeof errorCallback === 'function') {
-          errorCallback(img);
-        }
       }
     };
 
@@ -161,11 +149,7 @@
       });
     }
 
-    if (item.img && item.img.length > 0) {
-      img.src = item.img;
-    } else {
-      img.src = defaultSrc;
-    }
+    img.src = item.img;
 
     return img;
   }
@@ -185,30 +169,28 @@
         });
       }
       
-      let elImage = '';
+      let elImage = null;
 
-      elImage = this.createComponent("div", "text-center mb-15");
-      this.loadImage(
-        item,
-        this.imgDefault,
-        function(successImg) {
-          elImage.appendChild(successImg);
-        },
-        function(errorImg) {
-          elImage.appendChild(errorImg);
-        },
-        [
-          {
-            eventName: 'click',
-            handler: function(e) { 
-              const nextId = e.target.getAttribute("data_next");
-              if (nextId != "") {
-                this.evtNextResult(nextId)
-              }
-            }.bind(this)
-          }
-        ]
-      );
+      if (item.img && item.img.length > 0) {
+        elImage = this.createComponent("div", "text-center mb-15");
+        this.loadImage(
+          item,
+          function(successImg) {
+            elImage.appendChild(successImg);
+          },
+          [
+            {
+              eventName: 'click',
+              handler: function(e) { 
+                const nextId = e.target.getAttribute("data_next");
+                if (nextId != "") {
+                  this.evtNextResult(nextId)
+                }
+              }.bind(this)
+            }
+          ]
+        );
+      }
       
 
       let elDesc = '';
@@ -226,7 +208,9 @@
         }
       }
      
-      elItemContent.appendChild(elTitle);
+      if (elTitle) {
+        elItemContent.appendChild(elTitle);
+      }
       if (elImage && !isDetailTop) {
         elItemContent.appendChild(elImage);
       }
@@ -488,58 +472,71 @@ isResult({
   "version": 34,
   "device_name": "Pixel 5a",
   "first_result": false,
-  "data": {
-    "type": "DI_TYPE",
-    "user_type": "STAFF",
-    "title": "di2",
-    "label": "di1",
-    "code": "xb2HuSQsZKb5hmTOjyo",
-    "id": "28",
-    "img": "https://test.learningpocket.com/uploads/diagnostic/result_images/Nf83T1CjwoYkx1Em.jpg",
-    "detail_top": [
-        {
-            "id": "1233",
-            "title": "di3",
-            "img": "",
-            "detail": "di4",
-            "position": "TOP",
-            "next_result": null
-        }
-    ],
-    "detail_bot": [
-        {
-            "id": "1232",
-            "title": "di5",
-            "img": "https://test.learningpocket.com/uploads/diagnostic/result_images/RfQ3l1JjHo7kd1Ik.jpg",
-            "detail": "di6",
-            "position": "BOT",
-            "next_result": "25"
-        }
-    ],
-    "doc_rc": {
-        "doc_id": "914",
-        "doc_code": "03opivV0uo8kf1t5GAy",
-        "doc_title": "Material 0202",
-        "doc_type": "YOUTUBE",
-        "doc_thumb": "https://test.learningpocket.com/uploads/teacher/r9DlHvQhilup31Pd9/M9XkUc9n1m31/mt_1769189015_v1_XkHp1ko0v.jpg%22",
-        "memo": "di7"
-    },
-    "customer_comment": [
-        {
-            "text": "現状をお話ししたところ優しく受け止めていただき、これから目指す方向や自分に必要なことを的確に示してもらえました。（30代/女性）",
-            "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_01.png"
-        },
-        {
-            "text": "とてもフレンドリーに話してくださり、ポジティブな気持ちになれました。（60代/女性）",
-            "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_02.png"
-        },
-        {
-            "text": "世の中のキャリアコンサルタントにはこちらの相談をきちんと聞かずに一方的に話すような方もいますが、スタッフサービスのコンサルタントは共感し、励まし、解決の糸口を見つけてくれました。（40代/女性）",
-            "img": "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_03.png"
-        }
-    ],
-    "html": "https://www.test.learningpocket.com/diagnostic_new/result.html"
-  }
+  "data":{
+  "type" : "27_TYPES",
+  "user_type" : "STAFF",
+  "title" : "平和なムードのピースメーカータイプ",
+  "label" : "人の話も否定せずに受け入れる",
+  "code" : "Adm2BzPNrRScbq2CYUy",
+  "id" : "54",
+  "img" : "https://www.media.learningpocket.com/uploads/diagnostic/result_images/LjGjCctaJq3k916r.png",
+  "detail_top" : [ {
+    "id" : "2154",
+    "title" : "基本的な性格",
+    "img" : "",
+    "detail" : "あなたは平和を好み、周囲と歩調を合わせながら物事を進められる人です。落ち着きと温かみがあり、相手の気持ちを否定せずに受け止めるため、自然と相談役になることも多いでしょう。興味を持ったテーマや仕事には、静かに深く入り込み、時間をかけて着実に形にしていく粘り強さがあります。内面には豊かな想像力があり、時間をかけて見通しを立てながら、状況に合わせた別のやり方や落としどころを選び取れるタイプです。",
+    "position" : "TOP",
+    "next_result" : null
+  }, {
+    "id" : "2155",
+    "title" : "発揮できる強み",
+    "img" : "",
+    "detail" : "あなたの強みは、人に安心感を与える受容力です。飾らず穏やかな雰囲気が相手の緊張を和らげ、安心感やリラックスして話せる空気をつくります。一方で、心の中には奥行きのある空想の世界が広がり、その想像力が仕事上での気付きやアイデアにもつながるでしょう。思い描いた夢や理想に粘り強く向き合える人で、時間をかけて目標を形にしていく持続力と確かな底力を備えています。",
+    "position" : "TOP",
+    "next_result" : null
+  }, {
+    "id" : "2156",
+    "title" : "自己PRキーワード",
+    "img" : "",
+    "detail" : "[穏やか] [落ち着き] [創造性]",
+    "position" : "TOP",
+    "next_result" : null
+  }, {
+    "id" : "2157",
+    "title" : "自己PRのヒント",
+    "img" : "",
+    "detail" : "自己PRでは、あなたの穏やかさと受容力を軸に、相手に安心感を与えた経験を具体的に示すとよいでしょう。落ち着いて物事に取り組み、時間をかけて成果につなげた場面や、相談役として頼られた出来事など、日常にある小さな実績も丁寧に振り返りましょう。角を立てずに落としどころを見つける発想力が、提案や工夫に生かされた例を挙げるのも効果的です。自分を過小評価せず、長所を前向きに表現する姿勢が重要です。",
+    "position" : "TOP",
+    "next_result" : null
+  }, {
+    "id" : "2158",
+    "title" : "自己PR例文",
+    "img" : "",
+    "detail" : "私の強みは、人とのつながりの中で協力関係を築き、落ち着いて物事を進められる点です。<br />\r\n前に立ってリードするよりも、周囲の意見を尊重しながら支える関わり方を大切にしており、相手の話を否定せず丁寧に受け止める姿勢があります。これまでも、意見が分かれる場面で中立的な立場を保ち、周囲が話しやすい雰囲気づくりに貢献してきました。チームでの仕事では状況を丁寧に把握し、誰とも角を立てずに前向きな方向へまとめていくことができます。また、一つのことにじっくり取り組む粘り強さがあり、長期的な業務にも安定して向き合うことができます。<br />\r\n今後も、安心して意見を出し合える環境づくりに力を尽くし、その中で自分の役割を丁寧に果たしていきたいと思っています。",
+    "position" : "TOP",
+    "next_result" : null
+  } ],
+  "detail_bot" : [ {
+    "id" : "2153",
+    "title" : "",
+    "img" : "",
+    "detail" : "",
+    "position" : "BOT",
+    "next_result" : null
+  } ],
+  "doc_rc" : { },
+  "customer_comment" : [ {
+    "text" : "現状をお話ししたところ優しく受け止めていただき、これから目指す方向や自分に必要なことを的確に示してもらえました。（30代/女性）",
+    "img" : "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_01.png"
+  }, {
+    "text" : "とてもフレンドリーに話してくださり、ポジティブな気持ちになれました。（60代/女性）",
+    "img" : "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_02.png"
+  }, {
+    "text" : "世の中のキャリアコンサルタントにはこちらの相談をきちんと聞かずに一方的に話すような方もいますが、スタッフサービスのコンサルタントは共感し、励まし、解決の糸口を見つけてくれました。（40代/女性）",
+    "img" : "https://d2p333gdzaltfu.cloudfront.net/diagnostic/ctm_comment/voice_03.png"
+  } ],
+  "html" : "https://www.learningpocket.com/diagnostic_new/result.html"
+}
   // "data": {
   //   "type": "P16_TYPES",
   //   "user_type": "STAFF",

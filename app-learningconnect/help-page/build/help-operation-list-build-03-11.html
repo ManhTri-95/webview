@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="encoding" content="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <style>
+*, ::after, ::before {
+  box-sizing: border-box;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background: #f2f2f2;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 600;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.pb-1 {
+  padding-bottom: 8px;
+}
+
+.pb-2 {
+  padding-bottom: 16px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0;
+  transition: none; /* Disable transition to prevent Android scroll issues */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* Android webview fixes */
+  -webkit-user-select: none;
+  user-select: none;
+  will-change: auto;
+}
+
+#app::-webkit-scrollbar {
+  display: none;
+}
+
+/* Search */
+.search-wrapper {
+  background: white;
+  padding: 16px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.search-wrapper__input {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+/* Section */
+.section {
+  background-color: #f2f2f2;
+}
+
+.section-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  transition: all 0.3s ease-out;
+  /* Android fix: prevent z-index issues */
+  z-index: 10;
+}
+
+/* Footer spacer to prevent phantom scroll */
+#footer-spacer {
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.section-container {
+  background: white;
+}
+
+.section-title {
+  padding: 10px 16px;
+  color: #005617;
+ /* font-size: 18px;  */
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+}
+
+
+.section-title.fixed {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  background-color: #f2f2f2;
+}
+
+.list-item,
+.help-item {
+  padding: 10px 16px 10px 32px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  color: #005617;
+  font-weight: bold;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.list-item:active {
+  background: #f5f5f5;
+}
+
+/* FAQ */
+.faq-item {
+  padding: 10px 16px 10px 32px;
+  color: #00A2DE;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.title-item {
+  padding: 10px 16px 10px 22px;
+  color: #333333;
+  font-size: 18px;
+}
+
+.view-all {
+  text-align: center;
+  padding: 10px;
+  color: #00A2DE;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.search-result-item {
+  padding: 12px 16px 12px 32px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+}
+
+/* Contact */
+.contact-text {
+  padding: 16px 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.contact-btn {
+  margin: 0 16px 16px;
+  padding: 10px;
+  width: calc(100% - 32px);
+  border-radius: 8px;
+  border: 1px solid #1976d2;
+  color: #1976d2;
+  background: white;
+  cursor: pointer;
+}
+
+
+.nav-item {
+  text-align: center;
+  color: #777;
+}
+
+.nav-item.active {
+  color: orange;
+}
+
+.spacer {
+  height: 60px;
+}
+
+.load-more-container {
+  text-align: center;
+  padding: 8px 16px;
+}
+
+.load-more-btn {
+  padding: 8px 16px;
+  color: #00A2DE;
+  cursor: pointer;
+  font-weight: bold;
+  background: none;
+  border: none;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.load-more-btn:active {
+  opacity: 0.7;
+}
+
+.load-more-btn.loading {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.load-more-btn.loading::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 3px solid #00A2DE;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.note-title {
+  padding: 1.5rem 1rem;
+  font-size: 20px;
+  text-align: center;
+  color: #000000;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  background-color: #f2f2f2;
+}
+
+/* FAQ List Styles */
+.category-title {
+  padding: 12px 16px;
+  font-size: 17px;
+  color: #000000;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.faq-item-detail {
+  overflow: hidden;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 10px 16px 10px 32px;
+  pointer-events: none;
+}
+
+.faq-question {
+  padding: 8px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.faq-question-text {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 1;
+}
+
+.faq-number {
+  font-weight: 700;
+  min-width: 30px;
+  flex-shrink: 0;
+}
+
+.faq-question-title {
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.faq-answer {
+  padding: 8px 0px;
+}
+
+
+.faq-answer-content {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.answer-prefix {
+  color: red;
+  font-weight: 700;
+  min-width: 25px;
+  flex-shrink: 0;
+}
+
+.answer-text {
+  font-weight: 600;
+  line-height: 1.6;
+  text-align: left;
+  flex: 1;
+}
+
+
+/* Create UI toc */
+
+
+/* .toc-title {
+  padding: 10px 16px;
+  font-weight: bold;
+}
+
+.toc_list {
+  padding: 10px 16px;
+}
+
+.toc_container ul {
+  list-style: none;
+  margin-bottom: 0;
+}
+
+.btn-arrow {
+    transition: transform 0.3s ease-in-out;
+}
+.btn-arrow--gray {
+    background-color: grey;
+    color: #fff;
+}
+.btn-arrow {
+  text-decoration: none;
+  width: 22px;
+  height: 22px;
+  line-height: 24px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+.toc-link, .btn-arrow {
+  color: gray;
+}
+
+.toc_container li a:not(.btn-arrow) {
+  padding: 10px 0;
+} */
+
+/* TOC Submenu Animation */
+/* .toc-submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  list-style: none;
+  padding-left: 30px;
+  margin: 0;
+}
+
+.toc-submenu li {
+  margin: 5px 0;
+}
+
+.toc-submenu.open {
+  max-height: 1000px;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.btn-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+.sub-title {
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.main-content {
+  padding: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.sub-content {
+  margin-bottom: 15px;
+} */
+
+/* Infinite Scroll Loading */
+.infinite-scroll-sentinel {
+  padding: 20px;
+  text-align: center;
+}
+
+.loading-spinner {
+  color: #00A2DE;
+  font-weight: 500;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.end-of-results {
+  padding: 20px;
+  text-align: center;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.result-title { 
+  color: #00A2DE;
+  font-weight: bold;
+}
+
+.zero-message {
+  font-weight: bold;
+}
+
+.text-green {
+  color: #005617;
+}
+</style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/javascript">
+/**
+ * SearchManager - Centralized search functionality handler
+ * Manages search state and infinite scroll for help pages
+ */
+class SearchManager {
+  #searchResults = null;
+  #currentSearchPage = 1;
+  #isFallback = false;
+  #zeroMessage = null;
+  #postMessage = null;
+  #renderCallback = null;
+  #itemsPerPage = 10;
+  #searchQuery = '';
+
+  /**
+   * Initialize SearchManager
+   * @param {Object} config - Configuration object
+   * @param {Function} config.postMessage - Function to send messages to Flutter
+   * @param {Function} config.renderCallback - Function to render search results
+   * @param {number} config.itemsPerPage - Items per page (default 10)
+   */
+  constructor(config = {}) {
+    this.#postMessage = config.postMessage || (() => {});
+    this.#renderCallback = config.renderCallback || (() => {});
+    this.#itemsPerPage = config.itemsPerPage || 10;
+  }
+
+  /**
+   * Sets or appends search results
+   * @public
+   * @param {Object} results - Search results (can have type: 'faq' or 'manual')
+   * @param {number} page - Page number (default 1). If page === 1, resets and sets new results. If page > 1, appends results.
+   */
+  setSearchResults(results, page = 1) {
+    console.log('Setting search results - page:', page, 'results:', results);
+    
+    // Normalize results based on type
+    let normalizedResults = results;
+    
+    // Check if results has a type property and extract the data structure
+    if (results.type === 'faq' && results.faq) {
+      normalizedResults = results.faq;
+      normalizedResults.type = results.type;
+      normalizedResults.zero_result = results.zero_result;
+      normalizedResults.zero_msg = results.zero_msg;
+      normalizedResults.fallback = results.faq.fallback;
+    } else if (results.type === 'manual' && results.manual) {
+      normalizedResults = results.manual;
+      normalizedResults.type = results.type;
+      normalizedResults.zero_result = results.zero_result;
+      normalizedResults.zero_msg = results.zero_msg;
+      normalizedResults.fallback = results.manual.fallback;
+    }
+    
+    // If page === 1, reset and set new results
+    if (page === 1) {
+      this.#searchResults = normalizedResults;
+      this.#currentSearchPage = 1;
+      console.log('Search results reset and set:', normalizedResults);
+    } else {
+      // If page > 1, append results
+      if (!this.#searchResults) return;
+
+      // Normalize newResults based on type
+      let normalizedNewResults = results;
+      
+      if (results.type === 'faq' && results.faq) {
+        normalizedNewResults = results.faq;
+      } else if (results.type === 'manual' && results.manual) {
+        normalizedNewResults = results.manual;
+      }
+
+      // Handle both data structures:
+      // faq-list/manual: items directly in results
+      // index: items in results.faq.items
+      const currentItems = this.#searchResults.faq?.items || this.#searchResults.items || [];
+      const newItems = normalizedNewResults.faq?.items || normalizedNewResults.items || [];
+
+      if (newItems.length === 0) return;
+
+      // Merge items based on structure
+      if (this.#searchResults.faq) {
+        // index.js structure
+        this.#searchResults.faq.items = [...currentItems, ...newItems];
+        if (normalizedNewResults.faq?.pagination) {
+          this.#searchResults.faq.pagination = normalizedNewResults.faq.pagination;
+        }
+      } else {
+        // faq-list.js / manual structure
+        this.#searchResults.items = [...currentItems, ...newItems];
+        if (normalizedNewResults.pagination) {
+          this.#searchResults.pagination = normalizedNewResults.pagination;
+        }
+      }
+
+      this.#currentSearchPage = page;
+      console.log('Search results appended, page:', this.#currentSearchPage);
+    }
+    
+    // Check if this is a fallback (no results) case
+    this.#isFallback = normalizedResults?.fallback || normalizedResults?.zero_result || false;
+    this.#zeroMessage = normalizedResults?.zero_msg || null;
+    
+    console.log('Fallback mode:', this.#isFallback, 'Message:', this.#zeroMessage);
+    
+    // Call render callback
+    this.#renderCallback();
+  }
+
+  /**
+   * Check if there are more items to load
+   * @public
+   */
+  hasMoreItemsToLoad() {
+    // Handle both data structures
+    const pagination = this.#searchResults?.faq?.pagination || this.#searchResults?.pagination;
+    if (!pagination) return false;
+
+    const pageCount = pagination.page_count || 1;
+    const totalItemCount = pagination.total_item_count || 0;
+    
+    // Get items based on structure
+    const currentLoadedItems = this.#searchResults?.faq?.items?.length || this.#searchResults?.items?.length || 0;
+
+    // More items available if:
+    // 1. Current page < total pages, OR
+    // 2. Current loaded items < total items
+    return (this.#currentSearchPage < pageCount) || (currentLoadedItems < totalItemCount);
+  }
+
+  /**
+   * Gets current search state
+   * @public
+   */
+  getState() {
+    return {
+      searchResults: this.#searchResults,
+      currentSearchPage: this.#currentSearchPage,
+      isFallback: this.#isFallback,
+      zeroMessage: this.#zeroMessage,
+      items: this.#searchResults?.faq?.items || this.#searchResults?.items || [],
+      pagination: this.#searchResults?.faq?.pagination || this.#searchResults?.pagination,
+      searchQuery: this.#searchQuery
+    };
+  }
+
+  /**
+   * Sets search query
+   * @public
+   */
+  setSearchQuery(query) {
+    this.#searchQuery = query;
+  }
+
+  /**
+   * Resets search state
+   * @public
+   */
+  reset() {
+    this.#searchResults = null;
+    this.#currentSearchPage = 1;
+    this.#isFallback = false;
+    this.#zeroMessage = null;
+    this.#searchQuery = '';
+  }
+
+  /**
+   * Gets current search page
+   * @public
+   */
+  getCurrentSearchPage() {
+    return this.#currentSearchPage;
+  }
+
+  /**
+   * Gets search query
+   * @public
+   */
+  getSearchQuery() {
+    return this.#searchQuery;
+  }
+
+  /**
+   * Gets items per page
+   * @public
+   */
+  getItemsPerPage() {
+    return this.#itemsPerPage;
+  }
+
+  /**
+   * Gets fallback status
+   * @public
+   */
+  isFallbackMode() {
+    return this.#isFallback;
+  }
+
+  /**
+   * Gets zero message
+   * @public
+   */
+  getZeroMessage() {
+    return this.#zeroMessage;
+  }
+
+  /**
+   * Gets items from search results
+   * @public
+   */
+  getItems() {
+    return this.#searchResults?.faq?.items || this.#searchResults?.items || [];
+  }
+
+  /**
+   * Gets pagination info
+   * @public
+   */
+  getPagination() {
+    return this.#searchResults?.faq?.pagination || this.#searchResults?.pagination;
+  }
+
+  /**
+   * Post message to Flutter
+   * @public
+   */
+  postMessageToFlutter(fncName, msg) {
+    this.#postMessage(fncName, msg);
+  }
+
+  /**
+   * Setup search input event listeners (keydown, blur, focus)
+   * @public
+   * @param {Object} config - Configuration object
+   * @param {string} config.searchType - Type of search ('manual' or 'faq')
+   * @param {Function} config.onSearch - Callback when search is triggered
+   * @param {Function} config.onSearchStart - Optional callback triggered before search query submission
+   * @param {Function} config.onFooterPositionChange - Optional callback for footer position changes (blur/focus)
+   * @param {Function} config.updateSectionFooterPadding - Optional callback to update footer padding
+   */
+  setupSearchInputEvents(config = {}) {
+    const searchInput = document.getElementById('searchInput');
+    if (!searchInput) return;
+
+    const searchType = config.searchType || 'manual';
+    const onSearch = config.onSearch || (() => {});
+    const onSearchStart = config.onSearchStart || (() => {});
+    const onFooterPositionChange = config.onFooterPositionChange || (() => {});
+    const updateSectionFooterPadding = config.updateSectionFooterPadding || (() => {});
+
+    // Handle Enter key for search
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const query = searchInput.value.trim();
+        
+        // Only allow search if query is not empty
+        if (query && query.length > 0) {
+          // Call onSearchStart callback
+          onSearchStart();
+
+          // Reset search state for new search (ensures currentSearchPage is 1 and old results are cleared)
+          this.reset();
+
+          this.setSearchQuery(query);
+
+          // Hide all sections except footer when searching
+          document.querySelectorAll('.section:not(.section-footer)').forEach(section => {
+            section.style.display = 'none';
+          });
+
+          // Call onSearch callback with search parameters
+          onSearch({
+            query: query,
+            page: 1,
+            type: searchType,
+            limit: this.#itemsPerPage
+          });
+        } else {
+          onSearch({ query: '' });
+        }
+
+        searchInput.blur();
+      }
+    });
+
+    // Handle blur event - fix footer position
+    searchInput.addEventListener('blur', (e) => {
+      const sectionFooter = document.querySelector('.section-footer');
+      if (sectionFooter) {
+        sectionFooter.style.position = 'fixed';
+        updateSectionFooterPadding();
+        onFooterPositionChange('fixed');
+      }
+    });
+
+    // Handle focus event - make footer relative
+    searchInput.addEventListener('focus', (e) => {
+      const sectionFooter = document.querySelector('.section-footer');
+      const app = document.getElementById('app');
+      if (sectionFooter) {
+        sectionFooter.style.position = 'relative';
+        if (app) {
+          app.style.paddingBottom = '0';
+        }
+        onFooterPositionChange('relative');
+      }
+    });
+  }
+
+  /**
+   * Renders search results HTML
+   * @public
+   * @returns {string} HTML string for search results
+   */
+  renderSearchResultsHTML() {
+    // Get state
+    const items = this.#searchResults?.faq?.items || this.#searchResults?.items || [];
+    const pagination = this.#searchResults?.faq?.pagination || this.#searchResults?.pagination;
+    const type = this.#searchResults?.type || 'faq';
+    const classTitle = type === 'faq' ? '' : 'text-green';
+    const pageCount = pagination?.page_count || 1;
+    const totalItemCount = pagination?.total_item_count || items.length;
+
+    // Handle fallback case (zero results)
+    if (this.#isFallback) {
+      let html = `
+        <div class="section-title">検索結果</div>
+         <div class="section-container">`;
+      
+      // Show zero message
+      if (this.#zeroMessage) {
+        html += `
+          <div class="zero-message" style="padding: 20px; text-align: center;">${this.#zeroMessage}</div>
+        </div>`;
+      }
+
+      // Show recommended section title
+      html += `
+        <div class="section-title">おすすめのヘルプ</div>
+        <div class="section-container">`;
+      
+      // Show recommended items
+      if (items.length === 0) {
+        html += '<div class="no-recommended" style="padding: 20px; text-align: center;">おすすめのFAQがありません</div>';
+      } else {
+        items.forEach(item => {
+          const displayText = item.title || item.question || '';
+          html += `
+            <div class="search-result-item" data-id="${item.id || ''}" data-type="${type}" style="border-bottom: 1px solid #f0f0f0;">
+              <div class="result-content">
+                <div class="result-title ${classTitle}">${displayText}</div>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      html += '</div>';
+      return html;
+    }
+
+    // Handle normal search results
+    if (items.length === 0) {
+      return '<div class="no-results">検索結果が見つかりません</div>';
+    }
+
+    let html = `
+      <div class="section-title">検索結果</div>
+      <div class="section-container">`;
+    
+    items.forEach(item => {
+      // Handle both 'title' and 'question' fields
+      const displayText = item.title || item.question || '';
+      
+      html += `
+        <div class="search-result-item" data-id="${item.id || ''}" data-redirect="${item.help_redirect || ''}" data-type="${type}">
+          <div class="result-content">
+            <div class="result-title ${classTitle}">${displayText}</div>
+          </div>
+        </div>
+      `;
+    });
+
+    // Add load-more button if more items available
+    if (this.hasMoreItemsToLoad()) {
+      html += `
+        <div class="load-more-container">
+          <span class="load-more-btn" data-page="search">もっと見る</span>
+        </div>
+      `;
+    } else if (totalItemCount > 0) {
+      // Show "end of results" message
+      html += `
+        <div class="end-of-results" style="padding: 20px; text-align: center; color: #aaa; font-size: 14px;">
+          すべての結果を表示しました (${items.length}/${totalItemCount})
+        </div>
+      `;
+    }
+
+    html += '</div>';
+    return html;
+  }
+}
+
+</script>
+    <script type="text/javascript">
+(function() {
+class HelpPageController {
+  #data = null;
+  #searchManager = null;
+  #itemsPerPage = 5;
+  #currentPage = 1; // Track current page for list pagination
+
+  constructor() {
+    // Initialize SearchManager
+    this.#searchManager = new SearchManager({
+      postMessage: (fncName, msg) => this.postMessage(fncName, msg),
+      renderCallback: () => this.renderSearchResults(),
+      itemsPerPage: 10
+    });
+  }
+
+  /**
+   * Initializes the help page with data from Flutter
+   * @public
+   * @param {Object} data - Data structure containing screens and faqs
+   */
+  init(data) { 
+    try { 
+      this.#data = data;
+      this.render();
+      this.#setupStaticEventListeners();
+    } catch (error) { 
+      console.error('Failed to initialize help page:', error);
+      throw error;
+    }
+  }
+
+
+  /**
+   * Sends message to Flutter app
+   * @private
+   */
+  postMessage(fncName, msg) {
+    try {
+      if (window[fncName]?.postMessage) {
+        window[fncName].postMessage(JSON.stringify(msg));
+      } else {
+        console.warn(`JavaScript channel ${fncName} is not defined`);
+      }
+    } catch (error) {
+      console.error('An error occurred while calling the postMessage function:', error);
+    }
+  }
+
+  /**
+   * Renders search results
+   * @private
+   */
+  renderSearchResults() {
+    const resultsContainer = document.getElementById("searchResults");
+    if (!resultsContainer) return;
+    const html = this.#searchManager.renderSearchResultsHTML();
+    resultsContainer.innerHTML = html;
+  }
+
+  /**
+   * Sets or appends search results
+   * Automatically detects whether to reset (page 1) or append based on existing results
+   * @public
+   * @param {Object} results - Search results containing items with fallback status
+   */
+  setSearchResults(results) {
+    // Auto-detect: if we have existing results, this is an append operation
+    const hasExistingResults = this.#searchManager.getItems().length > 0;
+    const page = hasExistingResults ? this.#searchManager.getCurrentSearchPage() + 1 : 1;
+    
+    this.#searchManager.setSearchResults(results, page);
+    this.renderSearchResults();
+    this.#setupDynamicEventListeners();
+    
+    // Remove loading state when appending (page > 1)
+    if (page > 1) {
+      this.removeLoadMoreButtonLoadingState();
+    }
+  }
+
+  /**
+   * Appends more items for list pagination
+   * @public
+   */
+  appendItems(newItems) {
+    if (!this.#data?.items || !newItems?.items) return;
+
+    const currentItems = this.#data.items;
+    const newItemsArray = newItems.items;
+    
+    // Merge items
+    this.#data.items = [...currentItems, ...newItemsArray];
+    this.#data.pagination.page_count = newItems.pagination?.page_count || 
+                                                       this.#data.pagination.page_count;
+    this.#data.pagination.total_item_count = newItems.pagination?.total_item_count || 
+                                                            this.#data.pagination.total_item_count;
+
+    this.#currentPage++;
+    this.render();
+    this.#setupStaticEventListeners();
+    
+    // Remove loading state from load-more button
+    this.removeLoadMoreButtonLoadingState();
+  }
+
+  /**
+   * Updates data after resetSearch and re-renders the page
+   * @public
+   * @param {Object} data - New data structure from app
+   */
+  updateDataAfterReset(data) {
+    try {
+      this.#data = data;
+      this.#currentPage = 1;
+
+      // Reset search state
+      this.#searchManager.reset();
+
+      // Clear search input
+      const searchInput = document.getElementById("searchInput");
+      if (searchInput) {
+        searchInput.value = '';
+      }
+
+      document.getElementById("searchResults").innerHTML = '';
+
+      // Re-render and setup static event listeners only
+      this.render();
+      this.#setupStaticEventListeners();
+
+      console.log('Data updated after reset');
+    } catch (error) {
+      console.error('Error updating data after reset:', error);
+    }
+  }
+
+
+  /**
+   * Renders the help page UI
+   * @private
+   */
+  render() { 
+    if (!this.#data) {
+      console.warn('Data is not initialized. Call init() first.');
+      return;
+    }
+
+    const app = document.getElementById("app");
+
+    let itemsHtml = '';
+    const hasMoreItems = this.#hasMoreItemsToLoad();
+    
+    if (this.#data.items && this.#data.items.length > 0) {
+      itemsHtml = this.#data.items.map(item => `
+        <div class="list-item" data-id="${item.id}" data-redirect="${item.help_redirect}">${item.title}</div>
+      `).join("");
+    }
+
+    // Add load-more button if more items available
+    const loadMoreHtml = hasMoreItems ? `
+      <div class="load-more-container">
+        <span class="load-more-btn" data-page="list">もっと見る</span>
+      </div>
+    ` : '';
+
+    app.innerHTML = `
+      <div class="search-wrapper">
+        <div class="search-wrapper__input">
+          <label for="searchInput" class="search-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" class="DocSearch-Search-Icon"><path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </label>
+          <input 
+            type="search"
+            class="search-input"
+            placeholder="知りたい内容についてご記入ください"
+            id="searchInput"
+          />
+        </div>
+      </div>
+      <div style="height: 73px;"></div>
+
+      <div id="searchResults" class="search-results"></div>
+      <div class="section">
+        <div style="height: 43px;"></div>
+        <div class="section-title fixed" style="top: 73px;">画面・機能名</div>
+      </div>
+      <div class="section">
+        <div class="section-container">
+          ${itemsHtml}
+          ${loadMoreHtml}
+        </div>
+      </div>
+
+      <div class="section section-footer">
+        <div class="section-title">解決しない場合</div>
+        <div class="section-container">
+          <div class="contact-text">
+            解決しない場合はこちらからお問い合わせください。
+          </div>
+          <div class="view-all redirect-page" data-page="inquiry_send">[お問い合わせする]</div>
+        </div>
+      </div>
+    `
+
+    // Update padding-bottom based on section-footer height
+    this.#updateSectionFooterPadding();
+  }
+
+  /**
+   * Updates app padding-bottom based on section-footer height
+   * @private
+   */
+  #updateSectionFooterPadding() {
+    // Use requestAnimationFrame to ensure DOM is fully rendered
+    requestAnimationFrame(() => {
+      const app = document.getElementById("app");
+      const sectionFooter = document.querySelector(".section-footer");
+      
+      if (!app || !sectionFooter) return;
+      
+      // Get the height of section-footer
+      const footerHeight = sectionFooter.offsetHeight;
+      
+      // Set padding-bottom of app to match footer height
+      app.style.paddingBottom = `${footerHeight}px`;
+      
+      console.log('Footer height:', footerHeight, 'px');
+    });
+  }
+
+  /**
+   * Sets up static event listeners (called only once)
+   * @private
+   */
+  #setupStaticEventListeners() {
+    // Search input
+    const searchInput = document.getElementById("searchInput");
+    if (searchInput) {
+      // Setup search input events through SearchManager
+      this.#searchManager.setupSearchInputEvents({
+        searchType: 'manual',
+        onSearch: (params) => this.postMessage('search', params),
+        updateSectionFooterPadding: () => this.#updateSectionFooterPadding()
+      });
+    }
+
+    // Combined event delegation for list items and load-more button
+    const sectionContainer = document.querySelector('.section-container');
+    if (sectionContainer) {
+      sectionContainer.addEventListener('click', (e) => {
+        // Handle list item clicks
+        const listItem = e.target.closest('.list-item');
+        if (listItem) {
+          const id = listItem.dataset.id;
+          const redirect = listItem.dataset.redirect;
+
+          this.postMessage('selectManual', {
+            page: redirect,
+            id
+          });
+          return;
+        }
+
+        // Handle load-more button clicks
+        const loadMoreBtn = e.target.closest('.load-more-btn');
+        if (loadMoreBtn) {
+          // Add loading state
+          loadMoreBtn.classList.add('loading');
+          
+          const nextPage = this.#currentPage + 1;
+          
+          console.log(`Loading page ${nextPage}...`, {
+            page: nextPage,
+            limit: this.#itemsPerPage
+          });
+
+          // Send loadMore message to Flutter
+          this.postMessage('loadMore', {
+            page: nextPage,
+            limit: this.#itemsPerPage
+          });
+        }
+      });
+    }
+
+    // Redirect page clicks
+    document.querySelectorAll('.redirect-page').forEach(item => {
+      item.addEventListener('click', () => {
+        const page = item.dataset.page;
+        this.postMessage('redirectPage', {
+          page
+        });
+      });
+    });
+
+    // Search results container with event delegation
+    const searchResults = document.getElementById('searchResults');
+    if (searchResults) {
+      searchResults.addEventListener('click', (e) => {
+        // Handle load-more button clicks
+        const loadMoreBtn = e.target.closest('.load-more-btn[data-page="search"]');
+        if (loadMoreBtn) {
+          // Add loading state
+          loadMoreBtn.classList.add('loading');
+          
+          const nextPage = this.#searchManager.getCurrentSearchPage() + 1;
+          
+          this.postMessage('search', {
+            query: this.#searchManager.getSearchQuery(),
+            page: nextPage,
+            limit: 10,
+            type: 'manual'
+          });
+          return;
+        }
+
+        // Handle search result items click
+        const resultItem = e.target.closest('.search-result-item');
+        if (resultItem) {
+          const id = resultItem.dataset.id;
+          console.log('Search result item clicked - id:', id);
+          this.postMessage('selectManual', {
+            type: 'manual',
+            id: id
+          });
+        }
+      });
+    }
+
+    // Setup ResizeObserver to monitor section-footer height changes
+    const sectionFooter = document.querySelector('.section-footer');
+    if (sectionFooter) {
+      const resizeObserver = new ResizeObserver(() => {
+        this.#updateSectionFooterPadding();
+      });
+      resizeObserver.observe(sectionFooter);
+    }
+  }
+
+  /**
+   * Sets up dynamic event listeners (setup/re-setup for search results)
+   * Note: Event delegation listeners are set up only once in #setupStaticEventListeners()
+   * This method is kept as a no-op for backwards compatibility but listeners won't be recreated
+   * @private
+   */
+  #setupDynamicEventListeners() {
+    // Listeners for search results are now set up once in #setupStaticEventListeners()
+    // No need to recreate them on each setSearchResults() call
+  }
+  
+  /**
+   * Removes loading state from load-more button
+   * @private
+   */
+  removeLoadMoreButtonLoadingState() {
+    const sectionContainer = document.querySelector('.section-container');
+    if (!sectionContainer) return;
+    
+    const loadMoreBtn = sectionContainer.querySelector('.load-more-btn');
+    if (loadMoreBtn) {
+      loadMoreBtn.classList.remove('loading');
+    }
+  }
+
+  /**
+   * Check if there are more items to load
+   * @private
+   */
+  #hasMoreItemsToLoad() {
+    if (!this.#data?.pagination) return false;
+
+    const pageCount = this.#data.pagination.page_count || 1;
+    const totalItemCount = this.#data.pagination.total_item_count || 0;
+    const currentLoadedItems = this.#data.items?.length || 0;
+
+    // More items available if:
+    // 1. Current page < total pages, OR
+    // 2. Current loaded items < total items
+    return (this.#currentPage < pageCount) || (currentLoadedItems < totalItemCount);
+  }
+}
+
+// Initialize
+try {
+  const helpPageController = new HelpPageController();
+  window.helpPageController = helpPageController;
+
+  // Initialize function to be called from Flutter
+  window.initHelpPage = function (data) {
+    let error = null;
+    let isSuccess = false;
+    try {
+      helpPageController.init(data);
+      isSuccess = true;
+    } catch (err) {
+      error = err.message;
+    }
+    
+    helpPageController.postMessage('loadFinished', {
+      error: error,
+      success: isSuccess
+    });
+    
+    return isSuccess;
+  };
+
+  // Send notification that JavaScript is loaded
+  helpPageController.postMessage('javascriptLoaded', { success: true });
+
+} catch (error) {
+  console.error('Failed to initialize help page:', error);
+}
+})();
+
+// initHelpPage({
+//   pagination: {
+//     "page_count": 1,
+//     "total_item_count": 12
+//   },
+//   items: [
+//     {
+//       id: 4,
+//       title: '個人トレーナー',
+//       help_redirect: 'daily_report',
+//       cate: [1, 100, 6]
+//     },
+//     {
+//       id: 8,
+//       title: 'げいにん',
+//       help_redirect: 'daily_report',
+//       cate: [75]
+//     },
+//       {
+//       id: 8,
+//       title: 'げいにん',
+//       help_redirect: 'daily_report',
+//       cate: [75]
+//     },
+//       {
+//       id: 8,
+//       title: 'げいにん',
+//       help_redirect: 'daily_report',
+//       cate: [75]
+//     },
+//     {
+//       id: 8,
+//       title: 'げいにん',
+//       help_redirect: 'daily_report',
+//       cate: [75]
+//     },
+//         {
+//       id: 8,
+//       title: 'げいにん',
+//       help_redirect: 'daily_report',
+//       cate: [75]
+//     },
+//         {
+//       id: 8,
+//       title: 'げいにん',
+//       help_redirect: 'daily_report',
+//       cate: [75]
+//     },
+//         {
+//       id: 8,
+//       title: 'げいにん',
+//       help_redirect: 'daily_report',
+//       cate: [75]
+//     },
+//     {
+//       id: 8,
+//       title: 'げいにん',
+//       help_redirect: 'daily_report',
+//       cate: [75]
+//     },
+//      {
+//       id: 8,
+//       title: 'げいにん',
+//       help_redirect: 'daily_report',
+//       cate: [75]
+//     }
+//   ],
+//   html: 'https://api.test.engibase.com/help-html/manual-list.html?is_mobile=1'
+// })
+
+
+</script>
+  </body>
+</html>

@@ -10,13 +10,62 @@
 
 body {
   background: #f2f2f2;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 600;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
+.pb-1 {
+  padding-bottom: 8px;
+}
+
+.pb-2 {
+  padding-bottom: 16px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0;
+  transition: none; /* Disable transition to prevent Android scroll issues */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* Android webview fixes */
+  -webkit-user-select: none;
+  user-select: none;
+  will-change: auto;
+}
+
+#app::-webkit-scrollbar {
+  display: none;
+}
 
 /* Search */
 .search-wrapper {
   background: white;
   padding: 16px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 
 .search-wrapper__input {
@@ -41,8 +90,24 @@ body {
 
 /* Section */
 .section {
-  
-  /* margin-top: 12px; */
+  background-color: #f2f2f2;
+}
+
+.section-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  transition: all 0.3s ease-out;
+  /* Android fix: prevent z-index issues */
+  z-index: 10;
+}
+
+/* Footer spacer to prevent phantom scroll */
+#footer-spacer {
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 
 .section-container {
@@ -51,17 +116,27 @@ body {
 
 .section-title {
   padding: 10px 16px;
-  font-weight: 600;
   color: #005617;
+ /* font-size: 18px;  */
+  font-weight: bold;
   border-bottom: 1px solid #eee;
 }
 
-.list-item {
-  padding: 16px 16px 16px 32px;
+
+.section-title.fixed {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  background-color: #f2f2f2;
+}
+
+.list-item,
+.help-item {
+  padding: 10px 16px 10px 32px;
   border-bottom: 1px solid #eee;
   cursor: pointer;
   color: #005617;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .list-item:last-child {
@@ -74,16 +149,24 @@ body {
 
 /* FAQ */
 .faq-item {
-  padding: 12px 16px 12px 32px;
-  color: #1976d2;
+  padding: 10px 16px 10px 32px;
+  color: #00A2DE;
   cursor: pointer;
+  font-weight: bold;
+}
+
+.title-item {
+  padding: 10px 16px 10px 22px;
+  color: #333333;
+  font-size: 18px;
 }
 
 .view-all {
   text-align: center;
   padding: 10px;
-  color: #1976d2;
+  color: #00A2DE;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .search-result-item {
@@ -96,8 +179,9 @@ body {
 
 /* Contact */
 .contact-text {
-  padding: 16px;
-  font-size: 14px;
+  padding: 16px 10px;
+  text-align: center;
+  font-weight: bold;
 }
 
 .contact-btn {
@@ -123,4 +207,259 @@ body {
 
 .spacer {
   height: 60px;
+}
+
+.load-more-container {
+  text-align: center;
+  padding: 8px 16px;
+}
+
+.load-more-btn {
+  padding: 8px 16px;
+  color: #00A2DE;
+  cursor: pointer;
+  font-weight: bold;
+  background: none;
+  border: none;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.load-more-btn:active {
+  opacity: 0.7;
+}
+
+.load-more-btn.loading {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.load-more-btn.loading::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 3px solid #00A2DE;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.note-title {
+  padding: 1.5rem 1rem;
+  font-size: 20px;
+  text-align: center;
+  color: #000000;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  background-color: #f2f2f2;
+}
+
+/* FAQ List Styles */
+.category-title {
+  padding: 12px 16px;
+  font-size: 17px;
+  color: #000000;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.faq-item-detail {
+  overflow: hidden;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 10px 16px 10px 32px;
+  pointer-events: none;
+}
+
+.faq-question {
+  padding: 8px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.faq-question-text {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 1;
+}
+
+.faq-number {
+  font-weight: 700;
+  min-width: 30px;
+  flex-shrink: 0;
+}
+
+.faq-question-title {
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.faq-answer {
+  padding: 8px 0px;
+}
+
+
+.faq-answer-content {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.answer-prefix {
+  color: red;
+  font-weight: 700;
+  min-width: 25px;
+  flex-shrink: 0;
+}
+
+.answer-text {
+  font-weight: 600;
+  line-height: 1.6;
+  text-align: left;
+  flex: 1;
+}
+
+
+/* Create UI toc */
+
+
+/* .toc-title {
+  padding: 10px 16px;
+  font-weight: bold;
+}
+
+.toc_list {
+  padding: 10px 16px;
+}
+
+.toc_container ul {
+  list-style: none;
+  margin-bottom: 0;
+}
+
+.btn-arrow {
+    transition: transform 0.3s ease-in-out;
+}
+.btn-arrow--gray {
+    background-color: grey;
+    color: #fff;
+}
+.btn-arrow {
+  text-decoration: none;
+  width: 22px;
+  height: 22px;
+  line-height: 24px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+.toc-link, .btn-arrow {
+  color: gray;
+}
+
+.toc_container li a:not(.btn-arrow) {
+  padding: 10px 0;
+} */
+
+/* TOC Submenu Animation */
+/* .toc-submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  list-style: none;
+  padding-left: 30px;
+  margin: 0;
+}
+
+.toc-submenu li {
+  margin: 5px 0;
+}
+
+.toc-submenu.open {
+  max-height: 1000px;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.btn-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+.sub-title {
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.main-content {
+  padding: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.sub-content {
+  margin-bottom: 15px;
+} */
+
+/* Infinite Scroll Loading */
+.infinite-scroll-sentinel {
+  padding: 20px;
+  text-align: center;
+}
+
+.loading-spinner {
+  color: #00A2DE;
+  font-weight: 500;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.end-of-results {
+  padding: 20px;
+  text-align: center;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.result-title { 
+  color: #00A2DE;
+  font-weight: bold;
+}
+
+.zero-message {
+  font-weight: bold;
+}
+
+.text-green {
+  color: #005617;
 }

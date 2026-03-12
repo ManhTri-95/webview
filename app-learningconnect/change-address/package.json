@@ -1,0 +1,17 @@
+{
+  "name": "help-page-builder",
+  "version": "1.0.0",
+  "description": "Build script to inline CSS and JS into HTML files",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js index.html"
+
+  },
+  "keywords": [
+    "build",
+    "html",
+    "inline"
+  ],
+  "author": "",
+  "license": "ISC"
+}
