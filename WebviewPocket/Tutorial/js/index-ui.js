@@ -52,6 +52,7 @@ class Tutorial {
     #decor_icons = [];
     #padding_bottom = false;
     #hasValidFirstAction = false;
+    #device = null;
 
     // Constants (unchanged)
     #footprintDirectionsMap = {
@@ -79,8 +80,8 @@ class Tutorial {
             const parsedData = typeof dataInit === 'string' ? JSON.parse(dataInit) : dataInit;
             this.#validateParsedData(parsedData);
             
-            const { data, resolution, height_top_layout, type, padding_bottom } = parsedData;
-            this.#setInitialProperties(resolution, height_top_layout, type, padding_bottom, data);
+            const { data, resolution, height_top_layout, type, padding_bottom, device } = parsedData;
+            this.#setInitialProperties(resolution, height_top_layout, type, padding_bottom, data, device);
             
             const courseChanged = this.#extractCourseData(data);
             const actions = this.#prepareActions(data);
@@ -139,13 +140,17 @@ class Tutorial {
         this.#validateInitData(parsedData.data);
     }
 
-    #setInitialProperties(resolution, height_top_layout, type, padding_bottom, data) {
+    #setInitialProperties(resolution, height_top_layout, type, padding_bottom, data, device) {
         this.#resolution = resolution ?? null;
         this.#heightTopLayout = height_top_layout ?? null;
-        this.#type = type;
+        this.#type = type?.toLowerCase() ?? null;
         this.#padding_bottom = padding_bottom ?? false;
         this.#animal_icons = data?.animal_icons ?? [];
         this.#decor_icons = data?.decor_icons ?? [];
+        this.#device = device ? device.toLowerCase().replace(/\s+/g, '-') : null;
+
+
+        console.log(device, this.#device);
     }
 
     #validateInitData(data) {
@@ -354,6 +359,12 @@ class Tutorial {
         return { updated: changed };
     }
 
+    #allActionsCompleted() {
+        return this.#actions
+            .filter(a => !a.is_dummy)
+            .every(a => a.finished === true);
+    }
+
     // =========================================================================
     // PRIVATE UTILITY METHODS
     // =========================================================================
@@ -389,6 +400,10 @@ class Tutorial {
         this.#applyPlatformStyles();
         this.#container = createElement('div', { className: 'tutorial' });
         document.body.appendChild(this.#container);
+
+        const svg = document.querySelector('.tutorial-path');
+        svg.setAttribute('viewBox', this.#actions.length === 5 ? '-60 0 1242 2688' : '0 0 1242 2688');
+        svg.setAttribute('viewBox', this.#actions.length === 4 ? '-60 0 1242 2688' : '0 0 1242 2688');
     }
 
     #applyPlatformStyles() {
@@ -413,6 +428,7 @@ class Tutorial {
     }
 
     #initializeUI() {
+
         const wrapperInner = createElement('div', { className: 'tutorial-wrapper-inner' });
         const wrapper = createElement('div', { className: 'tutorial-wrapper' });
 
@@ -421,28 +437,36 @@ class Tutorial {
             wrapper.appendChild(actionElement);
         });
 
+        // Append 4 decorIcons directly to wrapper
+        const isCompleted = this.#allActionsCompleted();
+        for (let i = 0; i < 4; i++) {
+            const decorIcon = this.#decor_icons[i]
+                ? `${this.#course.illus_assets}${this.#course.illustration}/items/${this.#decor_icons[i]}`
+                : '';
+            wrapper.appendChild(this.#createDecorElement(i, decorIcon, isCompleted));
+        }
+
         wrapperInner.append(wrapper);
         this.#container.appendChild(wrapperInner);
+
+        // Add finished class if all actions are completed
+        if (isCompleted) {
+            this.#container.classList.add('finished');
+        }
     }
 
     #createActionElement(step, index) {
         try {
             const action = createElement('div', { 
                 className: step.className, 
-                'data-total-action': this.#actions.length 
+                'data-total-action': this.#actions.length,
+                'data-os': this.#type
             });
             const actionWrapper = createElement('div', { className: 'tutorial-action-wrapper' });
 
             if (step.includeTask) {
                 actionWrapper.appendChild(this.#createActionLabel(step.action, step.isFirst));
             }
-
-            // const realIndex = this.#hasValidFirstAction ? index : index - 1;
-            const decorIcon = index >= 0 && this.#decor_icons[index]
-                ? `${this.#course.illus_assets}${this.#course.illustration}/items/${this.#decor_icons[index]}`
-                : '';
-             
-            actionWrapper.appendChild(this.#createDecorElement(decorIcon));
 
             if (step.text) {
                 actionWrapper.appendChild(createElement('div', {
@@ -475,10 +499,13 @@ class Tutorial {
         return actionItem;
     }
 
-    #createDecorElement(animalSrc) {
+    #createDecorElement(index, animalSrc, isCompleted = false) {
         const decorDiv = createElement('div', {
-            className: 'tutorial-decor',
+            className: `tutorial-decor ${isCompleted ? 'tutorial-decor--completed' : ''}`.trim(),
             'data-total-action': this.#actions.length,
+            'data-slot-index': index,
+            'data-os': this.#type,
+            'data-all-completed': isCompleted
         });
         decorDiv.appendChild(this.#createImage(animalSrc));
         return decorDiv;
@@ -489,6 +516,7 @@ class Tutorial {
         const animalDiv = createElement('div', {
             className: 'tutorial-animal',
             'data-total-action': this.#actions.length,
+            'data-os': this.#type,
             style: { display: isVisible ? 'flex' : 'none' }
         });
         animalDiv.appendChild(this.#createImage(animalSrc));
@@ -560,7 +588,9 @@ class Tutorial {
         const { className, foot } = footer;
         const footprint = createElement('div', {
             className: `tutorial-action-footprint ${className}`,
-            'data-total-action': this.#actions.length
+            'data-total-action': this.#actions.length,
+            'data-os': this.#type,
+            'data-device': this.#device,
         });
 
         const inner = createElement('div', {
@@ -662,8 +692,8 @@ tutorial.postMessage('javascriptLoaded', { success: true });
 
 })();
 window.initTutorialApp({
-    "type": "ios",
-    "device": "iPhone13",
+    "type": "android",
+    "device": "pixel-3a",
     "data": {
         "next_consulting": {},
         "id": "14",
@@ -683,36 +713,36 @@ window.initTutorialApp({
         "html": "https://www.test.learningpocket.com/tutorials/index.html",
         "animal_icons": [
             "1.png",
-            "3.png",
-            "6.png",
+            "5.png",
+            "5.png",
             "1.png",
-            "4.png",
-            "2.png",
-            // "1.png"
+            "1.png",
+            "1.png",
+            "1.png"
         ],
          "decor_icons": [
             "4.png",
+            "4.png",
             "3.png",
             "2.png",
-            "2.png",
-            "4.png",
-            "4.png",
+            // "4.png",
+            // "4.png",
             // "1.png"
         ],
         "first_action": {
-            "id": "1",
-            "icon": "https://www.test.learningpocket.com/uploads/column/K59tgcQf1jg/j749x2k5ndPkH1lo.jpeg",
-            "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
-            "answer": "初回アクション編集個別タイトルタスク設定",
-            "title": "初回アクション編集個別タイトルタスク設定",
-            "bg_color": "#d5ffcc",
-            "bd_color": "#49E826",
-            "spec_content": "di SWIpsoXift",
-            "method_redirect": "432",
-            "cate_content": "SPECIAL",
-            "target_page": "column",
-            "finished": false,
-            "disabled": false
+            // "id": "1",
+            // "icon": "https://www.test.learningpocket.com/uploads/column/K59tgcQf1jg/j749x2k5ndPkH1lo.jpeg",
+            // "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+            // "answer": "初回アクション編集個別タイトルタスク設定",
+            // "title": "初回アクション編集個別タイトルタスク設定",
+            // "bg_color": "#d5ffcc",
+            // "bd_color": "#49E826",
+            // "spec_content": "di SWIpsoXift",
+            // "method_redirect": "432",
+            // "cate_content": "SPECIAL",
+            // "target_page": "column",
+            // "finished": false,
+            // "disabled": false
         },
         "actions": [
             {
@@ -725,7 +755,7 @@ window.initTutorialApp({
                 "bd_color": "#787878",
                 "order": 1,
                 "count_task": 1,
-                "finished": false,
+                "finished": true,
                 "tasks": [
                     {
                         "id": "3826",
@@ -740,56 +770,56 @@ window.initTutorialApp({
                     }
                 ]
             },
-            {
-                "id": "757",
-                "icon": "https://test.learningpocket.com/assets/images/tutorials/database.png",
-                "title": "Duy-FLOWCHART 6　&gt; 2",
-                "sub_title": "Duy-FLOWCHART 6　&gt; 2",
-                "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
-                "bg_color": "#999999",
-                "bd_color": "#333232",
-                "order": 2,
-                "count_task": 1,
-                "finished": true,
-                "tasks": [
-                    {
-                        "id": "3827",
-                        "title": "Duy-FLOWCHART 6　&gt; 2",
-                        "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/E9258s9eAfKkb1uO.png",
-                        "spec_content": "",
-                        "method_redirect": "top_access",
-                        "cate_content": "ACCESS",
-                        "target_page": "document",
-                        "order": 1,
-                        "finished": false
-                    }
-                ]
-            },
-            {
-                "id": "758",
-                "icon": "https://test.learningpocket.com/assets/images/tutorials/class.png",
-                "title": "Duy-FLOWCHART 6　&gt; 3",
-                "sub_title": "Duy-FLOWCHART 6　&gt; 3",
-                "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
-                "bg_color": "#eaccff",
-                "bd_color": "#9826E8",
-                "order": 3,
-                "count_task": 1,
-                "finished": false,
-                "tasks": [
-                    {
-                        "id": "3828",
-                        "title": "Duy-FLOWCHART 6　&gt; 3",
-                        "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/1hp5Ls7ewfrk51XK.png",
-                        "spec_content": "",
-                        "method_redirect": "top_access",
-                        "cate_content": "ACCESS",
-                        "target_page": "career-consulting",
-                        "order": 1,
-                        "finished": false
-                    }
-                ]
-            },
+            // {
+            //     "id": "757",
+            //     "icon": "https://test.learningpocket.com/assets/images/tutorials/database.png",
+            //     "title": "Duy-FLOWCHART 6　&gt; 2",
+            //     "sub_title": "Duy-FLOWCHART 6　&gt; 2",
+            //     "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+            //     "bg_color": "#999999",
+            //     "bd_color": "#333232",
+            //     "order": 2,
+            //     "count_task": 1,
+            //     "finished": false,
+            //     "tasks": [
+            //         {
+            //             "id": "3827",
+            //             "title": "Duy-FLOWCHART 6　&gt; 2",
+            //             "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/E9258s9eAfKkb1uO.png",
+            //             "spec_content": "",
+            //             "method_redirect": "top_access",
+            //             "cate_content": "ACCESS",
+            //             "target_page": "document",
+            //             "order": 1,
+            //             "finished": false
+            //         }
+            //     ]
+            // },
+            // {
+            //     "id": "758",
+            //     "icon": "https://test.learningpocket.com/assets/images/tutorials/class.png",
+            //     "title": "Duy-FLOWCHART 6　&gt; 3",
+            //     "sub_title": "Duy-FLOWCHART 6　&gt; 3",
+            //     "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+            //     "bg_color": "#eaccff",
+            //     "bd_color": "#9826E8",
+            //     "order": 3,
+            //     "count_task": 1,
+            //     "finished": false,
+            //     "tasks": [
+            //         {
+            //             "id": "3828",
+            //             "title": "Duy-FLOWCHART 6　&gt; 3",
+            //             "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/1hp5Ls7ewfrk51XK.png",
+            //             "spec_content": "",
+            //             "method_redirect": "top_access",
+            //             "cate_content": "ACCESS",
+            //             "target_page": "career-consulting",
+            //             "order": 1,
+            //             "finished": false
+            //         }
+            //     ]
+            // },
             // {
             //     "id": "759",
             //     "icon": "https://test.learningpocket.com/assets/images/tutorials/exclamation_mark.png",

@@ -25,7 +25,7 @@ body {
   height: calc(100vh - var(--height-top-layout));
   width: 100vw;
   line-height: 1.3;
-  font-weight: 600;
+  font-weight: bold;
   font-size: var(--fs-body);
   font-family: var(--font-family-base);
   color: var(--text-color-primary);
@@ -85,6 +85,7 @@ img {
   width: 100%;
   height: 100%;
   gap: 5px;
+  position: relative;
 }
 
 .tutorial-action {
@@ -100,8 +101,12 @@ img {
   /* margin-top: 1rem; */
 }
 
+.tutorial-action--end[data-total-action="3"] {
+ flex-grow: 1.3;
+}
+
 .tutorial-action--end[data-total-action="6"] {
- flex-grow: 1.4;
+ flex-grow: 1.5;
 }
 
 .tutorial-action--end[data-total-action="4"] {
@@ -223,7 +228,7 @@ img {
 }
 
 .tutorial-animal {
-  --image-size: 17vw;
+  --image-size: 19vw;
   position: absolute;
   right: 0;
   top: calc(-1 * var(--image-size));
@@ -234,59 +239,172 @@ img {
   align-items: end;
 }
 
+.tutorial-action--end[data-total-action="6"] .tutorial-animal {
+  --image-size: 15vw;
+}
+
+.tutorial-action[data-total-action="7"] .tutorial-animal {
+  --image-size: 16vw;
+}
 
 .tutorial-animal img {
   max-height: 100%;
 }
 
 .tutorial-decor {
-  --image-size: 12vw;
+  --image-size: 13vw;
+  --top: auto;
+  --left: auto;
+  --right: auto;
+  --bottom: auto;
   height: var(--image-size);
   width: var(--image-size);
   position: absolute;
+  top: var(--top);
+  left: var(--left);
+  right: var(--right);
+  bottom: var(--bottom);
 }
 
 .tutorial-decor img {
   max-height: 100%;
+  max-width: 100%;
 }
+
+
+/* 2 action */
+.tutorial-decor[data-total-action="2"][data-slot-index="0"] {
+  --top: 12%;
+  --left: 12%;
+}
+ 
+.tutorial-decor[data-total-action="2"][data-slot-index="1"] {
+  --top: 22%;
+  --right: 12%;
+}
+
+.tutorial-decor[data-total-action="2"][data-slot-index="2"] {
+  --top: 44%;
+  --left: 0%;
+}
+
+.tutorial-decor[data-total-action="2"][data-slot-index="3"] {
+  --bottom: 18%;
+  --left: 25%;
+}
+
+/* 3 action */
+.tutorial-decor[data-total-action="3"][data-slot-index="0"] {
+  --top: 9%;
+  --left: 2%;
+}
+ 
+.tutorial-decor[data-total-action="3"][data-slot-index="1"] {
+  --top: 28%;
+  --right: 0%;
+}
+
+.tutorial-decor[data-total-action="3"][data-slot-index="2"] {
+  --top: 52%;
+  --left: 2%;
+}
+
+.tutorial-decor[data-total-action="3"][data-slot-index="3"] {
+  --bottom: 16%;
+  --left: 23%;
+}
+
+/* 4 actions */
+.tutorial-decor[data-total-action="4"][data-slot-index="0"] {
+  --top: 9%;
+  --left: 2%;
+}
+ 
+.tutorial-decor[data-total-action="4"][data-slot-index="1"] {
+  --top: 35%;
+  --right: 3%;
+}
+
+.tutorial-decor[data-total-action="4"][data-slot-index="2"] {
+  --top: 58%;
+  --left: 2%;
+}
+
+.tutorial-decor[data-total-action="4"][data-slot-index="3"] {
+  --bottom: 13%;
+  --left: 20%;
+}
+
+/* 5 actions */
+.tutorial-decor[data-total-action="5"][data-slot-index="0"] {
+  --top: 12%;
+  --right: 4%;
+}
+ 
+.tutorial-decor[data-total-action="5"][data-slot-index="1"] {
+  --top: 25%;
+  --left: 0%;
+}
+
+.tutorial-decor[data-total-action="5"][data-slot-index="2"] {
+  --top: 50%;
+  --right: 0%;
+}
+
+.tutorial-decor[data-total-action="5"][data-slot-index="3"] {
+  --bottom: 26%;
+  --left: 8%;
+}
+
+/* 6 actions */
+.tutorial-decor[data-total-action="6"][data-slot-index="0"] {
+  --top: 9%;
+  --left: 8%;
+}
+ 
+.tutorial-decor[data-total-action="6"][data-slot-index="1"] {
+  --top: 26%;
+  --right: 3%;
+}
+
+.tutorial-decor[data-total-action="6"][data-slot-index="2"] {
+  --top: 42%;
+  --left: 0;
+}
+
+.tutorial-decor[data-total-action="6"][data-slot-index="3"] {
+  --bottom: 17%;
+  --left: 10%;
+}
+
+
+/* 7 actions */
+.tutorial-decor[data-total-action="7"][data-slot-index="0"] {
+  --top: 6%;
+  --right: -1%;
+}
+ 
+.tutorial-decor[data-total-action="7"][data-slot-index="1"] {
+  --top: 32%;
+  --right: 10%;
+}
+
+.tutorial-decor[data-total-action="7"][data-slot-index="2"] {
+  --top: 46%;
+  --left: 0%;
+}
+
+.tutorial-decor[data-total-action="7"][data-slot-index="3"] {
+  --bottom: 17%;
+  --left: 10%;
+}
+
 
 .tutorial-action:nth-child(2n+1) .tutorial-animal {
   left: 0;
   right: auto;
-  /* transform: rotateY(180deg); */
 }
 
-/* .tutorial-action:nth-child(4) .tutorial-animal[data-total-action="5"] {
-  right: 15%;
-} */
-
-.tutorial-action-wrapper .tutorial-decor {
-  position: absolute;
-  left: 0;
-  bottom: 1rem;
-}
-
-
-.tutorial-action:nth-child(2n+1) .tutorial-decor {
-  right: 0;
-  left: auto;
-  bottom: .8rem;
-}
-
-/* .tutorial-action-no-first:nth-child(2n) .tutorial-decor[data-total-action="7"] {
-  right: 6vh;
-  bottom: 70px;
-  left: auto;
-} */
-
-/* .tutorial-action-no-first:nth-child(2n+1) .tutorial-decor[data-total-action="7"] {
-  bottom: -40px;
-  left: 6vh;
-  right: auto;
-  top: -5px;
-} */
-
-.tutorial-action--first.no-first-action .tutorial-decor,
 .tutorial-action--first.no-first-action .tutorial-animal {
     display: none;
 }
@@ -574,13 +692,15 @@ img {
 .tutorial-flag-end {
   display: flex;
   justify-content: end;
-  align-items: center;
+  align-items: start;
+  align-items: start;
   margin-bottom: .85rem;
+  margin-right: 1rem;
 }
 
 .img-flag {
-  width: clamp(50px, 13vw, 100px);
-  height: clamp(50px, 13vw, 100px);
+  width: clamp(50px, 12vw, 100px);
+  height: clamp(50px, 12vw, 100px);
 }
 
 .img-animal {
@@ -635,11 +755,19 @@ img {
   height: 100%;
 }
 
-.tutorial-footprint-flag-combo .tutorial-action-footprint--second-custom {
+.tutorial-action-footprint--second-custom {
   top: 60%;
   left: 24%;
   width: 12vw;
   height: 13vw;
+}
+
+.tutorial-action-footprint--second-custom[data-total-action="3"] {
+  left: 42%;
+}
+
+.tutorial-action-footprint--second-custom[data-total-action="4"] {
+  left: 50%;
 }
 
 .tutorial-action-footprint--second-custom img:first-child {
@@ -802,11 +930,24 @@ img {
   }
 
   .tutorial-animal {
+    --image-size: 16.5vw;
+  }
+
+  .tutorial-action--end[data-total-action="6"] .tutorial-animal {
+    --image-size: 16.5vw;
+  }
+
+  
+  .tutorial-action--end[data-total-action="7"] .tutorial-animal {
     --image-size: 15vw;
   }
 
+  .tutorial-decor[data-total-action="7"][data-slot-index="0"] {
+    --top: 6%;
+  }
+
   .tutorial-decor {
-    --image-size: 11vw;
+    --image-size: 16vw;
   }
 
   .img-flag {
@@ -865,7 +1006,7 @@ img {
   }
 
   .tutorial-action-footprint--fifth[data-total-action="6"] {
-    left: 37%;
+    left: 39%;
     height: 5vh;
   }
 
@@ -916,13 +1057,29 @@ img {
     left: 49%;
   }
 
-  .tutorial-footprint-flag-combo .tutorial-action-footprint--second-custom {
-    left: 28%;
+  .tutorial-action-footprint--second[data-total-action="3"] {
+     left: 28%;
+     height: 10vw;
+  }
+
+  .tutorial-action-footprint--first[data-total-action="3"] {
+    left: 50%;
+    height: 13vw;
+  }
+
+  .tutorial-footprint-flag-combo .tutorial-action-footprint--second-custom[data-total-action="3"] {
+    left: 41%;
+    width: 10vw;
+    height: 12vw;
+  }
+
+  .tutorial-footprint-flag-combo .tutorial-action-footprint--second-custom[data-total-action="2"] {
+    left: 27%;
     width: 10vw;
     height: 12vw;
   }
 }
-    </style>
+</style>
   </head>
   <body>
     <svg xmlns="http://www.w3.org/2000/svg" class="tutorial-path" id="Layer_1" data-name="Layer 1" viewBox="0 0 1242 2688">
@@ -997,7 +1154,7 @@ class Tutorial {
         6: ['right', 'left', 'left', 'right', 'right'],
         5: ['right', 'left', 'right', 'right'],
         4: ['right', 'left', 'right'],
-        3: ['right', 'right'],
+        3: ['right', 'left'],
         2: ['right']
     };
     #numberWords = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth'];
@@ -1359,6 +1516,14 @@ class Tutorial {
             wrapper.appendChild(actionElement);
         });
 
+        // Append 4 decorIcons directly to wrapper
+        for (let i = 0; i < 4; i++) {
+            const decorIcon = this.#decor_icons[i]
+                ? `${this.#course.illus_assets}${this.#course.illustration}/items/${this.#decor_icons[i]}`
+                : '';
+            wrapper.appendChild(this.#createDecorElement(i, decorIcon));
+        }
+
         wrapperInner.append(wrapper);
         this.#container.appendChild(wrapperInner);
     }
@@ -1374,13 +1539,6 @@ class Tutorial {
             if (step.includeTask) {
                 actionWrapper.appendChild(this.#createActionLabel(step.action, step.isFirst));
             }
-
-            // const realIndex = this.#hasValidFirstAction ? index : index - 1;
-            const decorIcon = index >= 0 && this.#decor_icons[index]
-                ? `${this.#course.illus_assets}${this.#course.illustration}/items/${this.#decor_icons[index]}`
-                : '';
-             
-            actionWrapper.appendChild(this.#createDecorElement(decorIcon));
 
             if (step.text) {
                 actionWrapper.appendChild(createElement('div', {
@@ -1413,10 +1571,11 @@ class Tutorial {
         return actionItem;
     }
 
-    #createDecorElement(animalSrc) {
+    #createDecorElement(index, animalSrc) {
         const decorDiv = createElement('div', {
             className: 'tutorial-decor',
             'data-total-action': this.#actions.length,
+            'data-slot-index': index
         });
         decorDiv.appendChild(this.#createImage(animalSrc));
         return decorDiv;
@@ -1466,14 +1625,15 @@ class Tutorial {
     }
 
     #createFootPrint({ footer, completed }, index) {
-        const onlyOneActionWithoutFirst = this.#actions.length === 2 && !this.#hasValidFirstAction;
+        //const onlyOneActionWithoutFirst = this.#actions.length  === 2 && !this.#hasValidFirstAction;
+        const onlyOneActionWithoutFirst = this.#actions.length < 4 || (!this.#hasValidFirstAction && this.#actions.length === 4);
         if (onlyOneActionWithoutFirst && footer.type === 'flag') {
             const footprintElement = this.#createFootprintElement(
                 {
                     type: 'footprint',
                     className: `tutorial-action-footprint--second-custom`,
                     foot: {
-                        count: 3,
+                        count: this.#actions.length === 2 ? 3 : 2,
                         src: `${this.#course.illus_assets}${this.#course.illustration}/footprints/left_${completed ? 'dark' : 'light'}.png`,
                         direction: 'right'
                     }
@@ -1483,11 +1643,11 @@ class Tutorial {
             );
 
             const flagElement = this.#createFlagElement(footer);
-
             const container = createElement('div', { className: 'tutorial-footprint-flag-combo' });
             container.append(footprintElement, flagElement);
             return container;
         }
+
         return footer.type === 'footprint'
             ? this.#createFootprintElement(footer, completed, index)
             : this.#createFlagElement(footer);
@@ -1597,8 +1757,217 @@ window.initTutorialApp = function (data) {
 
 tutorial.postMessage('javascriptLoaded', { success: true });
 
-
 })();
-    </script>
+// window.initTutorialApp({
+//     "type": "android",
+//     "device": "iPhone13",
+//     "data": {
+//         "next_consulting": {},
+//         "id": "14",
+//         "title": "swift flow_chart",
+//         "date": "2025/07/07",
+//         "bg_color": "#f6fcf2",
+//         "title_color": "",
+//         "survey": "SWFIT flow chart",
+//         "icon": "https://www.media.learningpocket.com/uploads/course/v5a5B1VEco/N874lapmA6ok91en.png",
+//         "illustration": "cat", 
+//         "count_action": 6,
+//         "total_action": 6,
+//         "type": "FLOW_CHART",
+//         "progress_notify": "ぽけっとを使ってみよう！",
+//         "progress_msg": "コンプリートまであと__percent__%！",
+//         "illus_assets": "https://test.learningpocket.com/assets/images/tutorials/",
+//         "html": "https://www.test.learningpocket.com/tutorials/index.html",
+//         "animal_icons": [
+//             "1.png",
+//             "3.png",
+//             "6.png",
+//             "1.png",
+//             "4.png",
+//             "1.png",
+//             // "1.png"
+//         ],
+//          "decor_icons": [
+//             "4.png",
+//             "3.png",
+//             "2.png",
+//             "4.png",
+//             // "4.png",
+//             // "4.png",
+//             // "1.png"
+//         ],
+//         "first_action": {
+//             "id": "1",
+//             "icon": "https://www.test.learningpocket.com/uploads/column/K59tgcQf1jg/j749x2k5ndPkH1lo.jpeg",
+//             "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+//             "answer": "初回アクション編集個別タイトルタスク設定",
+//             "title": "初回アクション編集個別タイトルタスク設定",
+//             "bg_color": "#d5ffcc",
+//             "bd_color": "#49E826",
+//             "spec_content": "di SWIpsoXift",
+//             "method_redirect": "432",
+//             "cate_content": "SPECIAL",
+//             "target_page": "column",
+//             "finished": false,
+//             "disabled": false
+//         },
+//         "actions": [
+//             {
+//                 "id": "756",
+//                 "icon": "https://test.learningpocket.com/assets/images/tutorials/money.png",
+//                 "title": "Duy-FLOWCHART 6　&gt; 1",
+//                 "sub_title": "Duy-FLOWCHART 6　&gt; 1",
+//                 "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+//                 "bg_color": "#b3b3b3",
+//                 "bd_color": "#787878",
+//                 "order": 1,
+//                 "count_task": 1,
+//                 "finished": false,
+//                 "tasks": [
+//                     {
+//                         "id": "3826",
+//                         "title": "Duy-FLOWCHART 6　&gt; 1",
+//                         "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/b015WsEegftkh17R.png",
+//                         "spec_content": "",
+//                         "method_redirect": "top_access",
+//                         "cate_content": "ACCESS",
+//                         "target_page": "lesson",
+//                         "order": 1,
+//                         "finished": false
+//                     }
+//                 ]
+//             },
+//             {
+//                 "id": "757",
+//                 "icon": "https://test.learningpocket.com/assets/images/tutorials/database.png",
+//                 "title": "Duy-FLOWCHART 6　&gt; 2",
+//                 "sub_title": "Duy-FLOWCHART 6　&gt; 2",
+//                 "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+//                 "bg_color": "#999999",
+//                 "bd_color": "#333232",
+//                 "order": 2,
+//                 "count_task": 1,
+//                 "finished": false,
+//                 "tasks": [
+//                     {
+//                         "id": "3827",
+//                         "title": "Duy-FLOWCHART 6　&gt; 2",
+//                         "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/E9258s9eAfKkb1uO.png",
+//                         "spec_content": "",
+//                         "method_redirect": "top_access",
+//                         "cate_content": "ACCESS",
+//                         "target_page": "document",
+//                         "order": 1,
+//                         "finished": false
+//                     }
+//                 ]
+//             },
+//             {
+//                 "id": "758",
+//                 "icon": "https://test.learningpocket.com/assets/images/tutorials/class.png",
+//                 "title": "Duy-FLOWCHART 6　&gt; 3",
+//                 "sub_title": "Duy-FLOWCHART 6　&gt; 3",
+//                 "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+//                 "bg_color": "#eaccff",
+//                 "bd_color": "#9826E8",
+//                 "order": 3,
+//                 "count_task": 1,
+//                 "finished": false,
+//                 "tasks": [
+//                     {
+//                         "id": "3828",
+//                         "title": "Duy-FLOWCHART 6　&gt; 3",
+//                         "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/1hp5Ls7ewfrk51XK.png",
+//                         "spec_content": "",
+//                         "method_redirect": "top_access",
+//                         "cate_content": "ACCESS",
+//                         "target_page": "career-consulting",
+//                         "order": 1,
+//                         "finished": false
+//                     }
+//                 ]
+//             },
+//             {
+//                 "id": "759",
+//                 "icon": "https://test.learningpocket.com/assets/images/tutorials/exclamation_mark.png",
+//                 "title": "Duy-FLOWCHART 6　&gt; 4",
+//                 "sub_title": "Duy-FLOWCHART 6　&gt; 4",
+//                 "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+//                 "bg_color": "#ffdfab",
+//                 "bd_color": "#E89000",
+//                 "order": 4,
+//                 "count_task": 1,
+//                 "finished": true,
+//                 "tasks": [
+//                     {
+//                         "id": "3829",
+//                         "title": "Duy-FLOWCHART 6　&gt; 4",
+//                         "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/oqd5hsLesfTkC10A.png",
+//                         "spec_content": "",
+//                         "method_redirect": "top_access",
+//                         "cate_content": "ACCESS",
+//                         "target_page": "examination",
+//                         "order": 1,
+//                         "finished": false
+//                     }
+//                 ]
+//             },
+//             {
+//                 "id": "760",
+//                 "icon": "https://test.learningpocket.com/assets/images/tutorials/database.png",
+//                 "title": "Duy-FLOWCHART 6　&gt; 5",
+//                 "sub_title": "Duy-FLOWCHART 6　&gt; 5",
+//                 "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+//                 "bg_color": "#ece3be",
+//                 "bd_color": "#D7B528",
+//                 "order": 5,
+//                 "count_task": 1,
+//                 "finished": false,
+//                 "tasks": [
+//                     {
+//                         "id": "3830",
+//                         "title": "Duy-FLOWCHART 6　&gt; 5",
+//                         "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/E3l6YsBeGfnkM16U.png",
+//                         "spec_content": "",
+//                         "method_redirect": "top_access",
+//                         "cate_content": "ACCESS",
+//                         "target_page": "diagnostic-content",
+//                         "order": 1,
+//                         "finished": false
+//                     }
+//                 ]
+//             },
+//             {
+//                 "id": "761",
+//                 "icon": "https://test.learningpocket.com/assets/images/tutorials/money.png",
+//                 "title": "Duy-FLOWCHART 6　&gt; 6",
+//                 "sub_title": "Duy-FLOWCHART 6　&gt; 6",
+//                 "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+//                 "bg_color": "#ece3be",
+//                 "bd_color": "#D7B528",
+//                 "order": 6,
+//                 "count_task": 1,
+//                 "finished": false,
+//                 "tasks": [
+//                     {
+//                         "id": "3831",
+//                         "title": "Duy-FLOWCHART 6　&gt; 6",
+//                         "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/Tcn6ysVe7fCkA1K4.png",
+//                         "spec_content": "",
+//                         "method_redirect": "top_access",
+//                         "cate_content": "ACCESS",
+//                         "target_page": "column",
+//                         "order": 1,
+//                         "finished": false
+//                     }
+//                 ]
+//             }
+//         ]
+//     },
+//     "height_top_layout": 150,
+//     "resolution": "1170x2532",
+//     "padding_bottom": "true"
+// });
+</script>
   </body>
 </html>

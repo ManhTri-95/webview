@@ -5,8 +5,7 @@
     <meta http-equiv="encoding" content="utf-8">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <!-- <link rel="stylesheet" href="css/style.css"> -->
-<style>
+    <style>
 *, ::after, ::before {
   box-sizing: border-box;
 }
@@ -26,7 +25,7 @@ body {
   height: calc(100vh - var(--height-top-layout));
   width: 100vw;
   line-height: 1.3;
-  font-weight: 600;
+  font-weight: bold;
   font-size: var(--fs-body);
   font-family: var(--font-family-base);
   color: var(--text-color-primary);
@@ -86,6 +85,7 @@ img {
   width: 100%;
   height: 100%;
   gap: 5px;
+  position: relative;
 }
 
 .tutorial-action {
@@ -106,7 +106,7 @@ img {
 }
 
 .tutorial-action--end[data-total-action="6"] {
- flex-grow: 1.4;
+ flex-grow: 1.5;
 }
 
 .tutorial-action--end[data-total-action="4"] {
@@ -228,70 +228,295 @@ img {
 }
 
 .tutorial-animal {
-  --image-size: 17vw;
+  --image-size: 19vw;
   position: absolute;
   right: 0;
   top: calc(-1 * var(--image-size));
   width: var(--image-size);
   height: var(--image-size);
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: end;
 }
 
+.tutorial-animal[data-total-action="2"][data-os="ios"],
+.tutorial-animal[data-total-action="3"][data-os="ios"],
+.tutorial-animal[data-total-action="4"][data-os="ios"]  {
+  --image-size: 24vw;
+}
+
+.tutorial-animal[data-total-action="5"][data-os="ios"] {
+  --image-size: 22vw;
+}
+
+.tutorial-animal[data-total-action="6"][data-os="ios"]{
+  --image-size: 21vw;
+}
+        
+
+.tutorial-action--end[data-total-action="6"] .tutorial-animal {
+  --image-size: 15vw;
+}
+
+.tutorial-action--end[data-total-action="6"][data-os="ios"] .tutorial-animal {
+  --image-size: 21vw;
+}
+
+.tutorial-action[data-total-action="7"] .tutorial-animal {
+  --image-size: 16vw;
+}
+
+/* ios */
+.tutorial-animal[data-total-action="7"][data-os="ios"]{
+  --image-size: 21vw;
+}
+.tutorial-action--end .tutorial-animal[data-total-action="7"][data-os="ios"]{ 
+  --image-size: 18vw;
+}
 
 .tutorial-animal img {
   max-height: 100%;
 }
 
 .tutorial-decor {
-  --image-size: 12vw;
+  --image-size: 13vw;
+  --top: auto;
+  --left: auto;
+  --right: auto;
+  --bottom: auto;
   height: var(--image-size);
   width: var(--image-size);
   position: absolute;
+  top: var(--top);
+  left: var(--left);
+  right: var(--right);
+  bottom: var(--bottom);
+}
+
+.tutorial-decor[data-os="ios"] {
+  --image-size: 14vw;
 }
 
 .tutorial-decor img {
   max-height: 100%;
+  max-width: 100%;
 }
+
+
+/* 2 action */
+.tutorial-decor[data-total-action="2"][data-slot-index="0"] {
+  --top: 12%;
+  --left: 12%;
+}
+ 
+.tutorial-decor[data-total-action="2"][data-slot-index="1"] {
+  --top: 22%;
+  --right: 12%;
+}
+
+.tutorial-decor[data-total-action="2"][data-slot-index="2"] {
+  --top: 44%;
+  --left: 0%;
+}
+
+.tutorial-decor[data-total-action="2"][data-slot-index="3"] {
+  --bottom: 18%;
+  --left: 25%;
+}
+
+/* 3 action */
+.tutorial-decor[data-total-action="3"][data-slot-index="0"] {
+  --top: 9%;
+  --left: 2%;
+}
+ 
+.tutorial-decor[data-total-action="3"][data-slot-index="1"] {
+  --top: 28%;
+  --right: 0%;
+}
+
+.tutorial-decor[data-total-action="3"][data-slot-index="2"] {
+  --top: 52%;
+  --left: 2%;
+}
+
+.tutorial-decor[data-total-action="3"][data-slot-index="3"] {
+  --bottom: 16%;
+  --left: 23%;
+}
+
+/* 4 actions */
+.tutorial-decor[data-total-action="4"][data-slot-index="0"] {
+  --top: 9%;
+  --left: 2%;
+}
+ 
+.tutorial-decor[data-total-action="4"][data-slot-index="1"] {
+  --top: 35%;
+  --right: 3%;
+}
+
+.tutorial-decor[data-total-action="4"][data-slot-index="2"] {
+  --top: 58%;
+  --left: 2%;
+}
+
+.tutorial-decor[data-total-action="4"][data-slot-index="3"] {
+  --bottom: 13%;
+  --left: 20%;
+}
+
+
+.tutorial-decor[data-total-action="4"][data-slot-index="3"][data-os="ios"] {
+  --bottom: 15%;
+  --left: 20%;
+}
+
+/* 5 actions */
+.tutorial-decor[data-total-action="5"][data-slot-index="0"] {
+  --top: 9%;
+  --right: 4%;
+}
+ 
+.tutorial-decor[data-total-action="5"][data-slot-index="1"] {
+  --top: 25%;
+  --left: 0%;
+}
+
+.tutorial-decor[data-total-action="5"][data-slot-index="2"] {
+  --top: 48%;
+  --right: 0%;
+}
+
+.tutorial-decor[data-total-action="5"][data-slot-index="3"] {
+  --bottom: 26%;
+  --left: 5%;
+}
+
+/* 6 actions */
+.tutorial-decor[data-total-action="6"][data-slot-index="0"] {
+  --top: 9%;
+  --left: 8%;
+}
+ 
+.tutorial-decor[data-total-action="6"][data-slot-index="1"] {
+  --top: 26%;
+  --right: 3%;
+}
+
+.tutorial-decor[data-total-action="6"][data-slot-index="2"] {
+  --top: 42%;
+  --left: 0;
+}
+
+.tutorial-decor[data-total-action="6"][data-slot-index="3"] {
+  --bottom: 17%;
+  --left: 10%;
+}
+
+
+/* 7 actions */
+.tutorial-decor[data-total-action="7"][data-slot-index="0"] {
+  --top: 6%;
+  --right: -1%;
+}
+
+.tutorial-decor--completed[data-total-action="7"][data-slot-index="0"]  {
+  --top: 7%;
+}
+ 
+.tutorial-decor[data-total-action="7"][data-slot-index="1"] {
+  --top: 32%;
+  --right: 10%;
+}
+
+.tutorial-decor--completed[data-total-action="7"][data-slot-index="1"]  {
+  --top: 34%
+}
+
+.tutorial-decor[data-total-action="7"][data-slot-index="2"] {
+  --top: 46%;
+  --left: 0%;
+}
+
+.tutorial-decor--completed[data-total-action="7"][data-slot-index="2"] {
+  --top: 48%;
+}
+
+.tutorial-decor[data-total-action="7"][data-slot-index="3"] {
+  --bottom: 17%;
+  --left: 10%;
+}
+
+.tutorial-decor[data-total-action="7"][data-slot-index="3"][data-os="ios"] {
+  --bottom: 18%;
+}
+
+.tutorial-decor[data-total-action="2"], 
+.tutorial-decor[data-total-action="3"], 
+.tutorial-decor[data-total-action="4"], 
+.tutorial-decor[data-total-action="5"] {
+  --image-size: 17vw;
+}
+
+.tutorial-action--end .img-animal {
+  text-align: center;
+}
+.tutorial-action--end[data-total-action="2"] .tutorial-flag-end,
+.tutorial-action--end[data-total-action="2"] .tutorial-flag-end,
+.tutorial-action--end[data-total-action="3"] .tutorial-flag-end,
+.tutorial-action--end[data-total-action="4"] .tutorial-flag-end,
+.tutorial-action--end[data-total-action="5"] .tutorial-flag-end {
+  align-items: center;
+  margin-right: 0;
+}
+
+.tutorial-action--end[data-total-action="2"] .tutorial-text,
+.tutorial-action--end[data-total-action="2"] .tutorial-text,
+.tutorial-action--end[data-total-action="3"] .tutorial-text,
+.tutorial-action--end[data-total-action="4"] .tutorial-text,
+.tutorial-action--end[data-total-action="5"] .tutorial-text {
+    font-size: clamp(2rem, 14vw, 2.3rem);
+}
+
+.tutorial-action--end[data-total-action="2"] .img-animal, 
+.tutorial-action--end[data-total-action="3"] .img-animal, 
+.tutorial-action--end[data-total-action="4"] .img-animal, 
+.tutorial-action--end[data-total-action="5"] .img-animal {
+  height: clamp(40px, 19vw, 80px);
+  width: clamp(40px, 19vw, 80px);
+}
+
+.tutorial-action--end[data-total-action="2"][data-os="ios"] .img-animal, 
+.tutorial-action--end[data-total-action="3"][data-os="ios"] .img-animal, 
+.tutorial-action--end[data-total-action="4"][data-os="ios"] .img-animal, 
+.tutorial-action--end[data-total-action="5"][data-os="ios"] .img-animal {
+  height: clamp(40px, 24vw, 100px);
+  width: clamp(40px, 24vw, 100px);
+}
+
+
+.tutorial-action--end[data-total-action="2"] .img-flag, 
+.tutorial-action--end[data-total-action="3"] .img-flag, 
+.tutorial-action--end[data-total-action="4"] .img-flag, 
+.tutorial-action--end[data-total-action="5"] .img-flag {
+  width: clamp(50px, 19vw, 100px);
+  height: clamp(50px, 19vw, 100px);
+}
+
+.tutorial-action--end[data-total-action="6"][data-os="ios"] .img-animal,
+.tutorial-action--end[data-total-action="7"][data-os="ios"] .img-animal  {
+  height: clamp(40px, 18vw, 80px);
+  width: clamp(40px, 18vw, 80px);
+}
+
 
 .tutorial-action:nth-child(2n+1) .tutorial-animal {
   left: 0;
   right: auto;
-  /* transform: rotateY(180deg); */
+  justify-content: flex-start;
 }
 
-/* .tutorial-action:nth-child(4) .tutorial-animal[data-total-action="5"] {
-  right: 15%;
-} */
-
-.tutorial-action-wrapper .tutorial-decor {
-  position: absolute;
-  left: 0;
-  bottom: 1rem;
-}
-
-
-.tutorial-action:nth-child(2n+1) .tutorial-decor {
-  right: 0;
-  left: auto;
-  bottom: .8rem;
-}
-
-/* .tutorial-action-no-first:nth-child(2n) .tutorial-decor[data-total-action="7"] {
-  right: 6vh;
-  bottom: 70px;
-  left: auto;
-} */
-
-/* .tutorial-action-no-first:nth-child(2n+1) .tutorial-decor[data-total-action="7"] {
-  bottom: -40px;
-  left: 6vh;
-  right: auto;
-  top: -5px;
-} */
-
-.tutorial-action--first.no-first-action .tutorial-decor,
 .tutorial-action--first.no-first-action .tutorial-animal {
     display: none;
 }
@@ -579,13 +804,15 @@ img {
 .tutorial-flag-end {
   display: flex;
   justify-content: end;
-  align-items: center;
+  align-items: start;
+  align-items: start;
   margin-bottom: .85rem;
+  margin-right: 1rem;
 }
 
 .img-flag {
-  width: clamp(50px, 13vw, 100px);
-  height: clamp(50px, 13vw, 100px);
+  width: clamp(50px, 12vw, 100px);
+  height: clamp(50px, 12vw, 100px);
 }
 
 .img-animal {
@@ -818,8 +1045,56 @@ img {
     --image-size: 15vw;
   }
 
+
+  .tutorial-action--end[data-total-action="6"] .tutorial-animal {
+    --image-size: 16.5vw;
+  }
+
+  
+  .tutorial-action--end[data-total-action="7"] .tutorial-animal {
+    --image-size: 15vw;
+  }
+
+  .tutorial-decor[data-total-action="7"][data-slot-index="0"] {
+    --top: 5%;
+  }
+
+  .tutorial-decor[data-total-action="7"][data-slot-index="1"][data-os="ios"] {
+    --top: 31%;
+  }
+
+  .tutorial-decor--completed[data-total-action="7"][data-slot-index="1"][data-os="ios"] {
+    --top: 35%;
+  }
+
+  .tutorial-decor[data-total-action="7"][data-slot-index="2"][data-os="ios"] {
+    --top: 45%;
+  }
+
+  .tutorial-decor--completed[data-total-action="7"][data-slot-index="2"][data-os="ios"] {
+    --top: 47%;
+  }
+
   .tutorial-decor {
-    --image-size: 11vw;
+    --image-size: 15vw;
+  }
+
+  .tutorial-decor[data-os="ios"] {
+    --image-size: 14vw;
+  }
+
+  .tutorial-decor[data-total-action="2"],
+  .tutorial-decor[data-total-action="3"],
+  .tutorial-decor[data-total-action="4"],
+  .tutorial-decor[data-total-action="5"]{
+    --image-size: 17vw;
+  }
+
+  .tutorial-animal[data-total-action="2"],
+  .tutorial-animal[data-total-action="3"],
+  .tutorial-animal[data-total-action="4"],
+  .tutorial-animal[data-total-action="5"] {
+    --image-size: 18vw;
   }
 
   .img-flag {
@@ -828,9 +1103,67 @@ img {
   }
 
   .img-animal { 
-    height: clamp(40px, 11vw, 80px);
-    width: clamp(40px, 11vw, 80px);
+    height: clamp(40px, 15vw, 80px);
+    width: clamp(40px, 15vw, 80px);
   }
+
+
+  .tutorial-action--end[data-total-action="2"] .img-animal,
+  .tutorial-action--end[data-total-action="3"] .img-animal,
+  .tutorial-action--end[data-total-action="4"] .img-animal,
+  .tutorial-action--end[data-total-action="5"] .img-animal {
+    height: clamp(40px, 18vw, 80px);
+    width: clamp(40px, 18vw, 80px);;
+  }
+
+  .tutorial-action--end[data-total-action="2"][data-os="ios"] .img-animal,
+  .tutorial-action--end[data-total-action="3"][data-os="ios"] .img-animal,
+  .tutorial-action--end[data-total-action="4"][data-os="ios"] .img-animal,
+  .tutorial-action--end[data-total-action="5"][data-os="ios"] .img-animal {
+    height: clamp(40px, 22vw, 100px);
+    width: clamp(40px, 22vw, 100px);
+  }
+
+  .tutorial-action--end[data-total-action="6"][data-os="ios"] .img-animal,
+  .tutorial-action--end[data-total-action="7"][data-os="ios"] .img-animal  {
+    height: clamp(40px, 17vw, 80px);
+    width: clamp(40px, 17vw, 80px);
+  }
+
+  .tutorial-animal[data-total-action="6"][data-os="ios"],
+  .tutorial-animal[data-total-action="7"][data-os="ios"] {
+    --image-size: 18vw;
+  }
+
+  .tutorial-animal[data-total-action="7"][data-os="ios"] {
+    --image-size: 16.5vw;
+  }
+  .tutorial-action--end[data-total-action="6"][data-os="ios"] .tutorial-animal,
+  .tutorial-action--end .tutorial-animal[data-total-action="7"][data-os="ios"] {
+    --image-size: 16.5vw;
+  }
+
+  .tutorial-decor[data-total-action="6"][data-slot-index="3"],
+  .tutorial-decor[data-total-action="7"][data-slot-index="3"] {
+    left: 6%;
+  }
+
+  .tutorial-decor[data-total-action="6"][data-slot-index="3"][data-os="ios"] {
+    --bottom: 19%;
+  }
+
+  .tutorial-action--end[data-total-action="2"] .img-flag, 
+  .tutorial-action--end[data-total-action="3"] .img-flag, 
+  .tutorial-action--end[data-total-action="4"] .img-flag, 
+  .tutorial-action--end[data-total-action="5"] .img-flag {
+    width: clamp(50px, 15.5vw, 100px);
+    height: clamp(50px, 15.5vw, 100px);
+  }
+
+  .tutorial-decor[data-total-action="5"][data-slot-index="2"][data-os="ios"] {
+    --top: 45%;
+  }
+
 
   .tutorial-action-footprint img {
     --w-img-foot: clamp(.9rem, 3.5vw, 1.2rem);
@@ -951,10 +1284,10 @@ img {
     height: 12vw;
   }
 }
-     </style>
+</style>
   </head>
   <body>
-     <svg xmlns="http://www.w3.org/2000/svg" class="tutorial-path" id="Layer_1" data-name="Layer 1" viewBox="0 0 1242 2688">
+    <svg xmlns="http://www.w3.org/2000/svg" class="tutorial-path" id="Layer_1" data-name="Layer 1" viewBox="0 0 1242 2688">
       <defs>
         <style>
           .cls-1 {
@@ -1006,7 +1339,7 @@ function createElement(tag, { className, textContent, innerHTML, events = {}, st
 /**
  * Tutorial class for managing an interactive tutorial UI.
  */
-  class Tutorial {
+class Tutorial {
     // Private properties (unchanged)
     #container = null;
     #course = {};
@@ -1042,30 +1375,32 @@ function createElement(tag, { className, textContent, innerHTML, events = {}, st
      * @throws {Error} If data is invalid or parsing fails.
      */
     init(dataInit) {
-      try {
-        const parsedData = typeof dataInit === 'string' ? JSON.parse(dataInit) : dataInit;
-        this.#validateParsedData(parsedData);
-        
-        const { data, resolution, height_top_layout, type, padding_bottom } = parsedData;
-        this.#setInitialProperties(resolution, height_top_layout, type, padding_bottom, data);
-        
-        const courseChanged = this.#extractCourseData(data);
-        const actions = this.#prepareActions(data);
-        console.log('Prepared Actions:', actions);
-        const actionChanged = this.#cloneActions(actions);
-        
-        this.#autoMarkPreviousFinished();
-        
-        this.#updateSteps();
-        if (!this.#container) {
-            this.#createContainer();
-        } else {
-            this.#resetContainer();
+        try {
+            const parsedData = typeof dataInit === 'string' ? JSON.parse(dataInit) : dataInit;
+            this.#validateParsedData(parsedData);
+            
+            const { data, resolution, height_top_layout, type, padding_bottom } = parsedData;
+            this.#setInitialProperties(resolution, height_top_layout, type, padding_bottom, data);
+            
+            const courseChanged = this.#extractCourseData(data);
+            const actions = this.#prepareActions(data);
+            console.log('Prepared Actions:', actions);
+            const actionChanged = this.#cloneActions(actions);
+            
+            this.#autoMarkPreviousFinished();
+            
+            this.#updateSteps();
+            if (!this.#container) {
+                this.#createContainer();
+            } else {
+                this.#resetContainer();
+            }
+            this.#initializeUI();
+            
+           
+        } catch (error) {
+            throw new Error(`Initialization failed: ${error.message}`);
         }
-        this.#initializeUI();
-      } catch (error) {
-        throw new Error(`Initialization failed: ${error.message}`);
-      }
     }
 
     /**
@@ -1319,6 +1654,12 @@ function createElement(tag, { className, textContent, innerHTML, events = {}, st
         return { updated: changed };
     }
 
+    #allActionsCompleted() {
+        return this.#actions
+            .filter(a => !a.is_dummy)
+            .every(a => a.finished === true);
+    }
+
     // =========================================================================
     // PRIVATE UTILITY METHODS
     // =========================================================================
@@ -1386,6 +1727,15 @@ function createElement(tag, { className, textContent, innerHTML, events = {}, st
             wrapper.appendChild(actionElement);
         });
 
+        // Append 4 decorIcons directly to wrapper
+        const isCompleted = this.#allActionsCompleted();
+        for (let i = 0; i < 4; i++) {
+            const decorIcon = this.#decor_icons[i]
+                ? `${this.#course.illus_assets}${this.#course.illustration}/items/${this.#decor_icons[i]}`
+                : '';
+            wrapper.appendChild(this.#createDecorElement(i, decorIcon, isCompleted));
+        }
+
         wrapperInner.append(wrapper);
         this.#container.appendChild(wrapperInner);
     }
@@ -1394,20 +1744,14 @@ function createElement(tag, { className, textContent, innerHTML, events = {}, st
         try {
             const action = createElement('div', { 
                 className: step.className, 
-                'data-total-action': this.#actions.length 
+                'data-total-action': this.#actions.length,
+                'data-os': this.#type
             });
             const actionWrapper = createElement('div', { className: 'tutorial-action-wrapper' });
 
             if (step.includeTask) {
                 actionWrapper.appendChild(this.#createActionLabel(step.action, step.isFirst));
             }
-
-            // const realIndex = this.#hasValidFirstAction ? index : index - 1;
-            const decorIcon = index >= 0 && this.#decor_icons[index]
-                ? `${this.#course.illus_assets}${this.#course.illustration}/items/${this.#decor_icons[index]}`
-                : '';
-             
-            actionWrapper.appendChild(this.#createDecorElement(decorIcon));
 
             if (step.text) {
                 actionWrapper.appendChild(createElement('div', {
@@ -1440,10 +1784,13 @@ function createElement(tag, { className, textContent, innerHTML, events = {}, st
         return actionItem;
     }
 
-    #createDecorElement(animalSrc) {
+    #createDecorElement(index, animalSrc, isCompleted = false) {
         const decorDiv = createElement('div', {
-            className: 'tutorial-decor',
+            className: `tutorial-decor ${isCompleted ? 'tutorial-decor--completed' : ''}`.trim(),
             'data-total-action': this.#actions.length,
+            'data-slot-index': index,
+            'data-os': this.#type,
+            'data-all-completed': isCompleted
         });
         decorDiv.appendChild(this.#createImage(animalSrc));
         return decorDiv;
@@ -1454,6 +1801,7 @@ function createElement(tag, { className, textContent, innerHTML, events = {}, st
         const animalDiv = createElement('div', {
             className: 'tutorial-animal',
             'data-total-action': this.#actions.length,
+            'data-os': this.#type,
             style: { display: isVisible ? 'flex' : 'none' }
         });
         animalDiv.appendChild(this.#createImage(animalSrc));
@@ -1515,7 +1863,7 @@ function createElement(tag, { className, textContent, innerHTML, events = {}, st
             container.append(footprintElement, flagElement);
             return container;
         }
-        console.log('ffffeeee')
+
         return footer.type === 'footprint'
             ? this.#createFootprintElement(footer, completed, index)
             : this.#createFlagElement(footer);
@@ -1601,30 +1949,241 @@ function createElement(tag, { className, textContent, innerHTML, events = {}, st
         const cssPixels = physicalPixels / dpr;
         return Number(((cssPixels / viewportHeight) * 100).toFixed(2));
     }
-  }
+}
 
-  const tutorial = new Tutorial();
+const tutorial = new Tutorial();
 
-  /**
-   * Initializes the tutorial app with provided data.
-   * @param {Object|string} data - Initial data or JSON string.
-   * @returns {boolean} Whether initialization was successful.
-   */
-  window.initTutorialApp = function (data) {
-      let error = null;
-      let isSuccess = false;
-      try {
-          tutorial.init(data);
-          isSuccess = true;
-      } catch (err) {
-          error = err.message;
-      }
-      tutorial.postMessage('loadFinished', { error, success: isSuccess });
-      return isSuccess;
-  };
+/**
+ * Initializes the tutorial app with provided data.
+ * @param {Object|string} data - Initial data or JSON string.
+ * @returns {boolean} Whether initialization was successful.
+ */
+window.initTutorialApp = function (data) {
+    let error = null;
+    let isSuccess = false;
+    try {
+        tutorial.init(data);
+        isSuccess = true;
+    } catch (err) {
+        error = err.message;
+    }
+    tutorial.postMessage('loadFinished', { error, success: isSuccess });
+    return isSuccess;
+};
 
-  tutorial.postMessage('javascriptLoaded', { success: true });
+tutorial.postMessage('javascriptLoaded', { success: true });
+
 })();
+// window.initTutorialApp({
+//     "type": "ios",
+//     "device": "iPhone13",
+//     "data": {
+//         "next_consulting": {},
+//         "id": "14",
+//         "title": "swift flow_chart",
+//         "date": "2025/07/07",
+//         "bg_color": "#f6fcf2",
+//         "title_color": "",
+//         "survey": "SWFIT flow chart",
+//         "icon": "https://www.media.learningpocket.com/uploads/course/v5a5B1VEco/N874lapmA6ok91en.png",
+//         "illustration": "cat", 
+//         "count_action": 6,
+//         "total_action": 6,
+//         "type": "FLOW_CHART",
+//         "progress_notify": "ぽけっとを使ってみよう！",
+//         "progress_msg": "コンプリートまであと__percent__%！",
+//         "illus_assets": "https://test.learningpocket.com/assets/images/tutorials/",
+//         "html": "https://www.test.learningpocket.com/tutorials/index.html",
+//         "animal_icons": [
+//             "1.png",
+//             "1.png",
+//             "1.png",
+//             "1.png",
+//             "4.png",
+//             "1.png",
+//             "1.png"
+//         ],
+//          "decor_icons": [
+//             "4.png",
+//             "4.png",
+//             "4.png",
+//             "4.png",
+//             // "4.png",
+//             // "4.png",
+//             // "1.png"
+//         ],
+//         "first_action": {
+//             "id": "1",
+//             "icon": "https://www.test.learningpocket.com/uploads/column/K59tgcQf1jg/j749x2k5ndPkH1lo.jpeg",
+//             "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+//             "answer": "初回アクション編集個別タイトルタスク設定",
+//             "title": "初回アクション編集個別タイトルタスク設定",
+//             "bg_color": "#d5ffcc",
+//             "bd_color": "#49E826",
+//             "spec_content": "di SWIpsoXift",
+//             "method_redirect": "432",
+//             "cate_content": "SPECIAL",
+//             "target_page": "column",
+//             "finished": true,
+//             "disabled": false
+//         },
+//         "actions": [
+//             {
+//                 "id": "756",
+//                 "icon": "https://test.learningpocket.com/assets/images/tutorials/money.png",
+//                 "title": "Duy-FLOWCHART 6　&gt; 1",
+//                 "sub_title": "Duy-FLOWCHART 6　&gt; 1",
+//                 "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+//                 "bg_color": "#b3b3b3",
+//                 "bd_color": "#787878",
+//                 "order": 1,
+//                 "count_task": 1,
+//                 "finished": true,
+//                 "tasks": [
+//                     {
+//                         "id": "3826",
+//                         "title": "Duy-FLOWCHART 6　&gt; 1",
+//                         "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/b015WsEegftkh17R.png",
+//                         "spec_content": "",
+//                         "method_redirect": "top_access",
+//                         "cate_content": "ACCESS",
+//                         "target_page": "lesson",
+//                         "order": 1,
+//                         "finished": false
+//                     }
+//                 ]
+//             },
+//             {
+//                 "id": "757",
+//                 "icon": "https://test.learningpocket.com/assets/images/tutorials/database.png",
+//                 "title": "Duy-FLOWCHART 6　&gt; 2",
+//                 "sub_title": "Duy-FLOWCHART 6　&gt; 2",
+//                 "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+//                 "bg_color": "#999999",
+//                 "bd_color": "#333232",
+//                 "order": 2,
+//                 "count_task": 1,
+//                 "finished": false,
+//                 "tasks": [
+//                     {
+//                         "id": "3827",
+//                         "title": "Duy-FLOWCHART 6　&gt; 2",
+//                         "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/E9258s9eAfKkb1uO.png",
+//                         "spec_content": "",
+//                         "method_redirect": "top_access",
+//                         "cate_content": "ACCESS",
+//                         "target_page": "document",
+//                         "order": 1,
+//                         "finished": false
+//                     }
+//                 ]
+//             },
+//             {
+//                 "id": "758",
+//                 "icon": "https://test.learningpocket.com/assets/images/tutorials/class.png",
+//                 "title": "Duy-FLOWCHART 6　&gt; 3",
+//                 "sub_title": "Duy-FLOWCHART 6　&gt; 3",
+//                 "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+//                 "bg_color": "#eaccff",
+//                 "bd_color": "#9826E8",
+//                 "order": 3,
+//                 "count_task": 1,
+//                 "finished": false,
+//                 "tasks": [
+//                     {
+//                         "id": "3828",
+//                         "title": "Duy-FLOWCHART 6　&gt; 3",
+//                         "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/1hp5Ls7ewfrk51XK.png",
+//                         "spec_content": "",
+//                         "method_redirect": "top_access",
+//                         "cate_content": "ACCESS",
+//                         "target_page": "career-consulting",
+//                         "order": 1,
+//                         "finished": false
+//                     }
+//                 ]
+//             },
+//             {
+//                 "id": "759",
+//                 "icon": "https://test.learningpocket.com/assets/images/tutorials/exclamation_mark.png",
+//                 "title": "Duy-FLOWCHART 6　&gt; 4",
+//                 "sub_title": "Duy-FLOWCHART 6　&gt; 4",
+//                 "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+//                 "bg_color": "#ffdfab",
+//                 "bd_color": "#E89000",
+//                 "order": 4,
+//                 "count_task": 1,
+//                 "finished": true,
+//                 "tasks": [
+//                     {
+//                         "id": "3829",
+//                         "title": "Duy-FLOWCHART 6　&gt; 4",
+//                         "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/oqd5hsLesfTkC10A.png",
+//                         "spec_content": "",
+//                         "method_redirect": "top_access",
+//                         "cate_content": "ACCESS",
+//                         "target_page": "examination",
+//                         "order": 1,
+//                         "finished": false
+//                     }
+//                 ]
+//             },
+//             {
+//                 "id": "760",
+//                 "icon": "https://test.learningpocket.com/assets/images/tutorials/database.png",
+//                 "title": "Duy-FLOWCHART 6　&gt; 5",
+//                 "sub_title": "Duy-FLOWCHART 6　&gt; 5",
+//                 "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+//                 "bg_color": "#ece3be",
+//                 "bd_color": "#D7B528",
+//                 "order": 5,
+//                 "count_task": 1,
+//                 "finished": false,
+//                 "tasks": [
+//                     {
+//                         "id": "3830",
+//                         "title": "Duy-FLOWCHART 6　&gt; 5",
+//                         "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/E3l6YsBeGfnkM16U.png",
+//                         "spec_content": "",
+//                         "method_redirect": "top_access",
+//                         "cate_content": "ACCESS",
+//                         "target_page": "diagnostic-content",
+//                         "order": 1,
+//                         "finished": false
+//                     }
+//                 ]
+//             },
+//             // {
+//             //     "id": "761",
+//             //     "icon": "https://test.learningpocket.com/assets/images/tutorials/money.png",
+//             //     "title": "Duy-FLOWCHART 6　&gt; 6",
+//             //     "sub_title": "Duy-FLOWCHART 6　&gt; 6",
+//             //     "thumb": "https://test.learningpocket.com/assets/images/tutorials/complete.png?v=v1.1",
+//             //     "bg_color": "#ece3be",
+//             //     "bd_color": "#D7B528",
+//             //     "order": 6,
+//             //     "count_task": 1,
+//             //     "finished": false,
+//             //     "tasks": [
+//             //         {
+//             //             "id": "3831",
+//             //             "title": "Duy-FLOWCHART 6　&gt; 6",
+//             //             "thumb": "https://www.test.learningpocket.com/uploads/course/07k6ANq4fF/Tcn6ysVe7fCkA1K4.png",
+//             //             "spec_content": "",
+//             //             "method_redirect": "top_access",
+//             //             "cate_content": "ACCESS",
+//             //             "target_page": "column",
+//             //             "order": 1,
+//             //             "finished": false
+//             //         }
+//             //     ]
+//             // }
+//         ]
+//     },
+//     "height_top_layout": 150,
+//     "resolution": "1170x2532",
+//     "padding_bottom": "true"
+// });
 </script>
   </body>
 </html>
